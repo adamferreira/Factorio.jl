@@ -3,6 +3,13 @@ using JSON, DataFrames
 
 DATA_DIR = joinpath(@__DIR__, "..", "data")
 
-include("io/load.jl")
+include("IO/load.jl")
 
+include("DataModel/DataModel.jl")
+
+load_assembling_machines()
+a = AssemblingMachine(5)
+@show electricity_usage(AssemblingMachines(), a)
+@show tier(a)
+@show typeof(a)
 end
