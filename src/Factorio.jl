@@ -9,7 +9,8 @@ include("DataModel/DataModel.jl")
 
 load_assembling_machines()
 a = AssemblingMachine(5)
-@show electricity_usage(AssemblingMachines(), a)
+@show consumption(Electricity, AssemblingMachines(), a)
+@show consumption(Fuel, AssemblingMachines(), a)
 @show tier(a)
 @show typeof(a)
 end
