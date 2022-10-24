@@ -1,8 +1,6 @@
 
 abstract type AbstractElement end
-
-abstract type AssetDataModel end
-abstract type Asset end
+abstract type AbstractDataModel end
 
 abstract type AbstractItem <: AbstractElement end
 abstract type Fluid <: AbstractItem end
@@ -13,15 +11,68 @@ abstract type Fuel <: Energy end
 abstract type Electricity <: Energy end
 
 
-struct AssemblingMachine{T} <: Asset end
-AssemblingMachine(x) = AssemblingMachine{x}()
-tier(::AssemblingMachine{T}) where T = T
+# DataModel Holding Everything Needed
+abstract type FactorioDataBase end
 
-struct AssemblingMachines <: AssetDataModel 
-    elec_consumptions::Vector{Float64}
-    fuel_consumptions::Vector{Float64}
-    AssemblingMachines() = new([1.,2.,3.,4.,5.], [0.,0.,0.,0.,0.])
+const Tier = UInt16
+# An Asset is an object that can be defined by different tiers and can be placed down in the game
+# Example: AssemblingMachine1, AssemblingMachine2, etc...
+# Or: Stone Furnace, Electric Furnace
+# The tier of an asset can be retrived from the template value of the 'Asset' struct
+abstract type Asset{T} end
+# An AssetDataModel is an AbstractDataModel that stores tiers information with vectors
+# Each indexes of the vectors represents a Tier
+abstract type AssetDataModel <: AbstractDataModel end
+Asset(x) = Asset{x}()
+tier(::Asset{T}) where T = T
+
+# Macro to easily define new assets
+macro asset(AssetType)
+    return quote
+        struct $AssetType{T} <: Asset{T}
+            database::FactorioDataBase
+        end
+        #$AssetType(x) = $AssetType{x}()
+        $AssetType(x,m) = $AssetType{x}(m)
+    end |> esc
 end
 
-consumption(::Type{<:Energy}, m::AssetDataModel, x::Asset) = 0.0
-consumption(::Type{Electricity}, m::AssemblingMachines, x::AssemblingMachine) = m.elec_consumptions[tier(x)]
+# --------------
+# Data Models
+# --------------
+database(x::Asset) = x.database # DEFAULT_DATABASE
+# Every DataModel should have the files ::names
+name(x::Asset) = database(x).names[tier(x)]
+
+# DataModel for AssemblingMachines 
+@asset AssemblingMachine
+struct AssemblingMachines <: AssetDataModel
+    # Names
+    names::Vector{String}
+    # Electric consumption
+    elec_consumptions::Vector{Float64}
+    # Fuel consumption
+    fuel_consumptions::Vector{Float64}
+    # Pollution Generation
+    pollution::Vector{Float64}
+end
+
+
+# DataModel Holding Everything Needed
+struct DefaultFactorioDataBase <: FactorioDataBase
+    assets::Dict{Type{Asset}, AbstractDataModel}
+    DefaultFactorioDataBase() = new(
+        Dict(
+            AssemblingMachine => load_assembling_machines()
+        )
+    )
+end
+
+model(m::FactorioDataBase, type::Asset) = m.assets[typeof(x)]
+
+
+# Default consumption for any DataModel and Any Asset
+consumption(::Type{<:Energy}, x::Asset) = 0.0
+
+consumption(::Type{Electricity}, x::AssemblingMachine) =  model(database(x), x).elec_consumptions(tier(x))
+consumption(::Type{Fuel}, x::AssemblingMachine) = model(database(x), x).fuel_consumptions(tier(x))

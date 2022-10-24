@@ -3,11 +3,17 @@ function load_items()
     d = JSON.parsefile(joinpath(DATA_DIR, "items.json"))
 end
 
-function load_assembling_machines()
+function load_assembling_machines()::AssemblingMachines
     d = JSON.parsefile(joinpath(DATA_DIR, "assembling-machine.json"))
-    i = 0
+    names = Vector()
+    e_cons = Vector()
     for machine in d
-        #@show toto(Tier(i))
-        i+=1
+        push!(names, machine.first)
     end
+    return AssemblingMachines(
+        names,
+        [],
+        [],
+        []
+    )
 end
