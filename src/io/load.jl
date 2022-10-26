@@ -12,8 +12,8 @@ function load_assembling_machines()::AssemblingMachines
     end
     return AssemblingMachines(
         names,
-        [],
-        [],
-        []
+        [1.,1.,1.],
+        [2.,2.,2.],
+        [3.,3.,3.]
     )
 end

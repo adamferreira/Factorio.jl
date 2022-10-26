@@ -19,10 +19,10 @@ const Tier = UInt16
 # Example: AssemblingMachine1, AssemblingMachine2, etc...
 # Or: Stone Furnace, Electric Furnace
 # The tier of an asset can be retrived from the template value of the 'Asset' struct
-abstract type Asset{T} end
+abstract type Asset{T} <: AbstractElement end
 # An AssetDataModel is an AbstractDataModel that stores tiers information with vectors
 # Each indexes of the vectors represents a Tier
-abstract type AssetDataModel <: AbstractDataModel end
+#abstract type AssetDataModel <: AbstractDataModel end
 Asset(x) = Asset{x}()
 tier(::Asset{T}) where T = T
 
@@ -46,7 +46,7 @@ name(x::Asset) = database(x).names[tier(x)]
 
 # DataModel for AssemblingMachines 
 @asset AssemblingMachine
-struct AssemblingMachines <: AssetDataModel
+struct AssemblingMachines <: AbstractDataModel
     # Names
     names::Vector{String}
     # Electric consumption
@@ -60,19 +60,18 @@ end
 
 # DataModel Holding Everything Needed
 struct DefaultFactorioDataBase <: FactorioDataBase
-    assets::Dict{Type{Asset}, AbstractDataModel}
+    assembling_machines::AssemblingMachines
     DefaultFactorioDataBase() = new(
-        Dict(
-            AssemblingMachine => load_assembling_machines()
-        )
+        load_assembling_machines()
     )
 end
 
-model(m::FactorioDataBase, type::Asset) = m.assets[typeof(x)]
+# Define mapping between elements (asset, items, ...) and their data model
+model(m::DefaultFactorioDataBase, x::AssemblingMachine)::AbstractDataModel = m.assembling_machines
 
 
 # Default consumption for any DataModel and Any Asset
 consumption(::Type{<:Energy}, x::Asset) = 0.0
 
-consumption(::Type{Electricity}, x::AssemblingMachine) =  model(database(x), x).elec_consumptions(tier(x))
-consumption(::Type{Fuel}, x::AssemblingMachine) = model(database(x), x).fuel_consumptions(tier(x))
+consumption(::Type{Electricity}, x::AssemblingMachine) =  model(database(x), x).elec_consumptions[tier(x)]
+consumption(::Type{Fuel}, x::AssemblingMachine) = model(database(x), x).fuel_consumptions[tier(x)]
