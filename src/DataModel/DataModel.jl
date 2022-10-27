@@ -11,6 +11,10 @@ abstract type Fuel <: Energy end
 abstract type Electricity <: Energy end
 
 
+# Type Logic
+#EnergyConsumer = Union{Asset, Item}
+
+
 # DataModel Holding Everything Needed
 abstract type FactorioDataBase end
 
@@ -46,7 +50,9 @@ name(x::Asset) = database(x).names[tier(x)]
 
 # DataModel for AssemblingMachines 
 @asset AssemblingMachine
-struct AssemblingMachines <: AbstractDataModel
+struct AssemblingMachines <: AbstractDataModel # -> Object Model ?
+    # Mapping names to asset types
+    #mapping::Dict{String, AssemblingMachine}
     # Names
     names::Vector{String}
     # Electric consumption
@@ -67,7 +73,7 @@ struct DefaultFactorioDataBase <: FactorioDataBase
 end
 
 # Define mapping between elements (asset, items, ...) and their data model
-model(m::DefaultFactorioDataBase, x::AssemblingMachine)::AbstractDataModel = m.assembling_machines
+@inline model(m::DefaultFactorioDataBase, x::AssemblingMachine)::AbstractDataModel = m.assembling_machines
 
 
 # Default consumption for any DataModel and Any Asset

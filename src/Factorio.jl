@@ -23,4 +23,6 @@ export  DefaultFactorioDataBase
 export  consumption,
         tier
 
+# temp
+export load_default
 end
