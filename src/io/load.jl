@@ -25,14 +25,48 @@ end
 
 
 function load_default()::DefaultFactorioDataBase
+    # Empty recipe graph
+    g = RecipeGraph()
     # Empty (default) database
-    database = DefaultFactorioDataBase()
-    # Load all item names
-    items_mapping = Dict()
+    database = DefaultFactorioDataBase(g)
+   
+    # All items and ressource are recipes with 0s craftime and produce one unit of themselves
+    items_to_recipes = Dict()
+    resources_to_recipes = Dict()
     for (name, desc) in JSON.parsefile(joinpath(DATA_DIR, "item.json"))
-        new_name = ""#replace()
-        items_mapping[name] = (replace(name, r"\+(\p{Lu})" => lowercase), nothing, nothing, nothing)
+        #items_mapping[name] = (replace(name, r"\+(\p{Lu})" => lowercase), nothing, nothing, nothing)
+        add_recipe_node!(g, RecipeNode(name, 0.0, ITEM))
     end
-    println(length(items_mapping))
+    for (name, desc) in JSON.parsefile(joinpath(DATA_DIR, "resource.json"))
+        add_recipe_node!(g, RecipeNode(name, 0.0, RESSOURCE))
+    end
+    # Same with fluids
+    for (name, desc) in JSON.parsefile(joinpath(DATA_DIR, "fluid.json"))
+        add_recipe_node!(g, RecipeNode(name, 0.0, RESSOURCE))
+    end
+
+    # Register recipes
+    for (name, desc) in JSON.parsefile(joinpath(DATA_DIR, "recipe.json"))
+        # Register the recipe as a node
+        recipe_name = "recipe-"*name
+        recipe = RecipeNode(recipe_name, convert(Float64, desc["energy"]), RECIPE)
+        add_recipe_node!(g, recipe)
+        # Add ingredients and products as edges of the graph
+        for ingredient in desc["ingredients"]
+            add_recipe_edge!(g, ingredient["name"], recipe_name, RecipeEdge(ingredient["amount"], 1.))
+        end
+        # Add ingredients and products as edges of the graph
+        for product in desc["products"]
+            add_recipe_edge!(g, recipe_name, product["name"], RecipeEdge(product["amount"], product["probability"]))
+        end
+    end
+    # Some recipe node are not attached to any recipe (i.e steam, etc)
+    # We remove those nodes from the graph
+    to_remove = [MetaGraphsNext.label_for(g,v) for v in Graphs.vertices(g) if Graphs.degree(g,v) == 0]
+    # For some reason working with codes (indexes) does not work and we work with labels instead
+    for label in to_remove
+        MetaGraphsNext.rem_vertex!(g, MetaGraphsNext.code_for(g,label))
+    end
+    
     return database
 end

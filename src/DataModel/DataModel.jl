@@ -44,7 +44,7 @@ end
 # --------------
 # Data Models
 # --------------
-database(x::Asset) = x.database # DEFAULT_DATABASE
+database(x::Asset) = x.database # defaultdb
 # Every DataModel should have the files ::names
 name(x::Asset) = database(x).names[tier(x)]
 
@@ -66,10 +66,7 @@ end
 
 # DataModel Holding Everything Needed
 struct DefaultFactorioDataBase <: FactorioDataBase
-    assembling_machines::AssemblingMachines
-    DefaultFactorioDataBase() = new(
-        load_assembling_machines()
-    )
+    recgraph
 end
 
 # Define mapping between elements (asset, items, ...) and their data model
