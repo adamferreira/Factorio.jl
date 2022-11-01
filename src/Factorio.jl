@@ -49,6 +49,7 @@ export  RecipeGraph
         RecipeEdge,
         consumes_any,
         focus,
+        sub_graph
 
 # plot 
 export rplot

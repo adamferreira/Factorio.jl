@@ -18,7 +18,7 @@ g = Factorio.recipes()
 @show nv(g)
 @show ne(g)
 
-f = Factorio.focus(g, "iron-gear-wheel", "iron-plate", "electronic-circuit")
+f = Factorio.consumes_any("iron-gear-wheel", "iron-plate", "electronic-circuit") |> Factorio.sub_graph
 Compose.draw(SVG("factorio.svg", 100cm, 100cm), Factorio.rplot(f))
 #Graphs.savegraph("factorio.dot", f, MetaGraphsNext.DOTFormat())
-#Graphs.simplecycles(g)
+Graphs.simplecycles(f)

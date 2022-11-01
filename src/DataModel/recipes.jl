@@ -58,7 +58,35 @@ add_recipe_node!(r, n::RecipeNode) = Graphs.add_vertex!(r, n.name, n)
 add_recipe_edge!(r, src::LabelType, dst::LabelType, e::RecipeEdge) = Graphs.add_edge!(r, src, dst, e)
 
 
+"""
+    Overrides,
+    Return the (non-repetitive) list of vertices that are the inneighbors of `v`
+"""
+function Graphs.inneighbors(g, vertices::AbstractVector{CodeType})
+    f = v -> Graphs.inneighbors(g, v)
+    neighbors = vcat(collect(Iterators.map(f, vertices))...)
+    # Setify vertices to have unique occurences
+    return collect(Set(neighbors))
+end
 
+"""
+    Overrides,
+    Return the (non-repetitive) list of vertices that are the outneighbors of `v`
+"""
+function Graphs.outneighbors(g, vertices::AbstractVector{CodeType})
+    f = v -> Graphs.outneighbors(g, v)
+    neighbors = vcat(collect(Iterators.map(f, vertices))...)
+    # Setify vertices to have unique occurences
+    return collect(Set(neighbors))
+end
+
+
+function sub_graph(g, items::AbstractVector{CodeType})
+    subgrah, map = MetaGraphsNext.induced_subgraph(g, items)
+    return subgrah
+end
+# Default redirection, usefull for |> usage
+sub_graph(items::AbstractVector{CodeType}) = sub_graph(recipes(), items)
 
 """
     Get all recipes that produces or consumes given items.
@@ -66,29 +94,37 @@ add_recipe_edge!(r, src::LabelType, dst::LabelType, e::RecipeEdge) = Graphs.add_
     Returns a RecipeGraph.
 """
 function focus(g, items::AbstractVector{CodeType})
-    f = v -> vcat(v, Graphs.inneighbors(g, v), Graphs.outneighbors(g, v)) # g is captured
-    vertices = vcat(collect(Iterators.map(f, items))...)
-    # Setify vertices to have unique occurences
-    subgrah, map = MetaGraphsNext.induced_subgraph(g, collect(Set(vertices)))
-    return subgrah
+    vertices = vcat(items, Graphs.outneighbors(g, items), Graphs.inneighbors(g, items))
+    return collect(Set(vertices))
 end
 
+"""
+    Get all recipes in the graph `g` that have at least `lb` ingredient in `items` and at most `ub`
+"""
+function consumes(g, items::AbstractVector{CodeType}, lb::Int64, ub::Int64)
+    # Get all different recipes that have `items` as ingredient
+    recipes = focus(g, items)
+    return recipes#[v for v in Graphs.vertices(focused) if Graphs.outdegree(focused,v) >= lb && Graphs.outdegree(focused,v) <= ub]
+end
 """
     Get all recipes in the graph `g` that have at least one ingredient in `items`
 """
-function consumes_any(g, items::AbstractVector{CodeType})
-    return focus(g, items)
-end
-
+consumes_any(g, items::AbstractVector{CodeType}) = Graphs.outneighbors(g, items)
+"""
+    Get all recipes in the graph `g` that have all ingredients in `items`
+"""
+consumes_all(g, items::AbstractVector{CodeType}) = consumes(g,items,length(items),typemax(Int64))
 
 # Internally, all function are meant to be called with nodes identified with their code (index)
 # For performance.
 # For convenience, here we specialize each function with labels as identifiers
-for f in [:focus, :consumes_any]
+for f in [:focus, :consumes_any, :consumes_all, :sub_graph]
     @eval $f(g, x::AbstractVector{LabelType}) = $f(g, [MetaGraphsNext.code_for(g,i) for i in x])
     # Some for variadic argument
     @eval $f(g, x::LabelType...) = $f(g, [MetaGraphsNext.code_for(g,i) for i in x])
-    # Define macro called
+    # Define default RecipeGraph call
+    @eval $f(x::LabelType...) = $f(recipes(), x...)
+    # Define macro call
     #Meta.parse("macro $f(x...) $f(recipes(), x...) end")
 end
 
