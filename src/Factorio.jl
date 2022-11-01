@@ -45,11 +45,17 @@ export  database,
 export  RecipeGraph
         add_recipe_node!,
         add_recipe_edge!,
+        labels,
+        codes,
         RecipeNode,
         RecipeEdge,
+        with_neighbors,
+        with_producers,
+        with_consumers,
         consumes_any,
-        focus,
-        sub_graph
+        consumes_all,
+        consumes_only,
+        related_graph
 
 # plot 
 export rplot

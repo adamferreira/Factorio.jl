@@ -57,6 +57,17 @@ RecipeGraph() = MetaGraphsNext.MetaGraph(
 add_recipe_node!(r, n::RecipeNode) = Graphs.add_vertex!(r, n.name, n)
 add_recipe_edge!(r, src::LabelType, dst::LabelType, e::RecipeEdge) = Graphs.add_edge!(r, src, dst, e)
 
+"""
+    Returns the labels of `vertices` codes
+"""
+labels(g, codes::AbstractVector{CodeType}) = [MetaGraphsNext.label_for(g,v) for v in codes]
+labels(codes) = labels(recipes(), codes)
+
+"""
+    Returns the cdes of `vertices` from labels
+"""
+codes(g, labels::AbstractVector{LabelType}) = [MetaGraphsNext.code_for(g,v) for v in labels]
+codes(labels) = labesl(recipes(), labels)
 
 """
     Overrides,
@@ -80,21 +91,35 @@ function Graphs.outneighbors(g, vertices::AbstractVector{CodeType})
     return collect(Set(neighbors))
 end
 
-
-function sub_graph(g, items::AbstractVector{CodeType})
+function related_graph(g, items::AbstractVector{CodeType})
+    # Get the induced_subgraph from all nodes related to `items`
     subgrah, map = MetaGraphsNext.induced_subgraph(g, items)
     return subgrah
 end
 # Default redirection, usefull for |> usage
-sub_graph(items::AbstractVector{CodeType}) = sub_graph(recipes(), items)
+related_graph(items::AbstractVector{CodeType}) = related_graph(recipes(), items)
 
 """
-    Get all recipes that produces or consumes given items.
-    The output graph only contains recipe node along with the node associted by the items in argument.
-    Returns a RecipeGraph.
+    Returns `items` and all recipes that produces or consumes it
 """
-function focus(g, items::AbstractVector{CodeType})
+function with_neighbors(g, items::AbstractVector{CodeType})
     vertices = vcat(items, Graphs.outneighbors(g, items), Graphs.inneighbors(g, items))
+    return collect(Set(vertices))
+end
+
+"""
+    Returns `items` and all recipes that produces it
+"""
+function with_producers(g, items::AbstractVector{CodeType})
+    vertices = vcat(items, Graphs.inneighbors(g, items))
+    return collect(Set(vertices))
+end
+
+"""
+    Returns `items` and all recipes that consumes it
+"""
+function with_consumers(g, items::AbstractVector{CodeType})
+    vertices = vcat(items, Graphs.outneighbors(g, items))
     return collect(Set(vertices))
 end
 
@@ -102,28 +127,47 @@ end
     Get all recipes in the graph `g` that have at least `lb` ingredient in `items` and at most `ub`
 """
 function consumes(g, items::AbstractVector{CodeType}, lb::Int64, ub::Int64)
-    # Get all different recipes that have `items` as ingredient
-    recipes = focus(g, items)
-    return recipes#[v for v in Graphs.vertices(focused) if Graphs.outdegree(focused,v) >= lb && Graphs.outdegree(focused,v) <= ub]
+    # Get all different recipes that have `items` as ingredient (at least)
+    recipes = Graphs.outneighbors(g, items)
+    # Also get all (unique) ingredients consumed by those recipes (brothers of the `items` nodes) and the recipes themselves
+    recipes_and_ingredients = with_producers(g, recipes)
+    # Focus the graph on `items`, its parents, and its brothers
+    focused, mapping = MetaGraphsNext.induced_subgraph(g, recipes_and_ingredients)
+    # Filter out parents (recipes) that do not have between `lb` and `ub` childs
+    return [mapping[v] for v in Graphs.vertices(focused) if Graphs.indegree(focused,v) >= lb && Graphs.indegree(focused,v) <= ub]
 end
 """
     Get all recipes in the graph `g` that have at least one ingredient in `items`
 """
-consumes_any(g, items::AbstractVector{CodeType}) = Graphs.outneighbors(g, items)
+consumes_any(g, items::AbstractVector{CodeType}) = consumes(g, items, 1, typemax(Int64))
 """
-    Get all recipes in the graph `g` that have all ingredients in `items`
+    Get all recipes in the graph `g` that have at least all ingredients in `items`
 """
-consumes_all(g, items::AbstractVector{CodeType}) = consumes(g,items,length(items),typemax(Int64))
+consumes_all(g, items::AbstractVector{CodeType}) = [] #TODO
+"""
+    Get all recipes in the graph `g` that have only ingredients in `items`
+"""
+consumes_only(g, items::AbstractVector{CodeType}) = consumes(g, items, length(items), length(items))
 
 # Internally, all function are meant to be called with nodes identified with their code (index)
 # For performance.
 # For convenience, here we specialize each function with labels as identifiers
-for f in [:focus, :consumes_any, :consumes_all, :sub_graph]
+for f in [
+    :with_neighbors,
+    :with_producers,
+    :with_consumers,
+    :consumes_any,
+    :consumes_all,
+    :consumes_only,
+    :sub_recipe
+]
     @eval $f(g, x::AbstractVector{LabelType}) = $f(g, [MetaGraphsNext.code_for(g,i) for i in x])
     # Some for variadic argument
     @eval $f(g, x::LabelType...) = $f(g, [MetaGraphsNext.code_for(g,i) for i in x])
-    # Define default RecipeGraph call
+    # Define default RecipeGraph call (varags and list)
     @eval $f(x::LabelType...) = $f(recipes(), x...)
+    @eval $f(x::AbstractVector{CodeType}) = $f(recipes(), x)
+    
     # Define macro call
     #Meta.parse("macro $f(x...) $f(recipes(), x...) end")
 end

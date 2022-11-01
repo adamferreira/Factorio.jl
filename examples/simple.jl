@@ -18,7 +18,17 @@ g = Factorio.recipes()
 @show nv(g)
 @show ne(g)
 
-f = Factorio.consumes_any("iron-gear-wheel", "iron-plate", "electronic-circuit") |> Factorio.sub_graph
+function print_recipes(items...)
+    println("Ingredients : ", join(items, ' '))
+    println("Consumes Any : ", Factorio.consumes_any(items...) |> Factorio.labels)
+    println("Consumes All : ", Factorio.consumes_all(items...) |> Factorio.labels)
+    println("Consumes Only : ", Factorio.consumes_only(items...) |> Factorio.labels)
+end
+
+f = Factorio.consumes_all("concrete", "iron-ore") |> Factorio.with_producers |> Factorio.related_graph
 Compose.draw(SVG("factorio.svg", 100cm, 100cm), Factorio.rplot(f))
 #Graphs.savegraph("factorio.dot", f, MetaGraphsNext.DOTFormat())
-Graphs.simplecycles(f)
+
+print_recipes("concrete", "iron-ore")
+#print_recipes("iron-gear-wheel", "iron-plate", "electronic-circuit")
+@show Graphs.simplecycles(f)
