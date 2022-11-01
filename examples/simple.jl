@@ -25,10 +25,12 @@ function print_recipes(items...)
     println("Consumes Only : ", Factorio.consumes_only(items...) |> Factorio.labels)
 end
 
-f = Factorio.consumes_all("concrete", "iron-ore") |> Factorio.with_producers |> Factorio.related_graph
+f = Factorio.consumes_only("iron-gear-wheel", "iron-plate", "electronic-circuit") |> Factorio.with_ingredients |> Factorio.related_graph
 Compose.draw(SVG("factorio.svg", 100cm, 100cm), Factorio.rplot(f))
 #Graphs.savegraph("factorio.dot", f, MetaGraphsNext.DOTFormat())
 
-print_recipes("concrete", "iron-ore")
-#print_recipes("iron-gear-wheel", "iron-plate", "electronic-circuit")
+#print_recipes("iron-gear-wheel", "iron-plate")
+print_recipes("iron-gear-wheel", "iron-plate", "electronic-circuit")
 @show Graphs.simplecycles(f)
+
+Graphs.edit_distance(f.graph, f.graph)

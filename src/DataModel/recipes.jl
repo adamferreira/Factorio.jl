@@ -99,63 +99,75 @@ end
 # Default redirection, usefull for |> usage
 related_graph(items::AbstractVector{CodeType}) = related_graph(recipes(), items)
 
+
+"""
+    Returns all products of nodes `vertices` (i.e. outneighbors)
+"""
+products(g, vertices::AbstractVector{CodeType}) = Graphs.outneighbors(g, vertices)
+
+"""
+    Returns all ingredients of `vertices` (i.e. outneighbors)
+"""
+ingredients(g, vertices::AbstractVector{CodeType}) = Graphs.inneighbors(g, vertices)
+
 """
     Returns `items` and all recipes that produces or consumes it
 """
 function with_neighbors(g, items::AbstractVector{CodeType})
-    vertices = vcat(items, Graphs.outneighbors(g, items), Graphs.inneighbors(g, items))
+    vertices = vcat(items, ingredients(g, items), products(g, items))
     return collect(Set(vertices))
 end
 
 """
     Returns `items` and all recipes that produces it
 """
-function with_producers(g, items::AbstractVector{CodeType})
-    vertices = vcat(items, Graphs.inneighbors(g, items))
+function with_ingredients(g, items::AbstractVector{CodeType})
+    vertices = vcat(items, ingredients(g, items))
     return collect(Set(vertices))
 end
 
 """
     Returns `items` and all recipes that consumes it
 """
-function with_consumers(g, items::AbstractVector{CodeType})
-    vertices = vcat(items, Graphs.outneighbors(g, items))
+function with_products(g, items::AbstractVector{CodeType})
+    vertices = vcat(items, products(g, items))
     return collect(Set(vertices))
 end
 
 """
-    Get all recipes in the graph `g` that have at least `lb` ingredient in `items` and at most `ub`
-"""
-function consumes(g, items::AbstractVector{CodeType}, lb::Int64, ub::Int64)
-    # Get all different recipes that have `items` as ingredient (at least)
-    recipes = Graphs.outneighbors(g, items)
-    # Also get all (unique) ingredients consumed by those recipes (brothers of the `items` nodes) and the recipes themselves
-    recipes_and_ingredients = with_producers(g, recipes)
-    # Focus the graph on `items`, its parents, and its brothers
-    focused, mapping = MetaGraphsNext.induced_subgraph(g, recipes_and_ingredients)
-    # Filter out parents (recipes) that do not have between `lb` and `ub` childs
-    return [mapping[v] for v in Graphs.vertices(focused) if Graphs.indegree(focused,v) >= lb && Graphs.indegree(focused,v) <= ub]
-end
-"""
     Get all recipes in the graph `g` that have at least one ingredient in `items`
 """
-consumes_any(g, items::AbstractVector{CodeType}) = consumes(g, items, 1, typemax(Int64))
+consumes_any(g, items::AbstractVector{CodeType}) = products(g, items) # products of items are recipes in the recipe graph !
 """
     Get all recipes in the graph `g` that have at least all ingredients in `items`
 """
-consumes_all(g, items::AbstractVector{CodeType}) = [] #TODO
+function consumes_all(g, items::AbstractVector{CodeType})
+    # Get all different recipes that have (at least) `items` as ingredients (may have others as well)
+    # products of items are recipes in the recipe graph !
+    recipes = products(g, items)
+    # Select only recipes that have `items` in their ingredients list
+    return [v for v in recipes if Set(items) ⊆ Set(Graphs.inneighbors(g,v))]
+end
 """
-    Get all recipes in the graph `g` that have only ingredients in `items`
+    Get all recipes in the graph `g` that have `items` as ingredients
 """
-consumes_only(g, items::AbstractVector{CodeType}) = consumes(g, items, length(items), length(items))
+function consumes_only(g, items::AbstractVector{CodeType})
+    # Get all different recipes that have (at least) `items` as ingredients (may have others as well)
+    # products of items are recipes in the recipe graph !
+    recipes = products(g, items)
+    # Select only recipes that are connected to item in `items`
+    return [v for v in recipes if Set(Graphs.inneighbors(g,v)) == Set(items)]
+end
 
 # Internally, all function are meant to be called with nodes identified with their code (index)
 # For performance.
 # For convenience, here we specialize each function with labels as identifiers
 for f in [
+    :products,
+    :ingredients,
     :with_neighbors,
-    :with_producers,
-    :with_consumers,
+    :with_products,
+    :with_ingredients,
     :consumes_any,
     :consumes_all,
     :consumes_only,
