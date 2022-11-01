@@ -12,12 +12,13 @@ function test()
     @show typeof(a)
 end
 
-g = database().recgraph
+g = Factorio.recipes()
 @show typeof(g)
 @show typeof(g.graph)
+@show nv(g)
+@show ne(g)
 
-f = Factorio.focus(g, "recipe-low-density-structure")
-@show [1:Graphs.ne(f)]
+f = Factorio.focus(g, "iron-gear-wheel", "iron-plate", "electronic-circuit")
 Compose.draw(SVG("factorio.svg", 100cm, 100cm), Factorio.rplot(f))
-
-ironplate = code_for(g,"iron-plate")
+#Graphs.savegraph("factorio.dot", f, MetaGraphsNext.DOTFormat())
+#Graphs.simplecycles(g)

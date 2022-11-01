@@ -62,11 +62,12 @@ function load_default()::DefaultFactorioDataBase
     end
     # Some recipe node are not attached to any recipe (i.e steam, etc)
     # We remove those nodes from the graph
-    to_remove = [MetaGraphsNext.label_for(g,v) for v in Graphs.vertices(g) if Graphs.degree(g,v) == 0]
-    # For some reason working with codes (indexes) does not work and we work with labels instead
-    for label in to_remove
-        MetaGraphsNext.rem_vertex!(g, MetaGraphsNext.code_for(g,label))
-    end
+    to_remove = [v for v in Graphs.vertices(g) if Graphs.degree(g,v) == 0]
+    # Also remove Barrel recipes as they introces cycles
+    # Water produces water-barel that produces water
+    # This hides the fact that 'water' is a ressource (no inbound edge)
+    vcat(to_remove, [v for v in Graphs.vertices(g) if occursin("-barrel", MetaGraphsNext.label_for(g,v))])
+    Graphs.rem_vertices!(g, to_remove)
     
     return database
 end
