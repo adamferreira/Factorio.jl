@@ -46,7 +46,7 @@ export  RecipeGraph,
         add_recipe_node!,
         add_recipe_edge!,
         labels,
-        codes,
+        codes, code,
         RecipeNode,
         RecipeEdge,
         products,
@@ -57,7 +57,8 @@ export  RecipeGraph,
         consumes_any,
         consumes_all,
         consumes_only,
-        related_graph
+        related_graph,
+        ancestry
 
 # plot 
 export rplot

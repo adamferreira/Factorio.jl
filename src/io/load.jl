@@ -66,7 +66,7 @@ function load_default()::DefaultFactorioDataBase
     # Also remove Barrel recipes as they introces cycles
     # Water produces water-barel that produces water
     # This hides the fact that 'water' is a ressource (no inbound edge)
-    vcat(to_remove, [v for v in Graphs.vertices(g) if occursin("-barrel", MetaGraphsNext.label_for(g,v))])
+    #vcat(to_remove, [v for v in Graphs.vertices(g) if occursin("-barrel", MetaGraphsNext.label_for(g,v))])
     Graphs.rem_vertices!(g, to_remove)
     
     return database

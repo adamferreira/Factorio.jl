@@ -67,7 +67,8 @@ labels(codes) = labels(recipes(), codes)
     Returns the cdes of `vertices` from labels
 """
 codes(g, labels::AbstractVector{LabelType}) = [MetaGraphsNext.code_for(g,v) for v in labels]
-codes(labels) = labesl(recipes(), labels)
+codes(labels) = labels(recipes(), labels)
+code(label) = codes([label])
 
 """
     Overrides,
@@ -89,6 +90,23 @@ function Graphs.outneighbors(g, vertices::AbstractVector{CodeType})
     neighbors = vcat(collect(Iterators.map(f, vertices))...)
     # Setify vertices to have unique occurences
     return collect(Set(neighbors))
+end
+
+"""
+    Get `vertices` and theyre ancestors (unique occurence) in `g`.
+"""
+function ancestry(g, vertices::AbstractVector{CodeType})
+    s = Vector{CodeType}()
+    all_a = Set{CodeType}()
+    push!(s, vertices...)
+    while length(s) > 0
+        a = pop!(s)
+        if a ∉ all_a
+            push!(s, Graphs.inneighbors(g,a)...)
+            push!(all_a, a)
+        end
+    end
+    return collect(all_a)
 end
 
 function related_graph(g, items::AbstractVector{CodeType})
@@ -171,7 +189,8 @@ for f in [
     :consumes_any,
     :consumes_all,
     :consumes_only,
-    :sub_recipe
+    :sub_recipe,
+    :ancestry
 ]
     @eval $f(g, x::AbstractVector{LabelType}) = $f(g, [MetaGraphsNext.code_for(g,i) for i in x])
     # Some for variadic argument
@@ -224,6 +243,7 @@ function rplot(r)
         edgelabel = elabels,
         nodefillc = ncolors,
         arrowlengthfrac = 0.01,
-        edgelabelsize = 100.0
+        edgelabelsize = 100.0,
+        nodelabelsize = 4
     )
 end
