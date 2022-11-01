@@ -42,7 +42,7 @@ export  database,
         recipes
 
 # Recipe functions
-export  RecipeGraph
+export  RecipeGraph,
         add_recipe_node!,
         add_recipe_edge!,
         labels,
