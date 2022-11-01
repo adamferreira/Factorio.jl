@@ -26,7 +26,7 @@ function print_recipes(items...)
 end
 
 f1 = consumes_all("iron-plate", "copper-cable") |> Factorio.with_ingredients |> Factorio.related_graph
-f = Factorio.ancestry("assembling-machine-3") |> Factorio.with_ingredients |> Factorio.related_graph
+f = Factorio.ancestry("rocket-part") |> Factorio.with_ingredients |> Factorio.related_graph
 Compose.draw(SVG("factorio.svg", 100cm, 100cm), Factorio.rplot(f))
 #Graphs.savegraph("factorio.dot", f, MetaGraphsNext.DOTFormat())
 #@show Graphs.simplecycles(f)

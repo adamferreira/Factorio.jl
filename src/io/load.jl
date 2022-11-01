@@ -33,16 +33,17 @@ function load_default()::DefaultFactorioDataBase
     # All items and ressource are recipes with 0s craftime and produce one unit of themselves
     items_to_recipes = Dict()
     resources_to_recipes = Dict()
-    for (name, desc) in JSON.parsefile(joinpath(DATA_DIR, "item.json"))
-        #items_mapping[name] = (replace(name, r"\+(\p{Lu})" => lowercase), nothing, nothing, nothing)
+    items = JSON.parsefile(joinpath(DATA_DIR, "item.json"))
+    ressources = JSON.parsefile(joinpath(DATA_DIR, "resource.json"))
+    fluids = JSON.parsefile(joinpath(DATA_DIR, "fluid.json"))
+
+    # Add names as item recipe nodes
+    for name in Set(vcat(collect(keys(items)), collect(keys(ressources)), collect(keys(fluids))))
         add_recipe_node!(g, RecipeNode(name, 0.0, ITEM))
     end
-    for (name, desc) in JSON.parsefile(joinpath(DATA_DIR, "resource.json"))
-        add_recipe_node!(g, RecipeNode(name, 0.0, RESSOURCE))
-    end
-    # Same with fluids
-    for (name, desc) in JSON.parsefile(joinpath(DATA_DIR, "fluid.json"))
-        add_recipe_node!(g, RecipeNode(name, 0.0, RESSOURCE))
+    # Flag fluids and ressources and ressources
+    for name in Set(vcat(collect(keys(ressources)), collect(keys(fluids))))
+        MetaGraphsNext.set_data!(g, name, RecipeNode(name, 0.0, RESSOURCE))
     end
 
     # Register recipes
@@ -63,10 +64,10 @@ function load_default()::DefaultFactorioDataBase
     # Some recipe node are not attached to any recipe (i.e steam, etc)
     # We remove those nodes from the graph
     to_remove = [v for v in Graphs.vertices(g) if Graphs.degree(g,v) == 0]
-    # Also remove Barrel recipes as they introces cycles
+    # Also remove Barrel recipes as they introduces cycles
     # Water produces water-barel that produces water
     # This hides the fact that 'water' is a ressource (no inbound edge)
-    #vcat(to_remove, [v for v in Graphs.vertices(g) if occursin("-barrel", MetaGraphsNext.label_for(g,v))])
+    to_remove = vcat(to_remove, [v for v in Graphs.vertices(g) if occursin("-barrel", MetaGraphsNext.label_for(g,v))])
     Graphs.rem_vertices!(g, to_remove)
     
     return database
