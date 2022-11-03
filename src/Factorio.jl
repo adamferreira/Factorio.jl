@@ -58,7 +58,8 @@ export  RecipeGraph,
         consumes_all,
         consumes_only,
         related_graph,
-        ancestry
+        parents,
+        children
 
 # plot 
 export rplot

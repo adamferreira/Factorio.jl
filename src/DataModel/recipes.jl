@@ -92,22 +92,28 @@ function Graphs.outneighbors(g, vertices::AbstractVector{CodeType})
     return collect(Set(neighbors))
 end
 
-"""
-    Get `vertices` and theyre ancestors (unique occurence) in `g`.
-"""
-function ancestry(g, vertices::AbstractVector{CodeType})
+function __dfs(g, vertices::AbstractVector{CodeType}, neighborhood_f)
     s = Vector{CodeType}()
     all_a = Set{CodeType}()
     push!(s, vertices...)
     while length(s) > 0
         a = pop!(s)
         if a ∉ all_a
-            push!(s, Graphs.inneighbors(g,a)...)
+            push!(s, neighborhood_f(g,a)...)
             push!(all_a, a)
         end
     end
     return collect(all_a)
 end
+
+"""
+    Get `vertices` and theyre ancestors (unique occurence) in `g`.
+"""
+parents(g, vertices::AbstractVector{CodeType}) = __dfs(g, vertices, Graphs.inneighbors)
+"""
+    Get `vertices` and theyre offsprings (unique occurence) in `g`.
+"""
+children(g, vertices::AbstractVector{CodeType}) = __dfs(g, vertices, Graphs.outneighbors)
 
 function related_graph(g, items::AbstractVector{CodeType})
     # Get the induced_subgraph from all nodes related to `items`
@@ -190,7 +196,8 @@ for f in [
     :consumes_all,
     :consumes_only,
     :sub_recipe,
-    :ancestry
+    :parents,
+    :children
 ]
     @eval $f(g, x::AbstractVector{LabelType}) = $f(g, [MetaGraphsNext.code_for(g,i) for i in x])
     # Some for variadic argument
