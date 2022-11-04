@@ -78,3 +78,16 @@ consumption(::Type{<:Energy}, x::Asset) = 0.0
 
 consumption(::Type{Electricity}, x::AssemblingMachine) =  model(database(x), x).elec_consumptions[tier(x)]
 consumption(::Type{Fuel}, x::AssemblingMachine) = model(database(x), x).fuel_consumptions[tier(x)]
+
+
+####### ----- New implem
+"""
+    A Factorio element is a UniqueElement.
+    It has a unique identifider (Interger) that encodes:
+    - Its type
+    - Its index in the global DataModel Array (given the type)
+"""
+const ElementHash = UInt64
+struct UniqueElement{Model<:Unsigned, T<:Unsigned} <: AbstractElement
+    uid::T
+end
