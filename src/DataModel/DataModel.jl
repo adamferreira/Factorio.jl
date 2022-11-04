@@ -84,10 +84,54 @@ consumption(::Type{Fuel}, x::AssemblingMachine) = model(database(x), x).fuel_con
 """
     A Factorio element is a UniqueElement.
     It has a unique identifider (Interger) that encodes:
-    - Its type
+    - The index of its model
     - Its index in the global DataModel Array (given the type)
 """
-const ElementHash = UInt64
-struct UniqueElement{Model<:Unsigned, T<:Unsigned} <: AbstractElement
+const ElementHash = UInt16
+struct UniqueElement{T<:Unsigned}
+    # TODO: have model_id in UInt16 and uid as UInt16 ?
     uid::T
 end
+
+"""
+    Concatenates the two hashes `a` and `b` into `T`.
+    Let's sya T = UInt8 and:
+    - a = 10 = 00001010
+    - b = 12 = 00001100
+    This function returns the new hash 10100000 | 00001100 = 10101100
+"""
+function combine(a::T, b::T) where {T<:Unsigned}
+    return (a << (4*sizeof(T))) | (b & mask(T))
+end
+
+UniqueElement(mid::T, id::T) where {T<:Unsigned} = UniqueElement{T}(combine(mid,id))
+@inline uid(x::UniqueElement{T}) where {T<:Unsigned} = x.uid
+
+"""
+    The mask for an Integer type `T` stored in n bits is
+    n/2 `0` bits followed by n/2 `1` bits
+    The mask for UInt8 is `00001111`
+"""
+@inline mask(::Type{T}) where {T<:Unsigned} = T((1 << (4*sizeof(T))) - 1)
+"""
+    Get the last |`T`|/2 bits of the uid
+"""
+@inline index(x::UniqueElement{T}) where {T<:Unsigned} = uid(x) & mask(T)
+"""
+    Get the first |`T`|/2 bits of the uid
+"""
+@inline model(x::UniqueElement{T}) where {T<:Unsigned} = (uid(x) << (4*sizeof(T))) & mask(T)
+
+
+MODELS = [
+    :Recipe
+]
+
+for p in enumerate(MODELS)
+    @eval const $(p[2]){T} = UniqueElement{p[1],T} where {T<:Unsigned}
+end
+
+a = UniqueElement(UInt8(10), UInt8(12))
+@show bitstring(uid(a))
+@show bitstring(model(a))
+@show bitstring(index(a))
