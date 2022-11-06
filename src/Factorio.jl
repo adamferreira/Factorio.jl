@@ -13,35 +13,32 @@ function Graphs.rem_vertices!(meta_graph::MetaGraph, codes)
 end
 
 include("DataModel/recipes.jl")
-include("DataModel/DataModel.jl")
+include("DataModel/DataModel2.jl")
 include("io/load.jl")
 
 # Global Database
-defaultdb = load_default()
-database() = defaultdb
-recipes() = database().recgraph
+#FACTORIO_DEFAULT_DB = load_default()
+#recipes() = database().recgraph
 
 #export Types
 export  Electricity,
         Fuel
 
-# Export Assets
-export  AssemblingMachine
-
 # Export DataModels
-#export AssemblingMachines
+export  DefaultFactorioDataBase,
+        UniqueElement,
+        database
+for e in vcat(MODELS, DATAMODELS)
+    @eval export $e
+end
+# Datamodel miscellaneous (for tests)
+export  uid,
+        mask,
+        model,
+        index
 
-# Export Databases
-export  DefaultFactorioDataBase
-
-# Export functions
-export  consumption,
-        tier
-
-export  database,
-        recipes
-
-# Recipe functions
+"""
+# Export Recipe graph logic
 export  RecipeGraph,
         add_recipe_node!,
         add_recipe_edge!,
@@ -60,6 +57,7 @@ export  RecipeGraph,
         related_graph,
         parents,
         children
+"""
 
 # plot 
 export rplot

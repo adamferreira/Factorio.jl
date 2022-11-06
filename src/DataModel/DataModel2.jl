@@ -10,10 +10,10 @@ abstract type FactorioDataBase end
 
 """
     A Factorio element is a UniqueElement.
-    It has a unique identifider (Interger) that encodes:
-    - The index of its model
+    It has a unique identifider (Integer) that encodes:
+    - The index of its model (DataModel)
     - Its index in its model's data array
-    Thus given a UniqueElement, you can know its model (type) and as direct constant access to its data
+    Thus given a UniqueElement, you can know its model (type) and has direct constant access to its data
 """
 const ElementHash = UInt16
 struct UniqueElement{M,T<:Unsigned} <: AbstractElement
@@ -62,7 +62,8 @@ MODELS = [
     # And is meant to be used in a Technology Graph.
     :Technology,
     # An item is an element that can be inside and inventory, be crafted, or be unlocked.
-    :Item
+    :Item,
+    :AssemblingMachine
 ]
 
 # Define implementations of UniqueElement
@@ -74,52 +75,77 @@ for p in enumerate(MODELS)
     @eval $(p[2])(id) = UniqueElement(ElementHash($(p[1])), ElementHash(id))
 end
 
-# A Datamodel of an UniqueElement is the name of the UniqueElement followed with a `s`
-# Or ies if the UniqueElement ends with `y`
-# Technology -> Technologies
+"""
+    A Datamodel of an UniqueElement is the name of the UniqueElement followed with a `s`.
+    Or `ies` if the UniqueElement ends with `y`.
+    Technology -> Technologies.
+    A DataModel holds every data in tabular fashion.
+    Each UniqueElement modeled by a DataModel as its data stored in the `index(x)`th index of the DataModel Arrays.
+    For Example let x = Recipe(5).
+    Then name(x) will call model(x).names[index(x)] = (y = Recipes).names[5].
+"""
 to_dm = x -> endswith(String(x), 'y') ? Symbol(replace(String(x),"y" => "ies")) : Symbol(x,'s')
 DATAMODELS = map(to_dm, MODELS)
-# Model Holding data (in tabular form) for efficiency purposes
 struct Items <: AbstractDataModel
-    # Names of the Item
+    # Names of the Items
     names::Vector{String}
+    Items() = new([])
+end
 
-    Items() = new(["ITEMS!!"])
+struct Recipes <: AbstractDataModel
+    # Names of the Recipes
+    names::Vector{String}
+    # Base crafting time of recipes
+    craftime_times::Vector{Float64}
+    Recipes() = new([], [])
+end
+struct Assets <: AbstractDataModel
+    # Names of the Assets
+    names::Vector{String}
+end
+
+struct Technologies <: AbstractDataModel
+    # Names of the Technologies
+    names::Vector{String}
+end
+
+struct AssemblingMachines <: AbstractDataModel
+    # Names of the AssemblingMachines
+    names::Vector{String}
+    # Crafting bonus factor (devide recipe crafting_time by crafting_speed to have the real craft time of a recupe)
+    crafting_speeds::Vector{String}
 end
 
 """
     Get the name of an UniqueElement from its data model array 'names'.
-    This assumes that the datamodel encoded in `model(x)` has a field names::names::Vector{T}
+    This assumes that the datamodel encoded in `model(x)` has a field names::Vector{T}
 """
 @inline name(x::UniqueElement) = @inbounds datamodel(x).names[index(x)]
 
 
-
-
-# DataModel Holding Everything Needed
+"""
+    DefaultFactorioDataBase holds every default Factorio data needed.
+    It's an in-memory representation of all data in data/*.json.
+    All DataModel are stored in an Arrays of DataModel.
+    One can access the DataModel of an UniqueElement with its model_id in the array.
+    Let x = Recipe(5) = UniqueElement(1,5).
+    Then datamodel(x) = (y = DefaultFactorioDataBase).datamodels[1].
+    an instance of DefaultFactorioDataBase is meant to be available globally.
+"""
 struct DefaultFactorioDataBase <: FactorioDataBase
     datamodels::Vector{AbstractDataModel}
     # Call datamodels defaults constructors
     DefaultFactorioDataBase() = new(
-        #@eval [Symbol(e,'s')() for e in MODELS]
+        [@eval $m() for m in DATAMODELS]
     )
 end
+
 """
     Get the datamodel of the a unique element from the gobal database using its model_id.
 """
 @inline datamodel(x::UniqueElement) = @inbounds database().datamodels[model(x)]
 
-
-data = DefaultFactorioDataBase()
-database() = data
-
-x = Recipe(1)
-
 """
-a = UniqueElement(10, UInt8(12))
-@show bitstring(uid(a))
-@show bitstring(model(a))
-@show bitstring(index(a))
-@show bitstring(mask(UInt8))
-@show bitstring(~mask(UInt8))
+    Get a refence to Factorio's default database (type DefaultFactorioDataBase)
 """
+database() = FACTORIO_DEFAULT_DB
