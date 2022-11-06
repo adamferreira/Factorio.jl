@@ -64,6 +64,7 @@ MODELS = [
     # An item is an element that can be inside and inventory, be crafted, or be unlocked.
     :Item
 ]
+
 # Define implementations of UniqueElement
 # Recipe is UniqueElement{1,T} for example
 for p in enumerate(MODELS)
@@ -73,10 +74,17 @@ for p in enumerate(MODELS)
     @eval $(p[2])(id) = UniqueElement(ElementHash($(p[1])), ElementHash(id))
 end
 
+# A Datamodel of an UniqueElement is the name of the UniqueElement followed with a `s`
+# Or ies if the UniqueElement ends with `y`
+# Technology -> Technologies
+to_dm = x -> endswith(String(x), 'y') ? Symbol(replace(String(x),"y" => "ies")) : Symbol(x,'s')
+DATAMODELS = map(to_dm, MODELS)
 # Model Holding data (in tabular form) for efficiency purposes
 struct Items <: AbstractDataModel
     # Names of the Item
     names::Vector{String}
+
+    Items() = new(["ITEMS!!"])
 end
 
 """
@@ -91,12 +99,21 @@ end
 # DataModel Holding Everything Needed
 struct DefaultFactorioDataBase <: FactorioDataBase
     datamodels::Vector{AbstractDataModel}
+    # Call datamodels defaults constructors
+    DefaultFactorioDataBase() = new(
+        #@eval [Symbol(e,'s')() for e in MODELS]
+    )
 end
 """
     Get the datamodel of the a unique element from the gobal database using its model_id.
 """
 @inline datamodel(x::UniqueElement) = @inbounds database().datamodels[model(x)]
 
+
+data = DefaultFactorioDataBase()
+database() = data
+
+x = Recipe(1)
 
 """
 a = UniqueElement(10, UInt8(12))
