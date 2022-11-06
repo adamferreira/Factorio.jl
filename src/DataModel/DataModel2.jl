@@ -5,6 +5,9 @@ abstract type Energy end
 abstract type Fuel <: Energy end
 abstract type Electricity <: Energy end
 
+# DataModel Holding Everything Needed
+abstract type FactorioDataBase end
+
 """
     A Factorio element is a UniqueElement.
     It has a unique identifider (Interger) that encodes:
@@ -55,10 +58,10 @@ MODELS = [
     # An asset is an element that can be placed down in the game.
     # And is meant to be used in a Network to simulate the game.
     :Asset,
-    # A recipe is an element that unloacs other elements.
-    # And is meant to be used in a Technology Graph
+    # A recipe is an element that unlocks other elements.
+    # And is meant to be used in a Technology Graph.
     :Technology,
-    # An item is an element that can be inside and inventory, be crafted, or be unloacked
+    # An item is an element that can be inside and inventory, be crafted, or be unlocked.
     :Item
 ]
 # Define implementations of UniqueElement
@@ -70,7 +73,29 @@ for p in enumerate(MODELS)
     @eval $(p[2])(id) = UniqueElement(ElementHash($(p[1])), ElementHash(id))
 end
 
+# Model Holding data (in tabular form) for efficiency purposes
+struct Items <: AbstractDataModel
+    # Names of the Item
+    names::Vector{String}
+end
 
+"""
+    Get the name of an UniqueElement from its data model array 'names'.
+    This assumes that the datamodel encoded in `model(x)` has a field names::names::Vector{T}
+"""
+@inline name(x::UniqueElement) = @inbounds datamodel(x).names[index(x)]
+
+
+
+
+# DataModel Holding Everything Needed
+struct DefaultFactorioDataBase <: FactorioDataBase
+    datamodels::Vector{AbstractDataModel}
+end
+"""
+    Get the datamodel of the a unique element from the gobal database using its model_id.
+"""
+@inline datamodel(x::UniqueElement) = @inbounds database().datamodels[model(x)]
 
 
 """
