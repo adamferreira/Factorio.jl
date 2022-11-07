@@ -63,7 +63,8 @@ MODELS = [
     :Technology,
     # An item is an element that can be inside and inventory, be crafted, or be unlocked.
     :Item,
-    :AssemblingMachine
+    :AssemblingMachine,
+    :Resource,
 ]
 
 # Define implementations of UniqueElement
@@ -116,12 +117,15 @@ struct AssemblingMachines <: AbstractDataModel
     crafting_speeds::Vector{String}
 end
 
+struct Resources <: AbstractDataModel
+    names::Vector{String}
+end
+
 """
     Get the name of an UniqueElement from its data model array 'names'.
     This assumes that the datamodel encoded in `model(x)` has a field names::Vector{T}
 """
 @inline name(x::UniqueElement) = @inbounds datamodel(x).names[index(x)]
-
 
 """
     DefaultFactorioDataBase holds every default Factorio data needed.

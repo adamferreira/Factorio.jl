@@ -1,22 +1,16 @@
+"""
+    Struct that hold Recipe relation information:
+    - Amount of item i needed in recipe j
+    - Or amount of item i produced by recipe j
+"""
 struct RecipeEdge
     amount::Float64
-    probability::Float64
-end
-
-@enum RecipeType RESSOURCE ITEM RECIPE
-struct RecipeNode
-    # A recipe can be a resource, an item, or a complex recipe
-    name::String
-    # Time required to construct the recipe
-    craft_time::Float64
-    # Time of recipe (ressource, crafted item, recipe node)
-    type::RecipeType
 end
 
 # Type definition (for easy function definition)
-const LabelType = String
+const LabelType = ElementHash
 const CodeType = Int64
-const VectexType = RecipeNode
+const VectexType = UniqueElement
 const EdgeType = RecipeEdge
 
 #for f in [:Δin, :Δout]
@@ -43,19 +37,24 @@ RecipeGraph = MetaGraphsNext.MetaDiGraph{
     edata -> 1.0, # function to attribute weights to edges
     Float64, # Weight type for edges
 }
+
+A recipe graph have 3 different types of UniqueElement as nodes:
+- Resources, that may be roots of the recipe graph (some recipes creates water for example)
+- Recipes, they allways have in and out neighbors
+- Items, produced by recipes, some used by recipes, may be leaves of the RecipeGraph
 """
 RecipeGraph() = MetaGraphsNext.MetaGraph(
     Graphs.SimpleDiGraph(), # idexes types for vertices is Int64 in SimpleDiGraph
     Label = LabelType, # how vertices and edges are identified
-    VertexData = VectexType,  # struct that holds vertex metadata
+    VertexData = VectexType,  # struct that holds vertex metadata, here we work with UniqueElement's uids
     EdgeData  = EdgeType, # struct that holds edge metadata
     graph_data = nothing, # struct that holds graph metadata
     weight_function = edata -> 1.0, # function to attribute weights to edges
     default_weight = 1.0
 )
 
-add_recipe_node!(r, n::RecipeNode) = Graphs.add_vertex!(r, n.name, n)
-add_recipe_edge!(r, src::LabelType, dst::LabelType, e::RecipeEdge) = Graphs.add_edge!(r, src, dst, e)
+add_recipe_node!(r, n::VectexType) = Graphs.add_vertex!(r, n.name, n)
+add_recipe_edge!(r, src::LabelType, dst::LabelType, e::EdgeType) = Graphs.add_edge!(r, src, dst, e)
 
 """
     Returns the labels of `vertices` codes
@@ -183,7 +182,7 @@ function consumes_only(g, items::AbstractVector{CodeType})
     return [v for v in recipes if Set(Graphs.inneighbors(g,v)) == Set(items)]
 end
 
-# Internally, all function are meant to be called with nodes identified with their code (index)
+# Internally, all function are meant to be called with nodes identified with their code (index in the graph)
 # For performance.
 # For convenience, here we specialize each function with labels as identifiers
 for f in [
@@ -216,16 +215,7 @@ end
     The tier of a node the the maximum of the tiers of its parents + 1
 """
 function tiers(g)
-    tiers = Dict()
-    # Get ressources nodes
-    to_visit = [v for v in Graphs.vertices(g) if Graphs.indegree(g,v) == 0]
-    tiers[0] = copy(to_visit)
-    @show tiers[0]
-    for i in 1:10
-        tiers[i] = Set(vcat([Graphs.outneighbors(g,v) for v in tiers[i-1]]...))
-        @show tiers[i]
-    end
-    return tiers
+    return nothing
 end
 
 # Plot overload
