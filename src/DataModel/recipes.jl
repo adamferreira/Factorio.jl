@@ -48,7 +48,7 @@ RecipeGraph() = MetaGraphsNext.MetaGraph(
     Label = LabelType, # how vertices and edges are identified
     VertexData = VectexType,  # struct that holds vertex metadata, here we work with UniqueElement's uids
     EdgeData  = EdgeType, # struct that holds edge metadata
-    graph_data = nothing, # struct that holds graph metadata
+    graph_data = Dict{String, ElementHash}, # struct that holds graph metadata, here we store names to uid mapping
     weight_function = edata -> 1.0, # function to attribute weights to edges
     default_weight = 1.0
 )
