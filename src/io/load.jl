@@ -37,6 +37,11 @@ function load_default()::DefaultFactorioDataBase
     ressources = JSON.parsefile(joinpath(DATA_DIR, "resource.json"))
     fluids = JSON.parsefile(joinpath(DATA_DIR, "fluid.json"))
 
+
+    for (name, desc) in ressources
+        
+    end
+
     # Add names as item recipe nodes
     for name in Set(vcat(collect(keys(items)), collect(keys(ressources)), collect(keys(fluids))))
         add_recipe_node!(g, RecipeNode(name, 0.0, ITEM))

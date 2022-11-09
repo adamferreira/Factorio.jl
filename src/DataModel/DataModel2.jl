@@ -87,6 +87,9 @@ end
 """
 to_dm = x -> endswith(String(x), 'y') ? Symbol(replace(String(x),"y" => "ies")) : Symbol(x,'s')
 DATAMODELS = map(to_dm, MODELS)
+
+
+
 struct Items <: AbstractDataModel
     # Names of the Items
     names::Vector{String}
