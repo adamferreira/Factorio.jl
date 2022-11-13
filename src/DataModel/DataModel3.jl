@@ -157,3 +157,4 @@ r = d.recipes[ind]
 @show bitstring(model(r))
 @show bitstring(uid(r))
 @show get_recipe(uid(r))
+@time for i in 1:1000000 get_recipe(uid(r)) end
