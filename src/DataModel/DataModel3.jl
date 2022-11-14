@@ -120,23 +120,37 @@ struct DefaultFactorioDataBase <: FactorioDataBase
     #resources::Dict{String, Resource}
     #technologies::Dict{String, Technology}
     # Stores datamodel as an ArrayOfStruct fashion
+    # TODO : only store Recipe info in the recipe graph ?
     recipes::Vector{Recipe}
+    items::Vector{Item}
+    resources::Vector{Resource}
+    technologies::Vector{Technology}
 
     # Map AbstractDataModel name to their model indexes
-    recipes_mapping::Dict{String, UniqueID}
+    mappings::Vector{Dict{String, UniqueID}}
+
 end
+
+function DefaultFactorioDataBase()
+    return DefaultFactorioDataBase(
+        [], [], [], [],
+        [Dict(), Dict(), Dict(), Dict()]
+    )
+end
+
+recipes_mapping(d::FactorioDataBase) = d.mappings[1]
 
 function add_recipe!(d::FactorioDataBase, name::String, craftime::Float64)
     # Check of recipe does not already exits
-    @assert !haskey(d.recipes_mapping, name)
+    @assert !haskey(recipes_mapping(d), name)
     # Register new recipe
     r = Recipe(UniqueID(length(d.recipes)+1), name, craftime)
     push!(d.recipes, r)
-    d.recipes_mapping[name] = index(r)
+    recipes_mapping(d)[name] = index(r)
 end
 
 function get_recipe(x::String)
-    return d.recipes[d.recipes_mapping[x]]
+    return d.recipes[recipes_mapping(d)[x]]
 end
 
 function get_recipe(x::UniqueID)
@@ -149,9 +163,9 @@ end
 """
 database() = FACTORIO_DEFAULT_DB
 
-d = DefaultFactorioDataBase([], Dict())
+d = DefaultFactorioDataBase()
 add_recipe!(d, "Recipe1", 1.05)
-ind = d.recipes_mapping["Recipe1"]
+ind = recipes_mapping(d)["Recipe1"]
 r = d.recipes[ind]
 @show bitstring(index(r))
 @show bitstring(model(r))
