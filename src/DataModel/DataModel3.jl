@@ -18,7 +18,7 @@ const UniqueID = UInt16
     This function returns the new hash 10100000 | 00001100 = 10101100
 """
 function combine(a::T, b::T) where {T<:Unsigned}
-    return (a << (4*sizeof(T))) | (b & mask(T))
+    return (a << (4*sizeof(T))) | (b & mask(UniqueID))
 end
 
 """
@@ -106,19 +106,18 @@ struct Asset <: AbstractDataModel
 end 
 
 
+name(x::AbstractDataModel) = x.name
+
 # Define UniqueIds methods on all variant of `AbstractDataModel`
 for (id, m) in enumerate(MODELS)
-    @eval model(x::$m) = UniqueID($id)
-    @eval index(x::$m) = UniqueID(x.ind)
-    @eval uid(x::$m) = UniqueID(combine(model(x), index(x)))
+    @eval @inline model(x::$m) = UniqueID($id)
+    @eval @inline index(x::$m) = x.ind
+    @eval @inline uid(x::$m) = combine(model(x), index(x))
 end
 
 
 struct DefaultFactorioDataBase <: FactorioDataBase
-    #recipes::Dict{String, Recipe}
-    #items::Dict{String, Item}
-    #resources::Dict{String, Resource}
-    #technologies::Dict{String, Technology}
+    # (Do not use a vector of vector{AbstractDataModel} as get[model] would return a vector and thus an allocation)
     # Stores datamodel as an ArrayOfStruct fashion
     # TODO : only store Recipe info in the recipe graph ?
     recipes::Vector{Recipe}
@@ -132,13 +131,24 @@ struct DefaultFactorioDataBase <: FactorioDataBase
 end
 
 function DefaultFactorioDataBase()
+    recipes = Vector{Recipe}()
+    items = Vector{Item}()
+    resources = Vector{Resource}()
+    technologies = Vector{Technology}()
     return DefaultFactorioDataBase(
-        [], [], [], [],
+        recipes, items, resources, technologies,
         [Dict(), Dict(), Dict(), Dict()]
     )
 end
 
 recipes_mapping(d::FactorioDataBase) = d.mappings[1]
+
+
+function add!(d::FactorioDataBase, ::Type{T}, args...) where {T<:AbstractDataModel}
+    # Check if datamodel does not already exits
+    @assert !haskey(recipes_mapping(d), name)
+    model = d.recipes
+end
 
 function add_recipe!(d::FactorioDataBase, name::String, craftime::Float64)
     # Check of recipe does not already exits
@@ -149,13 +159,8 @@ function add_recipe!(d::FactorioDataBase, name::String, craftime::Float64)
     recipes_mapping(d)[name] = index(r)
 end
 
-function get_recipe(x::String)
-    return d.recipes[recipes_mapping(d)[x]]
-end
 
-function get_recipe(x::UniqueID)
-    return d.recipes[index(x)]
-end
+get(d::DefaultFactorioDataBase, ::Type{Recipe}, x::UniqueID) = d.recipes[index(x)]
 
 
 """
@@ -170,5 +175,9 @@ r = d.recipes[ind]
 @show bitstring(index(r))
 @show bitstring(model(r))
 @show bitstring(uid(r))
-@show get_recipe(uid(r))
-@time for i in 1:1000000 get_recipe(uid(r)) end
+@show get(d, Recipe, uid(r))
+@show typeof(get(d, Recipe, uid(r)))
+
+@time for i in 1:1000000 get(d, Recipe, uid(r)) end
+@time for i in 1:1000000 name(r) end
+@time for i in 1:1000000 name(get(d, Recipe, uid(r))) end
