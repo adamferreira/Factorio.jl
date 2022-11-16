@@ -159,9 +159,28 @@ function add_recipe!(d::FactorioDataBase, name::String, craftime::Float64)
     recipes_mapping(d)[name] = index(r)
 end
 
+"""
+    Getter for specific DataModel types
+    Returns an AbstractDataModel
+"""
+get(d::DefaultFactorioDataBase, ::Val{1}, x::UniqueID) = d.recipes[index(x)]
+get(d::DefaultFactorioDataBase, ::Val{3}, x::UniqueID) = d.items[index(x)]
+get(d::DefaultFactorioDataBase, ::Val{4}, x::UniqueID) = d.resources[index(x)]
+get(d::DefaultFactorioDataBase, ::Val{5}, x::UniqueID) = d.technologies[index(x)]
 
 get(d::DefaultFactorioDataBase, ::Type{Recipe}, x::UniqueID) = d.recipes[index(x)]
+get(d::DefaultFactorioDataBase, ::Type{Item}, x::UniqueID) = d.items[index(x)]
+get(d::DefaultFactorioDataBase, ::Type{Resource}, x::UniqueID) = d.resources[index(x)]
+get(d::DefaultFactorioDataBase, ::Type{Technology}, x::UniqueID) = d.technologies[index(x)]
 
+"""
+    Getter with DataModel value type deduction
+    Returns an AbstractDataModel
+"""
+get(d::DefaultFactorioDataBase, x::UniqueID) = get(d, TOTO[model(x)], x)
+
+
+TOTO = [Recipe]
 
 """
     Get a refence to Factorio's default database (type DefaultFactorioDataBase)
@@ -175,9 +194,10 @@ r = d.recipes[ind]
 @show bitstring(index(r))
 @show bitstring(model(r))
 @show bitstring(uid(r))
-@show get(d, Recipe, uid(r))
-@show typeof(get(d, Recipe, uid(r)))
+@show get(d, uid(r))
+@show typeof(get(d, Val(1), uid(r)))
 
-@time for i in 1:1000000 get(d, Recipe, uid(r)) end
+@time for i in 1:1000000 get(d, Val(1), uid(r)) endd
 @time for i in 1:1000000 name(r) end
-@time for i in 1:1000000 name(get(d, Recipe, uid(r))) end
+@time for i in 1:1000000 name(get(d, uid(r))) end
+@time for i in 1:1000000 model(uid(r)) end
