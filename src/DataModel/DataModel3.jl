@@ -175,12 +175,13 @@ get(d::DefaultFactorioDataBase, ::Type{Technology}, x::UniqueID) = d.technologie
 
 """
     Getter with DataModel value type deduction
+    Note this is 10x slower than when the type is known
     Returns an AbstractDataModel
 """
-get(d::DefaultFactorioDataBase, x::UniqueID) = get(d, TOTO[model(x)], x)
+get(d::DefaultFactorioDataBase, x::UniqueID) = get(d, Val(Int(model(x))), x)
 
 
-TOTO = [Recipe]
+
 
 """
     Get a refence to Factorio's default database (type DefaultFactorioDataBase)
@@ -195,9 +196,10 @@ r = d.recipes[ind]
 @show bitstring(model(r))
 @show bitstring(uid(r))
 @show get(d, uid(r))
-@show typeof(get(d, Val(1), uid(r)))
 
-@time for i in 1:1000000 get(d, Val(1), uid(r)) endd
+@time for i in 1:1000000 get(d, Val(1), uid(r)) end
+@time for i in 1:1000000 get(d, uid(r)) end
+@time for i in 1:1000000 get(d, Recipe, uid(r)) end
 @time for i in 1:1000000 name(r) end
 @time for i in 1:1000000 name(get(d, uid(r))) end
 @time for i in 1:1000000 model(uid(r)) end
