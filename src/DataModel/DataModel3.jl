@@ -141,26 +141,8 @@ function DefaultFactorioDataBase()
     )
 end
 
-recipes_mapping(d::FactorioDataBase) = d.mappings[1]
-
-
-function add!(d::FactorioDataBase, ::Type{T}, args...) where {T<:AbstractDataModel}
-    # Check if datamodel does not already exits
-    @assert !haskey(recipes_mapping(d), name)
-    model = d.recipes
-end
-
-function add_recipe!(d::FactorioDataBase, name::String, craftime::Float64)
-    # Check of recipe does not already exits
-    @assert !haskey(recipes_mapping(d), name)
-    # Register new recipe
-    r = Recipe(UniqueID(length(d.recipes)+1), name, craftime)
-    push!(d.recipes, r)
-    recipes_mapping(d)[name] = index(r)
-end
-
 """
-    Getter for specific DataModel types
+    Getters for specific DataModel types
     Returns an AbstractDataModel
 """
 get(d::DefaultFactorioDataBase, ::Val{1}, x::UniqueID) = d.recipes[index(x)]
@@ -180,8 +162,36 @@ get(d::DefaultFactorioDataBase, ::Type{Technology}, x::UniqueID) = d.technologie
 """
 get(d::DefaultFactorioDataBase, x::UniqueID) = get(d, Val(Int(model(x))), x)
 
+"""
+    Getters for the mapping of name-to-object
+"""
+mapping(d::FactorioDataBase, ::Type{Recipe}) = d.mappings[1]
+mapping(d::FactorioDataBase, ::Type{Item}) = d.mappings[2]
+mapping(d::FactorioDataBase, ::Type{Resource}) = d.mappings[3]
+mapping(d::FactorioDataBase, ::Type{Technology}) = d.mappings[4]
 
+"""
+    Getters for the vector that stores objects
+"""
+data(d::FactorioDataBase, ::Type{Recipe}) = d.recipes
+data(d::FactorioDataBase, ::Type{Item}) = d.items
+data(d::FactorioDataBase, ::Type{Resource}) = d.resources
+data(d::FactorioDataBase, ::Type{Technology}) = d.technologies
 
+"""
+    Add a new object to the database
+"""
+function add!(d::FactorioDataBase, ::Type{T}, args...) where {T<:AbstractDataModel}
+    model = data(d, T)
+    o = T(UniqueID(length(model)+1), args...)
+    # Check of recipe does not already exits
+    @assert !haskey(mapping(d, T), name(o))
+    # Add model to storage
+    push!(model, o)
+    # Register model name mapping
+    mapping(d, T)[name(o)] = index(o)
+    return o
+end
 
 """
     Get a refence to Factorio's default database (type DefaultFactorioDataBase)
@@ -189,8 +199,8 @@ get(d::DefaultFactorioDataBase, x::UniqueID) = get(d, Val(Int(model(x))), x)
 database() = FACTORIO_DEFAULT_DB
 
 d = DefaultFactorioDataBase()
-add_recipe!(d, "Recipe1", 1.05)
-ind = recipes_mapping(d)["Recipe1"]
+add!(d, Recipe, "Recipe1", 1.05)
+ind = mapping(d, Recipe)["Recipe1"]
 r = d.recipes[ind]
 @show bitstring(index(r))
 @show bitstring(model(r))
@@ -207,3 +217,7 @@ r = d.recipes[ind]
 # Do not work on immutable objects
 #ptr = UInt64(pointer_from_objref(r))
 #dereference(Recipe, ptr)
+using BenchmarkTools
+@benchmark get(d, Val(1), uid(r))
+@benchmark get(d, Recipe, uid(r))
+@benchmark get(d, uid(r))
