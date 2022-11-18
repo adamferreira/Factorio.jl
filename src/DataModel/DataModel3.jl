@@ -203,3 +203,7 @@ r = d.recipes[ind]
 @time for i in 1:1000000 name(r) end
 @time for i in 1:1000000 name(get(d, uid(r))) end
 @time for i in 1:1000000 model(uid(r)) end
+
+# Do not work on immutable objects
+#ptr = UInt64(pointer_from_objref(r))
+#dereference(Recipe, ptr)
