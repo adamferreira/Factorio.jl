@@ -116,7 +116,7 @@ for (id, m) in enumerate(MODELS)
 end
 
 
-struct DefaultFactorioDataBase <: FactorioDataBase
+mutable struct DefaultFactorioDataBase <: FactorioDataBase
     # (Do not use a vector of vector{AbstractDataModel} as get[model] would return a vector and thus an allocation)
     # Stores datamodel as an ArrayOfStruct fashion
     # TODO : only store Recipe info in the recipe graph ?
