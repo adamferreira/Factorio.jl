@@ -217,7 +217,3 @@ r = d.recipes[ind]
 # Do not work on immutable objects
 #ptr = UInt64(pointer_from_objref(r))
 #dereference(Recipe, ptr)
-using BenchmarkTools
-@benchmark get(d, Val(1), uid(r))
-@benchmark get(d, Recipe, uid(r))
-@benchmark get(d, uid(r))
