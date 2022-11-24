@@ -1,4 +1,7 @@
-using JuMP, GLPK, Ipopt
+using JuMP # Modeling interface
+using Ipopt # NLP solver
+using Juniper # Branch and Bound
+using LinearAlgebra # Dot vector product
 
 """
  Both Oil refinery and Chemical plant have 3 slots for modules
@@ -141,24 +144,32 @@ PB = dict_to_array(_PB)
 
 
 #model = Model(Ipopt.Optimizer)
-model = Model(GLPK.Optimizer)
+#model = Model(SCIP.Optimizer)
+#model = Model(GLPK.Optimizer)
+
+nl_solver = optimizer_with_attributes(Ipopt.Optimizer, "print_level"=>3)
+minlp_solver = optimizer_with_attributes(Juniper.Optimizer, "nl_solver"=>nl_solver)
+model = Model(minlp_solver)
+# No need for MIP solver for feasibilty pump as finding a solution to this model is easy
+
+# TODO: Model without moduls -> linear
 """
     Sets
 """
 # Recipes
-R = Set(1:length(instances(Recipes)))
+R = 1:length(instances(Recipes))
 # Modules
-M = Set(1:length(instances(Modules)))
+M = 1:length(instances(Modules))
 # Resources 
-I = Set(1:length(instances(Ingredients)))
+I = 1:length(instances(Ingredients))
 # Assembling Machines
-A = Set(1:10)
+A = 1:3
 
 """ 
     Variables
 """
-# Binary variables, Equals 1 if machine `a` uses module `m`, Equals 0 otherwise
-@variable(model, v_um[a in A, m in M], binary = true)
+# Integer variables, Number of modules `m` used by machine `a`
+@variable(model, v_um[a in A, m in M], integer = true)
 # Binary variables, Equals 1 if machine `a` follows recipe `r`, Equals 0 otherwise
 @variable(model, v_ur[a in A, r in R], binary = true)
 # Real variables representing the productivity of a machine `a`
@@ -180,8 +191,19 @@ A = Set(1:10)
 # Constraints computing the crafting speed of a machine given its modules
 @constraint(model, c_speed[a in A], v_speed[a] == v_um[a,:] ⋅ SB)
 
-# The crafting speed of a machine `a` is given by v_um[a,:] ⋅ SB
-# The crafting speed of a recipe `r` in a machine `a` is then BCT[r] * (v_um[a,:] ⋅ SB)
+# The crafting speed of a machine `a` in second
+speed = (a) -> 1. + (v_um[a,:] ⋅ SB)
+# Productivity of machine `a` in item
+productivity = (a) -> 1. + (v_um[a,:] ⋅ PB)
+# Production factor of a machines
+prod_factor = (a) -> ((1. .+ SB) .* (1. .+ PB)) ⋅ v_um[a,:] 
+
+production = (a,i) -> (1. + SB) 
 
 # Production constraints, at which rate (item/sec) a machine `a` with recipe `r` produces ingredient `i`
-@constraint(model, c_production[a in A, i in I], v_production[a,i] == BP[:,i] ⋅ v_ur[a,:])
+# The production rate is the base production rate adjusted with the machine's speed and productivity
+#@NLconstraint(model, c_production[a in A, i in I], v_production[a,i] == (BP[:,i] .* (BCT .* (v_um[a,:] ⋅ SB))) ⋅ v_ur[a,:])
+
+#@objective(model, Min, sum(v_ur))
+
+#optimize!(model)
