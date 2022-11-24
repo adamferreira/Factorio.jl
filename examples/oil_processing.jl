@@ -1,6 +1,7 @@
 using JuMP # Modeling interface
-using Ipopt # NLP solver
-using Juniper # Branch and Bound
+using GLPK # MIP solver
+#using Ipopt # NLP solver
+#using Juniper # Branch and Bound
 using LinearAlgebra # Dot vector product
 
 """
@@ -142,68 +143,111 @@ CB = dict_to_array(_CB)
 PB = dict_to_array(_PB)
 
 
+function nl_model()
+    nl_solver = optimizer_with_attributes(Ipopt.Optimizer, "print_level"=>3)
+    minlp_solver = optimizer_with_attributes(Juniper.Optimizer, "nl_solver"=>nl_solver)
+    model = Model(minlp_solver)
+    # No need for MIP solver for feasibilty pump as finding a solution to this model is easy
 
-#model = Model(Ipopt.Optimizer)
-#model = Model(SCIP.Optimizer)
-#model = Model(GLPK.Optimizer)
+    # TODO: Model without moduls -> linear
+    """
+        Sets
+    """
+    # Recipes
+    R = 1:length(instances(Recipes))
+    # Modules
+    M = 1:length(instances(Modules))
+    # Resources 
+    I = 1:length(instances(Ingredients))
+    # Assembling Machines
+    A = 1:3
 
-nl_solver = optimizer_with_attributes(Ipopt.Optimizer, "print_level"=>3)
-minlp_solver = optimizer_with_attributes(Juniper.Optimizer, "nl_solver"=>nl_solver)
-model = Model(minlp_solver)
-# No need for MIP solver for feasibilty pump as finding a solution to this model is easy
+    """ 
+        Variables
+    """
+    # Integer variables, Number of modules `m` used by machine `a`
+    @variable(model, v_um[a in A, m in M], integer = true)
+    # Binary variables, Equals 1 if machine `a` follows recipe `r`, Equals 0 otherwise
+    @variable(model, v_ur[a in A, r in R], binary = true)
+    # Real variables representing the productivity of a machine `a`
+    @variable(model, v_productivity[a in A])
+    # Real variables representing the speed of a machine `a`
+    @variable(model, v_speed[a in A])
+    # Real variables representing the production of ingredient `i` by machine `a`
+    @variable(model, v_production[a in A, i in I])
+    # Real variables representing the consumption of ingredient `i` by machine `a`
+    @variable(model, v_consumption[a in A, i in I])
 
-# TODO: Model without moduls -> linear
+    @variable(model, v_rate[a in A, r in R, i in I])
+
+    """ 
+        Constraints
+    """
+    # The crafting speed of a machine `a` in second
+    speed = (a) -> 1. + (v_um[a,:] ⋅ SB)
+    # Productivity of machine `a` in item
+    productivity = (a) -> 1. + (v_um[a,:] ⋅ PB)
+
+    # A given machine (Oil refinery and Chemical) can only uses at most 3 modules
+    @constraint(model, c_maxmod[a in A], sum(v_um[a,:]) <= 3)
+    # A given machine can only follow a single recipe at most
+    @constraint(model, c_maxrec[a in A], sum(v_ur[a,:]) <= 1)
+    # Constraints computing the crafting speed factor (in per unit) of a machine `a` given its modules
+    @constraint(model, c_speed[a in A], v_speed[a] == 1. + (v_um[a,:] ⋅ SB))
+    @constraint(model, c_productivity[a in A], v_productivity[a] == 1. + (v_um[a,:] ⋅ PB))
+
+    # The production rate (item/sec) at witch a machine `a` with recipe `r` produces ingredient `i`
+    # v_rate[a,r,i] == (BP[r,i] / BCT[r]) * (v_speed[a] / v_productivity[a]) * v_ur[a,r]
+    @NLconstraint(model, c_rate[a in A, r in R, i in I], v_rate[a,r,i] * v_productivity[a] * BCT[r] == (BP[r,i] * v_speed[a] * v_productivity[a]) * v_ur[a,r])
+    @constraint(model, c_production[a in A, i in I], v_production[a,i] == sum(v_rate[a,:,i]))
+
+    @objective(model, Max, sum(v_production[:,Int64(Heavy_Oil)]))
+
+    optimize!(model)
+
+end
+
+# Linear model
+model = Model(GLPK.Optimizer)
 """
-    Sets
+Sets
 """
 # Recipes
 R = 1:length(instances(Recipes))
-# Modules
-M = 1:length(instances(Modules))
 # Resources 
 I = 1:length(instances(Ingredients))
 # Assembling Machines
-A = 1:3
+A = 1:8
+# End products
+P = [Int64(Petroleum_Gas), Int64(Heavy_Oil), Int64(Light_Oil)]
 
 """ 
-    Variables
+Variables
 """
-# Integer variables, Number of modules `m` used by machine `a`
-@variable(model, v_um[a in A, m in M], integer = true)
 # Binary variables, Equals 1 if machine `a` follows recipe `r`, Equals 0 otherwise
 @variable(model, v_ur[a in A, r in R], binary = true)
-# Real variables representing the productivity of a machine `a`
-@variable(model, v_productivity[a in A])
-# Real variables representing the speed of a machine `a`
-@variable(model, v_speed[a in A])
 # Real variables representing the production of ingredient `i` by machine `a`
 @variable(model, v_production[a in A, i in I])
 # Real variables representing the consumption of ingredient `i` by machine `a`
 @variable(model, v_consumption[a in A, i in I])
 
 """ 
-    Constraints
+Constraints
 """
-# A given machine (Oil refinery and Chemical) can only uses at most 3 modules
-@constraint(model, c_maxmod[a in A], sum(v_um[a,:]) <= 3)
 # A given machine can only follow a single recipe at most
 @constraint(model, c_maxrec[a in A], sum(v_ur[a,:]) <= 1)
-# Constraints computing the crafting speed of a machine given its modules
-@constraint(model, c_speed[a in A], v_speed[a] == v_um[a,:] ⋅ SB)
+# The production rate (item/sec) at witch a machine `a` produces ingredient `i`
+@constraint(model, c_production[a in A, i in I], v_production[a,i] == (BP[:,i] ./ BCT) ⋅ v_ur[a,:])
+@constraint(model, c_consumption[a in A, i in I], v_consumption[a,i] == (BC[:,i] ./ BCT) ⋅ v_ur[a,:])
+# The net consumption of end product must be positive ! 
+net_production = (i) -> sum(v_production[:,i] .- v_consumption[:,i])
+@constraint(model, C_endprod[i in P], net_production(i) >= 0)
 
-# The crafting speed of a machine `a` in second
-speed = (a) -> 1. + (v_um[a,:] ⋅ SB)
-# Productivity of machine `a` in item
-productivity = (a) -> 1. + (v_um[a,:] ⋅ PB)
-# Production factor of a machines
-prod_factor = (a) -> ((1. .+ SB) .* (1. .+ PB)) ⋅ v_um[a,:] 
+@objective(model, Max, net_production(Int64(Petroleum_Gas)) - net_production(Int64(Heavy_Oil)) - net_production(Int64(Light_Oil)) - sum(v_consumption[:, Int64(Crude_Oil)]))
+optimize!(model)
 
-production = (a,i) -> (1. + SB) 
-
-# Production constraints, at which rate (item/sec) a machine `a` with recipe `r` produces ingredient `i`
-# The production rate is the base production rate adjusted with the machine's speed and productivity
-#@NLconstraint(model, c_production[a in A, i in I], v_production[a,i] == (BP[:,i] .* (BCT .* (v_um[a,:] ⋅ SB))) ⋅ v_ur[a,:])
-
-#@objective(model, Min, sum(v_ur))
-
-#optimize!(model)
+@show value.(v_ur)
+@show value.(v_production)
+@show value.(v_consumption)
+@show value.(v_production .- v_consumption)
+@show value(net_production(Int64(Petroleum_Gas)) - net_production(Int64(Heavy_Oil)) - net_production(Int64(Light_Oil)))
