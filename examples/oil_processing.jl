@@ -241,7 +241,7 @@ Constraints
 @constraint(model, c_consumption[a in A, i in I], v_consumption[a,i] == (BC[:,i] ./ BCT) ⋅ v_ur[a,:])
 # The net consumption of end product must be positive ! 
 net_production = (i) -> sum(v_production[:,i] .- v_consumption[:,i])
-@constraint(model, C_endprod[i in P], net_production(i) >= 0)
+@constraint(model, c_endprod[i in P], net_production(i) >= 0)
 
 @objective(model, Max, net_production(Int64(Petroleum_Gas)) - net_production(Int64(Heavy_Oil)) - net_production(Int64(Light_Oil)) - sum(v_consumption[:, Int64(Crude_Oil)]))
 optimize!(model)
@@ -251,3 +251,7 @@ optimize!(model)
 @show value.(v_consumption)
 @show value.(v_production .- v_consumption)
 @show value(net_production(Int64(Petroleum_Gas)) - net_production(Int64(Heavy_Oil)) - net_production(Int64(Light_Oil)))
+
+
+# TODO : make machine type and moducles combination into a single variable
+#|Machine types| x |Modules comination (1 to 4) |
