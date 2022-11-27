@@ -255,3 +255,7 @@ optimize!(model)
 
 # TODO : make machine type and moducles combination into a single variable
 #|Machine types| x |Modules comination (1 to 4) |
+
+# Matrix to reprensent Module combinations
+# Columns are modules types and rows are combinations
+# We must satisfy sum(M[c,:]) == 4 (maximum number of modules in a machine)
