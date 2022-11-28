@@ -3,6 +3,7 @@ using GLPK # MIP solver
 #using Ipopt # NLP solver
 #using Juniper # Branch and Bound
 using LinearAlgebra # Dot vector product
+using HiGHS
 
 """
  Both Oil refinery and Chemical plant have 3 slots for modules
@@ -259,3 +260,4 @@ optimize!(model)
 # Matrix to reprensent Module combinations
 # Columns are modules types and rows are combinations
 # We must satisfy sum(M[c,:]) == 4 (maximum number of modules in a machine)
+# TODO: make a column generation model with those many variables ?
