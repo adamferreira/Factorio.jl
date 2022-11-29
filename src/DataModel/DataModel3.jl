@@ -214,6 +214,10 @@ r = d.recipes[ind]
 @time for i in 1:1000000 name(get(d, uid(r))) end
 @time for i in 1:1000000 model(uid(r)) end
 
+Base.copy(r::Recipe) = Recipe(r.ind, r.name, r.craftime)
+@time for i in 1:1000000 x = r end
+@time for i in 1:1000000 x = copy(r) end
+
 # Do not work on immutable objects
 #ptr = UInt64(pointer_from_objref(r))
 #dereference(Recipe, ptr)
