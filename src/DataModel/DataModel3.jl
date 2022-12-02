@@ -111,8 +111,9 @@ name(x::AbstractDataModel) = x.name
 # Define UniqueIds methods on all variant of `AbstractDataModel`
 for (id, m) in enumerate(MODELS)
     @eval @inline model(x::$m) = UniqueID($id)
-    @eval @inline index(x::$m) = x.ind
-    @eval @inline uid(x::$m) = combine(model(x), index(x))
+    @eval @inline model(::Type{$m}) = UniqueID($id)
+    @eval @inline index(x::$m) = index(x.ind)
+    @eval @inline uid(x::$m) = x.ind
 end
 
 
@@ -182,12 +183,15 @@ data(d::FactorioDataBase, ::Type{Technology}) = d.technologies
     Add a new object to the database
 """
 function add!(d::FactorioDataBase, ::Type{T}, args...) where {T<:AbstractDataModel}
-    model = data(d, T)
-    o = T(UniqueID(length(model)+1), args...)
+    datamodel = data(d, T)
+    # Generate new ID for the object
+    id = combine(model(T), UniqueID(length(datamodel)+1))
+    # Create the new object
+    o = T(id, args...)
     # Check of recipe does not already exits
     @assert !haskey(mapping(d, T), name(o))
     # Add model to storage
-    push!(model, o)
+    push!(datamodel, o)
     # Register model name mapping
     mapping(d, T)[name(o)] = index(o)
     return o
