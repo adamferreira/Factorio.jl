@@ -221,7 +221,6 @@ end
 
 # Plot overload
 function rplot(r)
-
     function color(n::RecipeNode)
         if n.type == RECIPE return GraphPlot.colorant"orange" end
         if n.type == ITEM return GraphPlot.colorant"lightseagreen" end
@@ -244,4 +243,9 @@ function rplot(r)
         edgelabelsize = 100.0,
         nodelabelsize = 4
     )
+end
+
+# Dump recipe to dot format
+function savedot(r)
+
 end
