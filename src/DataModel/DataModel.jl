@@ -78,3 +78,5 @@ consumption(::Type{<:Energy}, x::Asset) = 0.0
 
 consumption(::Type{Electricity}, x::AssemblingMachine) =  model(database(x), x).elec_consumptions[tier(x)]
 consumption(::Type{Fuel}, x::AssemblingMachine) = model(database(x), x).fuel_consumptions[tier(x)]
+
+# TODO: Rework
