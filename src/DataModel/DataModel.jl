@@ -1,82 +1,113 @@
+using DataFrames
+using JSON
 
-abstract type AbstractElement end
 abstract type AbstractDataModel end
-
-abstract type AbstractItem <: AbstractElement end
-abstract type Fluid <: AbstractItem end
-abstract type Item <: AbstractItem end
-
 abstract type Energy end
 abstract type Fuel <: Energy end
 abstract type Electricity <: Energy end
 
-
-# Type Logic
-#EnergyConsumer = Union{Asset, Item}
-
-
 # DataModel Holding Everything Needed
 abstract type FactorioDataBase end
 
-const Tier = UInt16
-# An Asset is an object that can be defined by different tiers and can be placed down in the game
-# Example: AssemblingMachine1, AssemblingMachine2, etc...
-# Or: Stone Furnace, Electric Furnace
-# The tier of an asset can be retrived from the template value of the 'Asset' struct
-abstract type Asset{T} <: AbstractElement end
-# An AssetDataModel is an AbstractDataModel that stores tiers information with vectors
-# Each indexes of the vectors represents a Tier
-#abstract type AssetDataModel <: AbstractDataModel end
-Asset(x) = Asset{x}()
-tier(::Asset{T}) where T = T
+const UniqueID = UInt16
+DATA_DIR = joinpath(@__DIR__, "..", "..", "data")
 
-# Macro to easily define new assets
-macro asset(AssetType)
-    return quote
-        struct $AssetType{T} <: Asset{T}
-            database::FactorioDataBase
-        end
-        #$AssetType(x) = $AssetType{x}()
-        $AssetType(x,m) = $AssetType{x}(m)
-    end |> esc
+"""
+    Concatenates the two hashes `a` and `b` into `T`.
+    Let's sya T = UInt8 and:
+    - a = 10 = 00001010
+    - b = 12 = 00001100
+    This function returns the new hash 10100000 | 00001100 = 10101100
+"""
+function combine(a::T, b::T) where {T<:Unsigned}
+    return (a << (4*sizeof(T))) | (b & mask(UniqueID))
 end
 
-# --------------
-# Data Models
-# --------------
-database(x::Asset) = x.database # defaultdb
-# Every DataModel should have the files ::names
-name(x::Asset) = database(x).names[tier(x)]
+"""
+    The mask for an Integer type `T` stored in n bits is
+    n/2 `0` bits followed by n/2 `1` bits
+    The mask for UInt8 is `00001111`
+"""
+@inline mask(::Type{T}) where {T<:Unsigned} = T((1 << (4*sizeof(T))) - 1)
+"""
+    Get the last |`T`|/2 bits of the uid x
+"""
+@inline index(x::T) where {T<:Unsigned} = x & mask(T)
+"""
+    Get the first |`T`|/2 bits of the uid x
+"""
+@inline model(x::T) where {T<:Unsigned} = (~mask(T) & x) >> T(4*sizeof(T))
 
-# DataModel for AssemblingMachines 
-@asset AssemblingMachine
-struct AssemblingMachines <: AbstractDataModel # -> Object Model ?
-    # Mapping names to asset types
-    #mapping::Dict{String, AssemblingMachine}
-    # Names
-    names::Vector{String}
-    # Electric consumption
-    elec_consumptions::Vector{Float64}
-    # Fuel consumption
-    fuel_consumptions::Vector{Float64}
-    # Pollution Generation
-    pollution::Vector{Float64}
+"""
+    All AbstractDataModel hold and index `ind` to identify them.
+    It is used to contruct their unique ids.
+    For example let r be the 4th Recipe (assuming UInt8 indextypes).
+    model(r) = model(Recipe) = 1 = 00000001
+    index(r) = 4 = 00000100
+    uid(r) = 00010100
+    Thus given an uid, it is possible to deduce its datamodel and its specific values within the datamodel
+"""
+MODELS = [
+    :Item,
+    #:Fluid,
+    :Recipe,
+]
+
+
+
+"""
+    A recipe is an element that have a crafting Time.
+    And is meant to be used in a Recipe Graph.
+"""
+abstract type Recipe <: AbstractDataModel end
+#sourcefile(::Type{Recipe}) = "recipe.json"
+#attributes(::Type{Recipe}) = ["name", "default_temperature", "max_temperature", "fuel_value", "emissions_multiplier"]
+#attributes_types(::Type{Recipe}) = [String, String, Int64, Int64]
+
+"""
+    An Item is an element that can be inside and inventory, be crafted, or be unlocked.
+"""
+abstract type Item <: AbstractDataModel end
+@inline sourcefile(::Type{Item}) = "item.json"
+@inline attributes(::Type{Item}) = ["name", "type", "fuel_value", "stack_size"]
+@inline attributes_types(::Type{Item}) = [String, String, Int64, Int64]
+
+
+# Define UniqueIds methods on all variant of `AbstractDataModel`
+for (id, m) in enumerate(MODELS)
+    @eval @inline model(x::$m) = UniqueID($id)
+    @eval @inline model(::Type{$m}) = UniqueID($id)
 end
 
+# Override convertion from 2-tuple to pair
+# Used to transform a list of tuples to a list of pairs in load_data
+Base.convert(::Type{Pair}, t::Tuple{A,B}) where {A,B} = Pair{A,B}(t[1], t[2])
 
-# DataModel Holding Everything Needed
-struct DefaultFactorioDataBase <: FactorioDataBase
-    recgraph
+function load_data(filename::AbstractString, colnames::Vector{<:AbstractString}, coltypes::Vector{DataType}, mid::UniqueID)::DataFrame
+    # Load the json datafile as a dictionnary
+    d = JSON.parsefile(joinpath(DATA_DIR, filename))
+    # Prepare empty DataFrame with appropriate column names and types
+    # Also ad the "uid" UniqueID column
+    df = DataFrame(vcat("uid" => UniqueID[], [(n => t[]) for (n,t) in zip(colnames, coltypes)]))
+    # Iterate over dict `d` content
+    for (name, desc) in d
+        # Append DataFrame row-with_neighbors
+        push!(df, vcat(combine(mid, UniqueID(size(df)[1]+1)), [desc[c] for c in colnames]))
+    end
+    return df
 end
 
-# Define mapping between elements (asset, items, ...) and their data model
-@inline model(m::DefaultFactorioDataBase, x::AssemblingMachine)::AbstractDataModel = m.assembling_machines
+load_data(m::Type{<:AbstractDataModel}) = load_data(sourcefile(m), attributes(m), attributes_types(m), model(m))
 
 
-# Default consumption for any DataModel and Any Asset
-consumption(::Type{<:Energy}, x::Asset) = 0.0
+load_fluids() = load_data(
+    "fluid.json",
+    ["name", "default_temperature", "max_temperature", "fuel_value", "emissions_multiplier"],
+    [String, Int64, Int64, Int64, Int64],
+    UniqueID(2)
+)
 
-consumption(::Type{Electricity}, x::AssemblingMachine) =  model(database(x), x).elec_consumptions[tier(x)]
-consumption(::Type{Fuel}, x::AssemblingMachine) = model(database(x), x).fuel_consumptions[tier(x)]
 
-# TODO: Rework
+items = load_data(Item)
+replace!(x -> "fuel", filter(row -> row.fuel_value > 0, items; view=true).type)
+filter(row -> row.type == "fuel", items)

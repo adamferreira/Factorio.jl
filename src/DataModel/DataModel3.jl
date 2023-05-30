@@ -40,7 +40,7 @@ end
 """
     All AbstractDataModel hold and index `ind` to identify them.
     It is used to contruct their unique ids.
-    For example let r be the 4th Recipe (ussuming UInt8 indextypes).
+    For example let r be the 4th Recipe (assuming UInt8 indextypes).
     model(r) = model(Recipe) = 1 = 00000001
     index(r) = 4 = 00000100
     uid(r) = 00010100
@@ -188,7 +188,7 @@ function add!(d::FactorioDataBase, ::Type{T}, args...) where {T<:AbstractDataMod
     id = combine(model(T), UniqueID(length(datamodel)+1))
     # Create the new object
     o = T(id, args...)
-    # Check of recipe does not already exits
+    # Check if recipe does not already exits
     @assert !haskey(mapping(d, T), name(o))
     # Add model to storage
     push!(datamodel, o)
