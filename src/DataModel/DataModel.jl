@@ -49,6 +49,7 @@ end
 """
 MODELS = [
     :Item,
+    :AssemblingMachine,
     #:Fluid,
     :Recipe,
 ]
@@ -70,7 +71,15 @@ abstract type Recipe <: AbstractDataModel end
 abstract type Item <: AbstractDataModel end
 @inline sourcefile(::Type{Item}) = "item.json"
 @inline attributes(::Type{Item}) = ["name", "type", "fuel_value", "stack_size"]
-@inline attributes_types(::Type{Item}) = [String, String, Int64, Int64]
+@inline attributes_types(::Type{Item}) = [String, String, Float64, Int64]
+
+"""
+    An AssemblingMachine is an element that can craft Items/Resources from Items/Resources
+"""
+abstract type AssemblingMachine <: AbstractDataModel end
+@inline sourcefile(::Type{AssemblingMachine}) = "assembling-machine.json"
+@inline attributes(::Type{AssemblingMachine}) = ["name", "crafting_speed", "energy_usage", "pollution"]
+@inline attributes_types(::Type{AssemblingMachine}) = [String, Float64, Float64, Float64]
 
 
 # Define UniqueIds methods on all variant of `AbstractDataModel`
