@@ -50,7 +50,7 @@ end
 MODELS = [
     :Item,
     :AssemblingMachine,
-    #:Fluid,
+    :Fluid,
     :Recipe,
 ]
 
@@ -78,8 +78,17 @@ abstract type Item <: AbstractDataModel end
 """
 abstract type AssemblingMachine <: AbstractDataModel end
 @inline sourcefile(::Type{AssemblingMachine}) = "assembling-machine.json"
-@inline attributes(::Type{AssemblingMachine}) = ["name", "crafting_speed", "energy_usage", "pollution"]
-@inline attributes_types(::Type{AssemblingMachine}) = [String, Float64, Float64, Float64]
+@inline attributes(::Type{AssemblingMachine}) = ["name", "crafting_speed", "energy_usage", "pollution", "module_inventory_size"]
+@inline attributes_types(::Type{AssemblingMachine}) = [String, Float64, Float64, Float64, Int64]
+
+
+"""
+    A fluid is a base resource that can be transported with pipes
+"""
+abstract type Fluid <: AbstractDataModel end
+@inline sourcefile(::Type{Fluid}) = "fluid.json"
+@inline attributes(::Type{Fluid}) = ["name", "default_temperature", "max_temperature", "fuel_value", "emissions_multiplier"]
+@inline attributes_types(::Type{Fluid}) = [String, Int64, Int64, Float64, Float64]
 
 
 # Define UniqueIds methods on all variant of `AbstractDataModel`
@@ -107,14 +116,6 @@ function load_data(filename::AbstractString, colnames::Vector{<:AbstractString},
 end
 
 load_data(m::Type{<:AbstractDataModel}) = load_data(sourcefile(m), attributes(m), attributes_types(m), model(m))
-
-
-load_fluids() = load_data(
-    "fluid.json",
-    ["name", "default_temperature", "max_temperature", "fuel_value", "emissions_multiplier"],
-    [String, Int64, Int64, Int64, Int64],
-    UniqueID(2)
-)
 
 
 items = load_data(Item)
