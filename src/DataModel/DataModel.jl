@@ -97,6 +97,16 @@ for (id, m) in enumerate(MODELS)
     @eval @inline model(::Type{$m}) = UniqueID($id)
 end
 
+
+mutable struct DefaultFactorioDataBase <: FactorioDataBase
+    items::DataFrame
+    fluids::DataFrame
+    machines::DataFrame
+    # Map AbstractDataModel name to their model indexes
+    mappings::Vector{Dict{String, UniqueID}}
+
+end
+
 # Override convertion from 2-tuple to pair
 # Used to transform a list of tuples to a list of pairs in load_data
 Base.convert(::Type{Pair}, t::Tuple{A,B}) where {A,B} = Pair{A,B}(t[1], t[2])
