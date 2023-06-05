@@ -62,33 +62,41 @@ MODELS = [
 """
 abstract type Recipe <: AbstractDataModel end
 #sourcefile(::Type{Recipe}) = "recipe.json"
-#attributes(::Type{Recipe}) = ["name", "default_temperature", "max_temperature", "fuel_value", "emissions_multiplier"]
-#attributes_types(::Type{Recipe}) = [String, String, Int64, Int64]
 
 """
     An Item is an element that can be inside and inventory, be crafted, or be unlocked.
 """
-abstract type Item <: AbstractDataModel end
+struct Item <: AbstractDataModel
+    name::String
+    type::String
+    fuel_value::Float64
+    stack_size::Int64
+end
 @inline sourcefile(::Type{Item}) = "item.json"
-@inline attributes(::Type{Item}) = ["name", "type", "fuel_value", "stack_size"]
-@inline attributes_types(::Type{Item}) = [String, String, Float64, Int64]
-
 """
     An AssemblingMachine is an element that can craft Items/Resources from Items/Resources
 """
-abstract type AssemblingMachine <: AbstractDataModel end
+struct AssemblingMachine <: AbstractDataModel
+    name::String
+    crafting_speed::Float64
+    energy_usage::Float64
+    pollution::Float64
+    module_inventory_size::Int64
+end
 @inline sourcefile(::Type{AssemblingMachine}) = "assembling-machine.json"
-@inline attributes(::Type{AssemblingMachine}) = ["name", "crafting_speed", "energy_usage", "pollution", "module_inventory_size"]
-@inline attributes_types(::Type{AssemblingMachine}) = [String, Float64, Float64, Float64, Int64]
 
 
 """
     A fluid is a base resource that can be transported with pipes
 """
-abstract type Fluid <: AbstractDataModel end
+struct Fluid <: AbstractDataModel
+    name::String
+    default_temperature::Int64
+    max_temperature::Int64
+    fuel_value::Float64
+    emissions_multiplier::Float64
+end
 @inline sourcefile(::Type{Fluid}) = "fluid.json"
-@inline attributes(::Type{Fluid}) = ["name", "default_temperature", "max_temperature", "fuel_value", "emissions_multiplier"]
-@inline attributes_types(::Type{Fluid}) = [String, Int64, Int64, Float64, Float64]
 
 
 # Define UniqueIds methods on all variant of `AbstractDataModel`
@@ -111,21 +119,21 @@ end
 # Used to transform a list of tuples to a list of pairs in load_data
 Base.convert(::Type{Pair}, t::Tuple{A,B}) where {A,B} = Pair{A,B}(t[1], t[2])
 
-function load_data(filename::AbstractString, colnames::Vector{<:AbstractString}, coltypes::Vector{DataType}, mid::UniqueID)::DataFrame
+function load_data(filename, colnames, coltypes, mid::UniqueID)::DataFrame
     # Load the json datafile as a dictionnary
     d = JSON.parsefile(joinpath(DATA_DIR, filename))
     # Prepare empty DataFrame with appropriate column names and types
     # Also ad the "uid" UniqueID column
-    df = DataFrame(vcat("uid" => UniqueID[], [(n => t[]) for (n,t) in zip(colnames, coltypes)]))
+    df = DataFrame(vcat(:uid => UniqueID[], [(n => t[]) for (n,t) in zip(colnames, coltypes)]))
     # Iterate over dict `d` content
     for (name, desc) in d
         # Append DataFrame row-with_neighbors
-        push!(df, vcat(combine(mid, UniqueID(size(df)[1]+1)), [desc[c] for c in colnames]))
+        push!(df, vcat(combine(mid, UniqueID(size(df)[1]+1)), [desc[String(c)] for c in colnames]))
     end
     return df
 end
 
-load_data(m::Type{<:AbstractDataModel}) = load_data(sourcefile(m), attributes(m), attributes_types(m), model(m))
+load_data(m::Type{<:AbstractDataModel}) = load_data(sourcefile(m), fieldnames(m), fieldtypes(m), model(m))
 
 
 items = load_data(Item)
