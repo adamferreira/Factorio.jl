@@ -107,13 +107,26 @@ end
 
 
 mutable struct DefaultFactorioDataBase <: FactorioDataBase
-    items::DataFrame
-    fluids::DataFrame
-    machines::DataFrame
-    # Map AbstractDataModel name to their model indexes
-    mappings::Vector{Dict{String, UniqueID}}
-
+    # List of datamodels index by their model id
+    datamodels::Vector{DataFrame}
 end
+
+
+"""
+    Get the dataframe representing elements of datamodel `T`
+"""
+function data(d::FactorioDataBase, ::Type{T})::DataFrame where {T<:AbstractDataModel}
+    return d.datamodels[model(T)]
+end
+
+"""
+    Get the DataFrameRow representing element `x` without explicit mention of its datamodel type
+"""
+function get(d::FactorioDataBase, x::UniqueID)::DataFrameRow
+    return d.datamodels[model(x)][index(x), :]
+end
+get(d::FactorioDataBase, x::Integer)::DataFrameRow = get(d, UniqueID(x))
+
 
 # Override convertion from 2-tuple to pair
 # Used to transform a list of tuples to a list of pairs in load_data
@@ -136,6 +149,13 @@ end
 load_data(m::Type{<:AbstractDataModel}) = load_data(sourcefile(m), fieldnames(m), fieldtypes(m), model(m))
 
 
-items = load_data(Item)
-replace!(x -> "fuel", filter(row -> row.fuel_value > 0, items; view=true).type)
-filter(row -> row.type == "fuel", items)
+function DefaultFactorioDataBase()
+    return DefaultFactorioDataBase([load_data(Item)])
+end
+
+#items = load_data(Item)
+#replace!(x -> "fuel", filter(row -> row.fuel_value > 0, items; view=true).type)
+#filter(row -> row.type == "fuel", items)
+
+d = DefaultFactorioDataBase()
+@show data(d, Item)
