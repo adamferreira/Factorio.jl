@@ -115,17 +115,18 @@ end
 """
     Get the dataframe representing elements of datamodel `T`
 """
-function data(d::FactorioDataBase, ::Type{T})::DataFrame where {T<:AbstractDataModel}
+function data(d::DefaultFactorioDataBase, ::Type{T})::DataFrame where {T<:AbstractDataModel}
     return d.datamodels[model(T)]
 end
 
 """
     Get the DataFrameRow representing element `x` without explicit mention of its datamodel type
 """
-function get(d::FactorioDataBase, x::UniqueID)::DataFrameRow
+function get(d::DefaultFactorioDataBase, x::UniqueID)::DataFrameRow
     return d.datamodels[model(x)][index(x), :]
 end
-get(d::FactorioDataBase, x::Integer)::DataFrameRow = get(d, UniqueID(x))
+get(d::DefaultFactorioDataBase, x::Integer)::DataFrameRow = get(d, UniqueID(x))
+
 
 
 # Override convertion from 2-tuple to pair
@@ -152,6 +153,12 @@ load_data(m::Type{<:AbstractDataModel}) = load_data(sourcefile(m), fieldnames(m)
 function DefaultFactorioDataBase()
     return DefaultFactorioDataBase([load_data(Item)])
 end
+
+DEFAULT_DB = DefaultFactorioDataBase()
+default_db() = DEFAULT_DB
+
+# Every method accepting DefaultFactorioDataBase should also accept the instanciated default
+
 
 #items = load_data(Item)
 #replace!(x -> "fuel", filter(row -> row.fuel_value > 0, items; view=true).type)
