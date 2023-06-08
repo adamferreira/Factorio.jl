@@ -158,7 +158,11 @@ DEFAULT_DB = DefaultFactorioDataBase()
 default_db() = DEFAULT_DB
 
 # Every method accepting DefaultFactorioDataBase should also accept the instanciated default
-
+get(x::UniqueID)::DataFrameRow = get(default_db(), x)
+get(x::Integer)::DataFrameRow = get(default_db(), x)
+function data(t::Type{T})::DataFrame where {T<:AbstractDataModel}
+    return data(default_db, t)
+end
 
 #items = load_data(Item)
 #replace!(x -> "fuel", filter(row -> row.fuel_value > 0, items; view=true).type)
