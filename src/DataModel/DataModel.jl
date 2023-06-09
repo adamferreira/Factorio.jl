@@ -38,30 +38,15 @@ end
 """
 @inline model(x::T) where {T<:Unsigned} = (~mask(T) & x) >> T(4*sizeof(T))
 
-"""
-    All AbstractDataModel hold and index `ind` to identify them.
-    It is used to contruct their unique ids.
-    For example let r be the 4th Recipe (assuming UInt8 indextypes).
-    model(r) = model(Recipe) = 1 = 00000001
-    index(r) = 4 = 00000100
-    uid(r) = 00010100
-    Thus given an uid, it is possible to deduce its datamodel and its specific values within the datamodel
-"""
-MODELS = [
-    :Item,
-    :AssemblingMachine,
-    :Fluid,
-    :Recipe,
-]
-
-
 
 """
     A recipe is an element that have a crafting Time.
     And is meant to be used in a Recipe Graph.
 """
-abstract type Recipe <: AbstractDataModel end
-#sourcefile(::Type{Recipe}) = "recipe.json"
+struct Recipe <: AbstractDataModel 
+    name::String
+end
+@inline sourcefile(::Type{Recipe}) = "recipe.json"
 
 """
     An Item is an element that can be inside and inventory, be crafted, or be unlocked.
@@ -99,8 +84,18 @@ end
 @inline sourcefile(::Type{Fluid}) = "fluid.json"
 
 
-# Define UniqueIds methods on all variant of `AbstractDataModel`
-for (id, m) in enumerate(MODELS)
+"""
+    All AbstractDataModel hold and index `ind` to identify them.
+    It is used to contruct their unique ids.
+    For example let r be the 4th Recipe (assuming UInt8 indextypes).
+    model(r) = model(Recipe) = 1 = 00000001
+    index(r) = 4 = 00000100
+    uid(r) = 00010100
+    Thus given an uid, it is possible to deduce its datamodel and its specific values within the datamodel
+"""
+datamodels() = Set(subtypes(AbstractDataModel))
+
+for (id, m) in enumerate(datamodels() .|> Symbol)
     @eval @inline model(x::$m) = UniqueID($id)
     @eval @inline model(::Type{$m}) = UniqueID($id)
 end
@@ -112,28 +107,7 @@ mutable struct DefaultFactorioDataBase <: FactorioDataBase
 end
 
 
-"""
-    Get the dataframe representing elements of datamodel `T`
-"""
-function data(d::DefaultFactorioDataBase, ::Type{T})::DataFrame where {T<:AbstractDataModel}
-    return d.datamodels[model(T)]
-end
-
-"""
-    Get the DataFrameRow representing element `x` without explicit mention of its datamodel type
-"""
-function get(d::DefaultFactorioDataBase, x::UniqueID)::DataFrameRow
-    return d.datamodels[model(x)][index(x), :]
-end
-get(d::DefaultFactorioDataBase, x::Integer)::DataFrameRow = get(d, UniqueID(x))
-
-
-
-# Override convertion from 2-tuple to pair
-# Used to transform a list of tuples to a list of pairs in load_data
-Base.convert(::Type{Pair}, t::Tuple{A,B}) where {A,B} = Pair{A,B}(t[1], t[2])
-
-function load_data(filename, colnames, coltypes, mid::UniqueID)::DataFrame
+function load_data(filename, colnames, coltypes, mid::UniqueID, parsecol::Dict)::DataFrame
     # Load the json datafile as a dictionnary
     d = JSON.parsefile(joinpath(DATA_DIR, filename))
     # Prepare empty DataFrame with appropriate column names and types
@@ -141,32 +115,57 @@ function load_data(filename, colnames, coltypes, mid::UniqueID)::DataFrame
     df = DataFrame(vcat(:uid => UniqueID[], [(n => t[]) for (n,t) in zip(colnames, coltypes)]))
     # Iterate over dict `d` content
     for (name, desc) in d
+        # Compute element's Unique Id
+        uid = combine(mid, UniqueID(size(df)[1]+1))
+        # Get "trival" 
         # Append DataFrame row-with_neighbors
-        push!(df, vcat(combine(mid, UniqueID(size(df)[1]+1)), [desc[String(c)] for c in colnames]))
+        push!(df, vcat(uid, [parsecol[c](desc) for c in colnames]))#[desc[String(c)] for c in colnames]))
     end
     return df
 end
+load_data(m::Type{<:AbstractDataModel}) = load_data(
+    sourcefile(m),
+    fieldnames(m),
+    fieldtypes(m),
+    model(m),
+    Dict([cname => desc -> desc[String(cname)] for cname in fieldnames(m)])
+)
 
-load_data(m::Type{<:AbstractDataModel}) = load_data(sourcefile(m), fieldnames(m), fieldtypes(m), model(m))
-
+load_items() = load_data(Item)
 
 function DefaultFactorioDataBase()
-    return DefaultFactorioDataBase([load_data(Item)])
+    models = [DataFrame() for m in datamodels()]
+    models[model(Item)] = load_items()
+    models[model(Recipe)] = load_data(Recipe)
+    models[model(Fluid)] = load_data(Fluid)
+    models[model(AssemblingMachine)] = load_data(AssemblingMachine)
+    return DefaultFactorioDataBase(models)
+end
+DEFAULT_DB = DefaultFactorioDataBase()
+
+
+"""
+    Get the dataframe representing elements of datamodel `T`
+"""
+function data(::Type{T})::DataFrame where {T<:AbstractDataModel}
+    return DEFAULT_DB.datamodels[model(T)]
 end
 
-DEFAULT_DB = DefaultFactorioDataBase()
-default_db() = DEFAULT_DB
-
-# Every method accepting DefaultFactorioDataBase should also accept the instanciated default
-get(x::UniqueID)::DataFrameRow = get(default_db(), x)
-get(x::Integer)::DataFrameRow = get(default_db(), x)
-function data(t::Type{T})::DataFrame where {T<:AbstractDataModel}
-    return data(default_db, t)
+"""
+    Get the DataFrameRow representing element `x` without explicit mention of its datamodel type
+"""
+function get(x::UniqueID)::DataFrameRow
+    return DEFAULT_DB.datamodels[model(x)][index(x),:]
+end
+get(x::Integer)::DataFrameRow = get(UniqueID(x))
+"""
+    Get the DataFrameRow representing element `x` given its name and datamodel type
+"""
+function get(x::AbstractString, ::Type{T})::DataFrameRow where {T<:AbstractDataModel}
+    # We assure only one element with name `x` exists for datamodel type `T`
+    return filter(row -> row.name == x, data(T); view=true)[1,:]
 end
 
 #items = load_data(Item)
 #replace!(x -> "fuel", filter(row -> row.fuel_value > 0, items; view=true).type)
 #filter(row -> row.type == "fuel", items)
-
-d = DefaultFactorioDataBase()
-@show data(d, Item)
