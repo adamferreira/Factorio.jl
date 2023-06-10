@@ -1,6 +1,5 @@
 module Factorio
 using JSON, DataFrames
-
 using Graphs, MetaGraphsNext, GraphPlot
 
 DATA_DIR = joinpath(@__DIR__, "..", "data")
@@ -13,24 +12,19 @@ function Graphs.rem_vertices!(meta_graph::MetaGraph, codes)
 end
 
 include("DataModel/recipes.jl")
-include("DataModel/DataModel2.jl")
-include("io/load.jl")
+include("DataModel/DataModel.jl")
 
 # Global Database
 #FACTORIO_DEFAULT_DB = load_default()
 #recipes() = database().recgraph
 
-#export Types
-export  Electricity,
-        Fuel
 
 # Export DataModels
 export  DefaultFactorioDataBase,
-        UniqueElement,
-        database
-for e in vcat(MODELS, DATAMODELS)
-    @eval export $e
-end
+        UniqueID,
+        Item, Recipe, Fluid, AssemblingMachine
+        data, get
+
 # Datamodel miscellaneous (for tests)
 export  uid,
         mask,

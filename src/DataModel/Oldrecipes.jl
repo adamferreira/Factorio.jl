@@ -45,7 +45,7 @@ A recipe graph have 3 different types of UniqueElement as nodes:
 - Items, produced by recipes, some used by recipes, may be leaves of the RecipeGraph
 """
 RecipeGraph() = MetaGraphsNext.MetaGraph(
-    Graphs.SimpleDiGraph(), # idexes types for vertices is Int64 in SimpleDiGraph
+    Graphs.SimpleDiGraph(), # indexes types for vertices is Int64 in SimpleDiGraph
     Label = LabelType, # how vertices and edges are identified
     VertexData = VectexType,  # struct that holds vertex metadata, here we work with UniqueElement's uids
     EdgeData  = EdgeType, # struct that holds edge metadata

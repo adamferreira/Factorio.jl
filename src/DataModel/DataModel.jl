@@ -9,7 +9,6 @@ abstract type Electricity <: Energy end
 # DataModel Holding Everything Needed
 abstract type FactorioDataBase end
 
-const UniqueID = UInt16
 DATA_DIR = joinpath(@__DIR__, "..", "..", "data")
 
 """
@@ -42,17 +41,32 @@ end
 """
     A recipe is an element that have a crafting Time.
     And is meant to be used in a Recipe Graph.
+    The `tier` of an element is defined as:
+    - max(tier(i)+1) for i ∈ I, I being the set of ingredients of the Recipe
 """
 struct Recipe <: AbstractDataModel 
     name::String
+    tier::Int64
+    category::String
+    # In seconds
+    crafttime::Float64
+    ingredients_names::Vector{String}
+    ingredients_amounts::Vector{Int64}
+    products_names::Vector{String}
+    products_amounts::Vector{Int64}
+    products_probabilities::Vector{Float64}
 end
 @inline sourcefile(::Type{Recipe}) = "recipe.json"
 
 """
     An Item is an element that can be inside and inventory, be crafted, or be unlocked.
+    The `tier` of an element is defined as:
+    - 0 For raw materials (that can me mined for drilled, and cannot be crafter)
+    - max(tier(r)) for r ∈ R, R being the set of recipes that can produce the Item 
 """
 struct Item <: AbstractDataModel
     name::String
+    tier::Int64
     type::String
     fuel_value::Float64
     stack_size::Int64
@@ -93,10 +107,11 @@ end
     uid(r) = 00010100
     Thus given an uid, it is possible to deduce its datamodel and its specific values within the datamodel
 """
-datamodels() = Set(subtypes(AbstractDataModel))
 
-for (id, m) in enumerate(datamodels() .|> Symbol)
-    @eval @inline model(x::$m) = UniqueID($id)
+datamodels() = Set([:Item, :Recipe, :Fluid, :AssemblingMachine])
+
+for (id, m) in enumerate(datamodels())
+    #@eval @inline model(x::$m) = UniqueID($id)
     @eval @inline model(::Type{$m}) = UniqueID($id)
 end
 
@@ -104,10 +119,17 @@ end
 mutable struct DefaultFactorioDataBase <: FactorioDataBase
     # List of datamodels index by their model id
     datamodels::Vector{DataFrame}
+    # Recipe graph
+    recgraph::MetaGraphsNext.MetaGraph
 end
 
+"""
+    Default lambdas for loading columns from the the json files
+"""
+parsecol_fct(m::Type{<:AbstractDataModel})::Dict{Any,Any} = Dict([cname => desc -> desc[String(cname)] for cname in fieldnames(m)])
 
-function load_data(filename, colnames, coltypes, mid::UniqueID, parsecol::Dict)::DataFrame
+
+function load_data(filename, colnames, coltypes, mid::UniqueID, parsecol)::DataFrame
     # Load the json datafile as a dictionnary
     d = JSON.parsefile(joinpath(DATA_DIR, filename))
     # Prepare empty DataFrame with appropriate column names and types
@@ -123,25 +145,62 @@ function load_data(filename, colnames, coltypes, mid::UniqueID, parsecol::Dict):
     end
     return df
 end
-load_data(m::Type{<:AbstractDataModel}) = load_data(
+load_data(m::Type{<:AbstractDataModel}, parsecol) = load_data(
     sourcefile(m),
     fieldnames(m),
     fieldtypes(m),
     model(m),
-    Dict([cname => desc -> desc[String(cname)] for cname in fieldnames(m)])
+    parsecol
 )
 
-load_items() = load_data(Item)
+function load_items()::DataFrame
+    # Default column parsing lambdas
+    parsecol = parsecol_fct(Item)
+    # Add default tier column to datamodel
+    parsecol[:tier] = desc -> -1
+    df = load_data(Item, parsecol)
+    # Add a new item type `fuel`
+    # I.e. items with non-zero fuel value
+    replace!(x -> "fuel", filter(row -> row.fuel_value > 0, df; view=true).type)
+    return df
+end
 
-function DefaultFactorioDataBase()
+function load_recipes()::DataFrame
+    # Default column parsing lambdas
+    parsecol = parsecol_fct(Recipe)
+    # Add default tier column to datamodel
+    parsecol[:tier] = desc -> -1
+    # "craftime" is called "energy" in the json datafile
+    parsecol[:crafttime] = desc -> desc["energy"]
+    # Recipe's ingredients ids and amounts
+    parsecol[:ingredients_names] = desc -> [desc["ingredients"][i]["name"] for i in 1:length(desc["ingredients"])]
+    parsecol[:ingredients_amounts] = desc -> [desc["ingredients"][i]["amount"] for i in 1:length(desc["ingredients"])]
+    # Recipes's products ids, amounts, and products_probabilities
+    parsecol[:products_names] = desc -> [desc["products"][i]["name"] for i in 1:length(desc["products"])]
+    parsecol[:products_amounts] = desc -> [desc["products"][i]["amount"] for i in 1:length(desc["products"])]
+    parsecol[:products_probabilities] = desc -> [desc["products"][i]["probability"] for i in 1:length(desc["products"])]
+    return load_data(Recipe, parsecol)
+end
+
+function factorio_init()
+    # Step 1: Parse raw data from json files
     models = [DataFrame() for m in datamodels()]
     models[model(Item)] = load_items()
-    models[model(Recipe)] = load_data(Recipe)
-    models[model(Fluid)] = load_data(Fluid)
-    models[model(AssemblingMachine)] = load_data(AssemblingMachine)
-    return DefaultFactorioDataBase(models)
+    models[model(Recipe)] = load_recipes()
+    models[model(Fluid)] = load_data(Fluid, parsecol_fct(Fluid))
+    models[model(AssemblingMachine)] = load_data(AssemblingMachine, parsecol_fct(AssemblingMachine))
+    # Step 2: Create DB with raw data and empty recipe graph
+    db = DefaultFactorioDataBase(models, RecipeGraph(nothing))
+    db.recgraph = RecipeGraph(db)
+    # Step 3: Use raw data to construct recipe graph
+    for r in eachrow(data(Recipe))
+        @show r
+    end
+
+    # Step 4: Use recipe graph to deduce Items and Recipes tiers
+    return db
 end
-DEFAULT_DB = DefaultFactorioDataBase()
+DEFAULT_DB = factorio_init()
 
 
 """
@@ -165,7 +224,3 @@ function get(x::AbstractString, ::Type{T})::DataFrameRow where {T<:AbstractDataM
     # We assure only one element with name `x` exists for datamodel type `T`
     return filter(row -> row.name == x, data(T); view=true)[1,:]
 end
-
-#items = load_data(Item)
-#replace!(x -> "fuel", filter(row -> row.fuel_value > 0, items; view=true).type)
-#filter(row -> row.type == "fuel", items)

@@ -1,3 +1,5 @@
+const UniqueID = UInt16
+
 """
     Struct that hold Recipe relation information (i,j):
     - Amount of item i needed in recipe j
@@ -11,20 +13,22 @@ end
 
 """
     Struct that hold either Ingredient or Recipe nodes:
-    - `id` is an item id if this is a Ingredient node
-    - `id` is arecipe id if this is a Recipe node
+    - `uid` is an item's uid if this is a Ingredient node
+    - `uid` is a recipe's uid if this is a Recipe node
 """
 struct RecipeGraphNode
-    id::Int64
+    uid::UniqueID
 end
 
 # Type definition (for easy function definition)
-const LabelType = Int64
+const LabelType = UniqueID
 const CodeType = Int64
 const VectexType = RecipeGraphNode
 const EdgeType = RecipeGraphEdge
 
-
+#for f in [:Δin, :Δout]
+#    @eval $f(meta_graph::MetaGraph) = Graphs.$f(meta_graph.graph)
+#end
 """
 struct MetaGraph{
     Code <: Integer,
@@ -52,12 +56,15 @@ A recipe graph have 3 different types of UniqueElement as nodes:
 - Recipes, they allways have in and out neighbors
 - Items, produced by recipes, some used by recipes, may be leaves of the RecipeGraph
 """
-RecipeGraph() = MetaGraphsNext.MetaGraph(
+RecipeGraph(graph_data) = MetaGraphsNext.MetaGraph(
     Graphs.SimpleDiGraph(), # indexes types for vertices is Int64 in SimpleDiGraph
     Label = LabelType, # how vertices and edges are identified
     VertexData = VectexType,  # struct that holds vertex metadata, here we work with UniqueElement's uids
     EdgeData  = EdgeType, # struct that holds edge metadata
-    graph_data = database(), # struct that holds graph metadata, here we store a pointer to the efault database
+    graph_data = graph_data, # struct that holds graph metadata, here we store a pointer to the default database
     weight_function = edata -> 1.0, # function to attribute weights to edges
     default_weight = 1.0
 )
+
+add_recipe_node!(g, n::VectexType) = Graphs.add_vertex!(g, n.name, n)
+add_recipe_edge!(g, src::LabelType, dst::LabelType, e::EdgeType) = Graphs.add_edge!(g, src, dst, e)
