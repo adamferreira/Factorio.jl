@@ -182,45 +182,41 @@ function load_recipes()::DataFrame
     return load_data(Recipe, parsecol)
 end
 
-function factorio_init()
-    # Step 1: Parse raw data from json files
-    models = [DataFrame() for m in datamodels()]
-    models[model(Item)] = load_items()
-    models[model(Recipe)] = load_recipes()
-    models[model(Fluid)] = load_data(Fluid, parsecol_fct(Fluid))
-    models[model(AssemblingMachine)] = load_data(AssemblingMachine, parsecol_fct(AssemblingMachine))
-    # Step 2: Create DB with raw data and empty recipe graph
-    db = DefaultFactorioDataBase(models, RecipeGraph(nothing))
-    db.recgraph = RecipeGraph(db)
-    # Step 3: Use raw data to construct recipe graph
-    for r in eachrow(data(Recipe))
-        @show r
-    end
-
-    # Step 4: Use recipe graph to deduce Items and Recipes tiers
-    return db
-end
-DEFAULT_DB = factorio_init()
-
 
 """
     Get the dataframe representing elements of datamodel `T`
 """
-function data(::Type{T})::DataFrame where {T<:AbstractDataModel}
-    return DEFAULT_DB.datamodels[model(T)]
+function data(::Type{T}, db=default_database())::DataFrame where {T<:AbstractDataModel}
+    return db.datamodels[model(T)]
 end
 
 """
     Get the DataFrameRow representing element `x` without explicit mention of its datamodel type
 """
-function get(x::UniqueID)::DataFrameRow
-    return DEFAULT_DB.datamodels[model(x)][index(x),:]
+function get(x::UniqueID, db=default_database())::DataFrameRow
+    return db.datamodels[model(x)][index(x),:]
 end
-get(x::Integer)::DataFrameRow = get(UniqueID(x))
+get(x::Integer, db=default_database())::DataFrameRow = get(UniqueID(x), db)
+function get(x::UniqueID, ::Type{T}, db=default_database())::DataFrameRow where {T<:AbstractDataModel}
+    return get(x, db)
+end
 """
     Get the DataFrameRow representing element `x` given its name and datamodel type
 """
-function get(x::AbstractString, ::Type{T})::DataFrameRow where {T<:AbstractDataModel}
+function get(x::AbstractString, ::Type{T}, db=default_database())::DataFrameRow where {T<:AbstractDataModel}
     # We assure only one element with name `x` exists for datamodel type `T`
-    return filter(row -> row.name == x, data(T); view=true)[1,:]
+    return filter(row -> row.name == x, data(T, db); view=true)[1,:]
+end
+
+
+function ingredients(x, db=default_database())::AbstractArray{UniqueID}
+    vcode = MetaGraphsNext.code_for(db.recgraph, get(x, Recipe, db).uid)
+    @show vcode
+    #return MetaGraphsNext.inneighbors(db.recgraph, vcode) #.|> MetaGraphsNext.label_for(db.recgraph)
+    return []
+end
+
+
+function ingredients_df(x, db=default_database())::DataFrame
+    return nothing
 end

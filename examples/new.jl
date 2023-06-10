@@ -4,8 +4,11 @@ using Graphs, MetaGraphsNext
 
 Factorio.get("assembling-machine-1", Recipe)
 
-fuels = filter(row -> row.type == "fuel", Factorio.data(Item))
+g = Factorio.default_database().recgraph
+println(Graphs.nv(g))
+println(Graphs.ne(g))
+println(Graphs.inneighbors(g, 10))
 
-for f in eachrow(fuels)
-    @show f.name
-end
+
+println(Factorio.get(MetaGraphsNext.label_for(g, 10)))
+println(Factorio.get(MetaGraphsNext.label_for(g, MetaGraphsNext.inneighbors(g, 10)[1])))

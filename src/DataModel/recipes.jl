@@ -66,5 +66,5 @@ RecipeGraph(graph_data) = MetaGraphsNext.MetaGraph(
     default_weight = 1.0
 )
 
-add_recipe_node!(g, n::VectexType) = Graphs.add_vertex!(g, n.name, n)
-add_recipe_edge!(g, src::LabelType, dst::LabelType, e::EdgeType) = Graphs.add_edge!(g, src, dst, e)
+add_recipe_node!(g, n::VectexType) = MetaGraphsNext.add_vertex!(g, n.uid, n)
+add_recipe_edge!(g, src::LabelType, dst::LabelType, e::EdgeType) = MetaGraphsNext.add_edge!(g, src, dst, e)
