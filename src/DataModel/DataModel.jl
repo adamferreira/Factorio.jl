@@ -90,6 +90,7 @@ end
 """
 struct Fluid <: AbstractDataModel
     name::String
+    tier::Int64
     default_temperature::Int64
     max_temperature::Int64
     fuel_value::Float64
@@ -182,6 +183,14 @@ function load_recipes()::DataFrame
     return load_data(Recipe, parsecol)
 end
 
+function load_fluids()::DataFrame
+    # Default column parsing lambdas
+    parsecol = parsecol_fct(Fluid)
+    # Add default tier column to datamodel
+    parsecol[:tier] = desc -> -1
+    return load_data(Fluid, parsecol)
+end
+
 
 """
     Get the dataframe representing elements of datamodel `T`
@@ -209,14 +218,53 @@ function get(x::AbstractString, ::Type{T}, db=default_database())::DataFrameRow 
 end
 
 
-function ingredients(x, db=default_database())::AbstractArray{UniqueID}
+function _code_ingredients(x, db=default_database())
     vcode = MetaGraphsNext.code_for(db.recgraph, get(x, Recipe, db).uid)
-    @show vcode
     #return MetaGraphsNext.inneighbors(db.recgraph, vcode) #.|> MetaGraphsNext.label_for(db.recgraph)
-    return []
+    return MetaGraphsNext.inneighbors(db.recgraph, vcode)
 end
 
 
-function ingredients_df(x, db=default_database())::DataFrame
-    return nothing
+function ingredients(recipe::Union{UniqueID,String}, db=default_database())::DataFrame
+    r = get(recipe, Recipe, db)
+    vcode = MetaGraphsNext.code_for(db.recgraph, r.uid)
+    ingcodes = MetaGraphsNext.inneighbors(db.recgraph, vcode)
+    # Remove model code from uid to get index in Item Dataframe
+    inglabels = map(y -> index(MetaGraphsNext.label_for(db.recgraph, y)), ingcodes)
+    df = copy(data(Item, db)[inglabels, [:uid,:name]])
+    rename!(df, :name => :ingredient)
+    # Add the 'amount" column to the dataframe
+    df[!,:amount] = map(x -> db.recgraph[MetaGraphsNext.label_for(db.recgraph, x), MetaGraphsNext.label_for(db.recgraph, vcode)].amount, ingcodes)
+    # Also add recipe information
+    df[!,:crafttime] = map(x -> r.crafttime, ingcodes)
+    df[!,:recipe_name] = map(x -> r.name, ingcodes)
+    return df
+end
+
+function recipe_distance(db=default_database())
+    # First compute (minimal) distance between all nodes (items and recipes) of the recipe graph
+    # We assume weight 1.0 on all edges as no other weight is relevant here
+    N = Graphs.nv(db.recgraph)
+    # TODO: Optimize with sparse matrix ?
+    distmx = ones(N, N) * Inf
+    map(v -> distmx[v,:] = Graphs.dijkstra_shortest_paths(db.recgraph, v).dists, 1:N)
+    
+    # Matrix representing the distance between two recipe
+    # Here recipe are indexed by index(r.uid)
+    recipe_dist = ones(size(data(Recipe, db))[1], size(data(Recipe, db))[1]) * Inf
+
+    function compute_distance(r1, r2)::Float64
+        # code for r1 and r2 in the recipe graph
+        r1_code = MetaGraphsNext.code_for(db.recgraph, get(combine(model(Recipe), r1)).uid)
+        r2_code = MetaGraphsNext.code_for(db.recgraph, get(combine(model(Recipe), r2)).uid)
+        # Get ingredients of r1 and r2
+        r1_ing = MetaGraphsNext.inneighbors(db.recgraph, r1_code)
+        r2_ing = MetaGraphsNext.inneighbors(db.recgraph, r2_code)
+        # Construct a matrix that will store the distance between each combination of ingredients of r1 and r2
+        # M[i,j] will be the distance between ingredient i of r1 and ingredient j of r2
+        M = ones(length(r1_ing), length(r2_ing)) * Inf
+
+        return reduce(min, M)
+    end
+
 end

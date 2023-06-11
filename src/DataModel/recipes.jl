@@ -26,9 +26,7 @@ const CodeType = Int64
 const VectexType = RecipeGraphNode
 const EdgeType = RecipeGraphEdge
 
-#for f in [:Δin, :Δout]
-#    @eval $f(meta_graph::MetaGraph) = Graphs.$f(meta_graph.graph)
-#end
+
 """
 struct MetaGraph{
     Code <: Integer,

@@ -25,16 +25,23 @@ function factorio_init()
     models = [DataFrame() for m in datamodels()]
     models[model(Item)] = load_items()
     models[model(Recipe)] = load_recipes()
-    models[model(Fluid)] = load_data(Fluid, parsecol_fct(Fluid))
+    models[model(Fluid)] = load_fluids()
     models[model(AssemblingMachine)] = load_data(AssemblingMachine, parsecol_fct(AssemblingMachine))
     # Step 2: Create DB with raw data and empty recipe graph
     db = DefaultFactorioDataBase(models, RecipeGraph(nothing))
     db.recgraph = RecipeGraph(db)
+    # Step 2.5: Also add Fluid in Item as they can be used as resource
+    # Their stack_size will be 0 and type will be "fluid"
+    for f in eachrow(data(Fluid, db))
+        uid = combine(model(Item), UniqueID(size(data(Item, db))[1]+1))
+        push!(data(Item, db), [uid, f.name, -1, "fluid", f.fuel_value, 0])
+    end
     # Step 3: Use raw data to construct recipe graph
     # Add all potential ingredients/products as nodes in the graph
-    uids = Set(vcat(data(Item, db).uid, data(Fluid, db).uid))
+    uids = Set(data(Item, db).uid)
     [add_recipe_node!(db.recgraph, RecipeGraphNode(uid)) for uid in uids]
 
+    # Not usefull anymore as we put Fluids in Item datamodel
     function try_get(x::AbstractString, db)
         for T in [Item, Fluid]
             try
@@ -65,6 +72,44 @@ function factorio_init()
     end
 
     # Step 4: Use recipe graph to deduce Items and Recipes tiers
+    #   Step 4.1: Mark all raw_material (Item or Fluid) as tier 0
+    #   Is defined as a raw materiel an element that cannot be crafted, BUT is used in at least one recipe
+    raws = filter(x -> Graphs.indegree(db.recgraph, x) == 0 && Graphs.outdegree(db.recgraph, x) >= 1, Graphs.vertices(db.recgraph))
+    map(code -> get(MetaGraphsNext.label_for(db.recgraph, code), db).tier = 0, raws)
+    # Setp 4.2: Remove edge that creates eventual cycles in the graph
+    cycles = Graphs.simplecycles(db.recgraph)
+    map(c -> MetaGraphsNext.rem_edge!(db.recgraph, c[1], c[2]), cycles)
+    #   Step 4.3: Compute tier 1 recipes, aka recipes that only consumes tiers 0 ingredients
+    # Very bad complexity algorithm to compute tiers
+    tiers = zeros(Graphs.nv(db.recgraph)) .- 1
+    function compute_tier(code)::Int64
+        label = MetaGraphsNext.label_for(db.recgraph, code)
+        # Tier already computed
+        if tiers[code] > -1
+            return tiers[code]
+        end
+
+        if Graphs.indegree(db.recgraph, code) == 0 && Graphs.outdegree(db.recgraph, code) >= 1
+            tiers[code] = 0
+            return tiers[code]
+        end
+
+        # Only iterate on parent nodes
+        if model(label) == model(Recipe)
+            tiers[code] = 1 + reduce(max, compute_tier.(MetaGraphsNext.inneighbors(db.recgraph, code)))
+            return tiers[code]
+        else
+            tiers[code] = reduce(max, compute_tier.(MetaGraphsNext.inneighbors(db.recgraph, code)))
+            return tiers[code]
+        end
+    end
+    # Call `compute_tier` on all nodes that have parents
+    compute_tier.(filter(x -> Graphs.indegree(db.recgraph, x) > 0, Graphs.vertices(db.recgraph)))
+    # Apply computed tiers
+    map(code -> get(MetaGraphsNext.label_for(db.recgraph, code), db).tier = tiers[code], Graphs.vertices(db.recgraph))
+
+
+    # TODO: Re-introduced removed edges that created cycles prior to tier computation ?
     return db
 end
 # Fill default Database
@@ -77,6 +122,7 @@ export  DefaultFactorioDataBase,
         UniqueID,
         Item, Recipe, Fluid, AssemblingMachine
         data, get
+        recipe_distance
 
 # Datamodel miscellaneous (for tests)
 export  uid,
