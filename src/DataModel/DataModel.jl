@@ -90,7 +90,6 @@ end
 """
 struct Fluid <: AbstractDataModel
     name::String
-    tier::Int64
     default_temperature::Int64
     max_temperature::Int64
     fuel_value::Float64
@@ -186,8 +185,6 @@ end
 function load_fluids()::DataFrame
     # Default column parsing lambdas
     parsecol = parsecol_fct(Fluid)
-    # Add default tier column to datamodel
-    parsecol[:tier] = desc -> -1
     return load_data(Fluid, parsecol)
 end
 
@@ -241,30 +238,90 @@ function ingredients(recipe::Union{UniqueID,String}, db=default_database())::Dat
     return df
 end
 
-function recipe_distance(db=default_database())
+"""
+    function recipe_distance(db=default_database())::Matrix{Float64}
+Returns a Matrix M[i,j] = d, with d the distance between two recipe i and j.
+M[i,j] = 0 if i = j or if i and j share the exact same ingredients.
+Otherwise, it is an indicator of how close the two recipes are in terme of ingredients.
+How its computed, let Δ be:
+
+lab ->                  │ iron-gear-wheel  transport-belt  electronic-circuit 
+assembling-machine-1    │ Float64          Float64         Float64
+────────────────────────┼─────────────────────────────────────────────────────
+iron-plate              │   δ(plate,gear)   δ(plate,belt)   δ(plate,circuit) 
+iron-gear-wheel         │       0.0         δ(gear,plate)   δ(gear,circuit) 
+electronic-circuit      │   δ(circuit,gear) δ(circuit,belt)     0.0
+
+Where δ(item1,item2) is the shortest path from item1 to item2 in the recipe graph.
+
+We want to avoid this situation:
+electric-furnace ->     │ stone-brick  steel-plate  advanced-circuit 
+steel-chest             │ Float64          Float64         Float64
+────────────────────────┼─────────────────────────────────────────────────────
+steel-plate             │   δ(plate,brick)   0.0    δ(plate,circuit)
+
+Where Δ[max(min(δ(plate,brick), 0.0, δ(plate,circuit)))] would lead to Δ(electric-furnace, steel-chest) = 0
+So we impose a distance penalty penalty on the number of different ingredients for recipes.
+Here, P = 3 - 1 = 2
+
+"""
+function recipe_distance(db=default_database())::Matrix{Float64}
     # First compute (minimal) distance between all nodes (items and recipes) of the recipe graph
     # We assume weight 1.0 on all edges as no other weight is relevant here
     N = Graphs.nv(db.recgraph)
     # TODO: Optimize with sparse matrix ?
     distmx = ones(N, N) * Inf
+    # As the recipe grpah is directed, matrix `dist` will note be symetric
+    # Because dist(i,j) = d, dist(j,i) = Inf
+    # We thus use the undirected version of the inner graph of recipe graph
+    G = Graphs.SimpleGraph(db.recgraph.graph)
     map(v -> distmx[v,:] = Graphs.dijkstra_shortest_paths(db.recgraph, v).dists, 1:N)
-    
-    # Matrix representing the distance between two recipe
-    # Here recipe are indexed by index(r.uid)
-    recipe_dist = ones(size(data(Recipe, db))[1], size(data(Recipe, db))[1]) * Inf
+    map(v -> distmx[:,v] = distmx[v,:], 1:N)
+    #distmx = [min(distmx[i,j], distmx[j,i]) for i=axes(distmx,1), j=axes(distmx,2)]
 
+    @assert distmx == transpose(distmx)
+    
     function compute_distance(r1, r2)::Float64
         # code for r1 and r2 in the recipe graph
-        r1_code = MetaGraphsNext.code_for(db.recgraph, get(combine(model(Recipe), r1)).uid)
-        r2_code = MetaGraphsNext.code_for(db.recgraph, get(combine(model(Recipe), r2)).uid)
+        r1_code = MetaGraphsNext.code_for(db.recgraph, combine(model(Recipe), UniqueID(r1)))
+        r2_code = MetaGraphsNext.code_for(db.recgraph, combine(model(Recipe), UniqueID(r2)))
         # Get ingredients of r1 and r2
         r1_ing = MetaGraphsNext.inneighbors(db.recgraph, r1_code)
         r2_ing = MetaGraphsNext.inneighbors(db.recgraph, r2_code)
+        # Recipe that do not have ingredient have an infinite distance to other recipes
+        if length(r1_ing) == 0 || length(r2_ing) == 0
+            return Inf
+        end
+        # Compute distance penalty on the number of ingredients difference
+        penalty = abs(length(r1_ing) - length(r2_ing))
         # Construct a matrix that will store the distance between each combination of ingredients of r1 and r2
         # M[i,j] will be the distance between ingredient i of r1 and ingredient j of r2
-        M = ones(length(r1_ing), length(r2_ing)) * Inf
-
-        return reduce(min, M)
+        # Get the min between M and transpose(M) to have a symetric matrix at the end
+        M = [distmx[r1_ing[i], r2_ing[j]] for i=eachindex(r1_ing), j=eachindex(r2_ing)]
+        return min(
+            #reduce(min, map(i -> sum(M[i,:]) / length(M[i,:]), eachindex(r1_ing))),
+            #reduce(min, map(i -> sum(transpose(M)[i,:]) / length(transpose(M)[i,:]), eachindex(r2_ing)))
+            reduce(+, map(i -> reduce(min, M[i,:]), eachindex(r1_ing))),
+            reduce(+, map(i -> reduce(min, transpose(M)[i,:]), eachindex(r2_ing)))
+        ) + penalty
+        #return reduce(+, M)
     end
 
+    # Matrix representing the distance between two recipe
+    # Here recipe are indexed by index(r.uid)
+    valid_recipes = filter(r -> model(MetaGraphsNext.label_for(db.recgraph, r)) == model(Recipe), Graphs.vertices(db.recgraph))
+    recipe_dist = [
+        compute_distance(i,j)
+        for i=eachindex(Factorio.data(Recipe).uid), j=eachindex(Factorio.data(Recipe).uid)
+        #for i ∈ eachindex(valid_recipes), j ∈ eachindex(valid_recipes)
+    ]
+    return recipe_dist
+end
+
+function similarity_graph(recipe_dist::Matrix{Float64}, db=default_database(); dist::Float64=0.0)
+    # Transform recipe_dist into a boolean Matrix according to `dist` tolerance
+    # Also add - (i==j) to remove the identity matrix (M[i,i] = 0)
+    M = [(recipe_dist[i,j] == dist) - (i==j) for i=axes(recipe_dist,1), j=axes(recipe_dist,2)]
+    # Construct an undirected graph from this boolean matrix
+    return Graphs.SimpleGraph(M)
 end

@@ -56,7 +56,7 @@ function factorio_init()
     # Temove Barrel recipes as they introduces cycles in the recipe graph
     # Water produces water-barel that produces water
     # This hides the fact that 'water' is a raw material (no inbound recipe)
-    for r in eachrow(filter(row -> !occursin("-barrel", row.name), data(Recipe, db); view=true))
+    for r in eachrow(data(Recipe, db))#eachrow(filter(row -> !occursin("-barrel", row.name), data(Recipe, db); view=true))
         # Add current recipe as a node in the grah
         add_recipe_node!(db.recgraph, RecipeGraphNode(r.uid))
         # Add an edge between ingredients and the recipe node
@@ -122,7 +122,7 @@ export  DefaultFactorioDataBase,
         UniqueID,
         Item, Recipe, Fluid, AssemblingMachine
         data, get
-        recipe_distance
+        recipe_distance, similarity_graph
 
 # Datamodel miscellaneous (for tests)
 export  uid,
