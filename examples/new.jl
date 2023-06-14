@@ -25,7 +25,7 @@ MetaGraphsNext.code_for(g, 1157)
 
 #items = sort(filter(row -> row.tier >= 0 && (row.type == "item" || row.type == "fluid" || row.type == "fuel"), Factorio.data(Item)), :tier, rev=true)
 
-G = Factorio.similarity_graph(Factorio.recipe_distance(); dist = 0.0)
+G = Factorio.similarity_graph(; dist = 0.0)
 
 for r in Graphs.vertices(G)
     println(Factorio.data(Recipe)[r, :].name, " -> ", [Factorio.data(Recipe)[r2, :].name for r2 in Graphs.neighbors(G, r)])

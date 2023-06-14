@@ -121,6 +121,9 @@ mutable struct DefaultFactorioDataBase <: FactorioDataBase
     datamodels::Vector{DataFrame}
     # Recipe graph
     recgraph::MetaGraphsNext.MetaGraph
+    # Matrix that stores distance between each pair of recipes
+    distmtx::Matrix{Float64}
+
 end
 
 """
@@ -318,10 +321,10 @@ function recipe_distance(db=default_database())::Matrix{Float64}
     return recipe_dist
 end
 
-function similarity_graph(recipe_dist::Matrix{Float64}, db=default_database(); dist::Float64=0.0)
+function similarity_graph(db=default_database(); dist::Float64=0.0)
     # Transform recipe_dist into a boolean Matrix according to `dist` tolerance
     # Also add - (i==j) to remove the identity matrix (M[i,i] = 0)
-    M = [(recipe_dist[i,j] == dist) - (i==j) for i=axes(recipe_dist,1), j=axes(recipe_dist,2)]
+    M = [(db.distmtx[i,j] == dist) - (i==j) for i=axes(db.distmtx,1), j=axes(db.distmtx,2)]
     # Construct an undirected graph from this boolean matrix
     return Graphs.SimpleGraph(M)
 end

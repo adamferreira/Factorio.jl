@@ -28,7 +28,7 @@ function factorio_init()
     models[model(Fluid)] = load_fluids()
     models[model(AssemblingMachine)] = load_data(AssemblingMachine, parsecol_fct(AssemblingMachine))
     # Step 2: Create DB with raw data and empty recipe graph
-    db = DefaultFactorioDataBase(models, RecipeGraph(nothing))
+    db = DefaultFactorioDataBase(models, RecipeGraph(nothing), zeros(1,1))
     db.recgraph = RecipeGraph(db)
     # Step 2.5: Also add Fluid in Item as they can be used as resource
     # Their stack_size will be 0 and type will be "fluid"
@@ -110,6 +110,8 @@ function factorio_init()
 
 
     # TODO: Re-introduced removed edges that created cycles prior to tier computation ?
+    # Step 5, compute distance between each paris of recipes so that they can be grouped together by likeliness
+    #db.distmtx = recipe_distance(db)
     return db
 end
 # Fill default Database
