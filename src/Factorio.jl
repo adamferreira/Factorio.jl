@@ -111,7 +111,7 @@ function factorio_init()
 
     # TODO: Re-introduced removed edges that created cycles prior to tier computation ?
     # Step 5, compute distance between each paris of recipes so that they can be grouped together by likeliness
-    #db.distmtx = recipe_distance(db)
+    db.distmtx = recipe_distance(db)
     return db
 end
 # Fill default Database

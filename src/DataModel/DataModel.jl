@@ -315,7 +315,7 @@ function recipe_distance(db=default_database())::Matrix{Float64}
     valid_recipes = filter(r -> model(MetaGraphsNext.label_for(db.recgraph, r)) == model(Recipe), Graphs.vertices(db.recgraph))
     recipe_dist = [
         compute_distance(i,j)
-        for i=eachindex(Factorio.data(Recipe).uid), j=eachindex(Factorio.data(Recipe).uid)
+        for i=eachindex(Factorio.data(Recipe, db).uid), j=eachindex(Factorio.data(Recipe, db).uid)
         #for i ∈ eachindex(valid_recipes), j ∈ eachindex(valid_recipes)
     ]
     return recipe_dist
