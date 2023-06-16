@@ -27,10 +27,14 @@ MetaGraphsNext.code_for(g, 1157)
 
 G = Factorio.similarity_graph(; dist = 0.0)
 
-for r in Graphs.vertices(G)
-    println(Factorio.data(Recipe)[r, :].name, " -> ", [Factorio.data(Recipe)[r2, :].name for r2 in Graphs.neighbors(G, r)])
-end
+#for r in Graphs.vertices(G)
+#    println(Factorio.data(Recipe)[r, :].name, " -> ", [Factorio.data(Recipe)[r2, :].name for r2 in Graphs.neighbors(G, r)])
+#end
 
+groups = filter(g -> length(g) >= 2,  Graphs.connected_components(G))
+for (i,g) in enumerate(groups)
+    println("Group ", i, " = ", [Factorio.data(Recipe)[j, :].name for j in g])
+end
 
 """
 belt = MetaGraphsNext.code_for(g, Factorio.get("transport-belt", Item).uid)
