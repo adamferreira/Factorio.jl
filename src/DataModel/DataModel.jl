@@ -196,7 +196,7 @@ end
     Get the dataframe representing elements of datamodel `T`
 """
 function data(::Type{T}, db=default_database())::DataFrame where {T<:AbstractDataModel}
-    return db.datamodels[model(T)]
+    return @inbounds db.datamodels[model(T)]
 end
 
 """

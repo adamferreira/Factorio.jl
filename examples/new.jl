@@ -36,6 +36,9 @@ for (i,g) in enumerate(groups)
     println("Group ", i, " = ", [Factorio.data(Recipe)[j, :].name for j in g])
 end
 
+
+@time Factorio.data(Recipe)[10, :]
+
 """
 belt = MetaGraphsNext.code_for(g, Factorio.get("transport-belt", Item).uid)
 plate = MetaGraphsNext.code_for(g, Factorio.get("iron-plate", Item).uid)
