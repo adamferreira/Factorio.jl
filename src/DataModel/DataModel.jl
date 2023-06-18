@@ -285,12 +285,9 @@ function recipe_distance(db=default_database())::Matrix{Float64}
     @assert distmx == transpose(distmx)
     
     function compute_distance(r1, r2)::Float64
-        # code for r1 and r2 in the recipe graph
-        r1_code = MetaGraphsNext.code_for(db.recgraph, combine(model(Recipe), UniqueID(r1)))
-        r2_code = MetaGraphsNext.code_for(db.recgraph, combine(model(Recipe), UniqueID(r2)))
         # Get ingredients of r1 and r2
-        r1_ing = MetaGraphsNext.inneighbors(db.recgraph, r1_code)
-        r2_ing = MetaGraphsNext.inneighbors(db.recgraph, r2_code)
+        r1_ing = MetaGraphsNext.inneighbors(db.recgraph, r1)
+        r2_ing = MetaGraphsNext.inneighbors(db.recgraph, r2)
         # Recipe that do not have ingredient have an infinite distance to other recipes
         if length(r1_ing) == 0 || length(r2_ing) == 0
             return Inf
@@ -302,12 +299,9 @@ function recipe_distance(db=default_database())::Matrix{Float64}
         # Get the min between M and transpose(M) to have a symetric matrix at the end
         M = [distmx[r1_ing[i], r2_ing[j]] for i=eachindex(r1_ing), j=eachindex(r2_ing)]
         return min(
-            #reduce(min, map(i -> sum(M[i,:]) / length(M[i,:]), eachindex(r1_ing))),
-            #reduce(min, map(i -> sum(transpose(M)[i,:]) / length(transpose(M)[i,:]), eachindex(r2_ing)))
             reduce(+, map(i -> reduce(min, M[i,:]), eachindex(r1_ing))),
             reduce(+, map(i -> reduce(min, transpose(M)[i,:]), eachindex(r2_ing)))
         ) + penalty
-        #return reduce(+, M)
     end
 
     # Matrix representing the distance between two recipe
@@ -315,8 +309,7 @@ function recipe_distance(db=default_database())::Matrix{Float64}
     valid_recipes = filter(r -> model(MetaGraphsNext.label_for(db.recgraph, r)) == model(Recipe), Graphs.vertices(db.recgraph))
     recipe_dist = [
         compute_distance(i,j)
-        for i=eachindex(Factorio.data(Recipe, db).uid), j=eachindex(Factorio.data(Recipe, db).uid)
-        #for i ∈ eachindex(valid_recipes), j ∈ eachindex(valid_recipes)
+        for i ∈ valid_recipes, j ∈ valid_recipes
     ]
     return recipe_dist
 end

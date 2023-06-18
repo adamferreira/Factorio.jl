@@ -4,6 +4,7 @@ using Graphs, MetaGraphsNext
 
 Factorio.get("assembling-machine-1", Recipe)
 
+db = Factorio.default_database()
 g = Factorio.default_database().recgraph
 println(Graphs.nv(g))
 println(Graphs.ne(g))
