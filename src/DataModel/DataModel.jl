@@ -81,6 +81,8 @@ struct AssemblingMachine <: AbstractDataModel
     energy_usage::Float64
     pollution::Float64
     module_inventory_size::Int64
+    # Crafting Categories (Which kind of recipe this machine supports)
+    crafting_categories::Vector{String}
 end
 @inline sourcefile(::Type{AssemblingMachine}) = "assembling-machine.json"
 
@@ -191,6 +193,12 @@ function load_fluids()::DataFrame
     return load_data(Fluid, parsecol)
 end
 
+function load_machines()::DataFrame
+    # Default column parsing lambdas
+    parsecol = parsecol_fct(AssemblingMachine)
+    parsecol[:crafting_categories] = desc -> collect(keys(desc["crafting_categories"]))
+    return load_data(AssemblingMachine, parsecol)
+end
 
 """
     Get the dataframe representing elements of datamodel `T`
