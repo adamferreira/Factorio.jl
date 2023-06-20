@@ -27,6 +27,7 @@ function factorio_init()
     models[model(Recipe)] = load_recipes()
     models[model(Fluid)] = load_fluids()
     models[model(AssemblingMachine)] = load_machines()
+    models[model(Module)] = load_modules()
     # Step 2: Create DB with raw data and empty recipe graph
     db = DefaultFactorioDataBase(models, RecipeGraph(nothing), zeros(1,1))
     db.recgraph = RecipeGraph(db)

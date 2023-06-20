@@ -1,6 +1,7 @@
 using Factorio
 using GraphPlot, Compose
 using Graphs, MetaGraphsNext
+using DataFrames
 
 Factorio.get("assembling-machine-1", Recipe)
 
@@ -38,7 +39,11 @@ for (i,g) in enumerate(groups)
 end
 
 
-@time Factorio.data(Recipe)[10, :]
+machines = Factorio.data(Factorio.AssemblingMachine)
+modules = rename(Factorio.data(Factorio.Module), :name => :module)
+machines_extended = crossjoin(machines, modules, makeunique = true)
+
+#transform!(machines_extended, )
 
 """
 belt = MetaGraphsNext.code_for(g, Factorio.get("transport-belt", Item).uid)

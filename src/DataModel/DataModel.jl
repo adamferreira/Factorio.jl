@@ -77,8 +77,11 @@ end
 """
 struct AssemblingMachine <: AbstractDataModel
     name::String
+    # In Seconds
     crafting_speed::Float64
+    # In Watt
     energy_usage::Float64
+    # Unit per minute
     pollution::Float64
     module_inventory_size::Int64
     # Crafting Categories (Which kind of recipe this machine supports)
@@ -99,6 +102,19 @@ struct Fluid <: AbstractDataModel
 end
 @inline sourcefile(::Type{Fluid}) = "fluid.json"
 
+"""
+    A Module can be inserted inside a AssemblingMachine to apply some bonuses to it
+"""
+struct Module <: AbstractDataModel
+    # Stored as multipliers
+    name::String
+    consumption::Float64
+    speed::Float64
+    productivity::Float64
+    pollution::Float64
+end
+@inline sourcefile(::Type{Module}) = "item.json"
+
 
 """
     All AbstractDataModel hold and index `ind` to identify them.
@@ -110,7 +126,7 @@ end
     Thus given an uid, it is possible to deduce its datamodel and its specific values within the datamodel
 """
 
-datamodels() = Set([:Item, :Recipe, :Fluid, :AssemblingMachine])
+datamodels() = Set([:Item, :Recipe, :Fluid, :AssemblingMachine, :Module])
 
 for (id, m) in enumerate(datamodels())
     #@eval @inline model(x::$m) = UniqueID($id)
@@ -198,6 +214,23 @@ function load_machines()::DataFrame
     parsecol = parsecol_fct(AssemblingMachine)
     parsecol[:crafting_categories] = desc -> collect(keys(desc["crafting_categories"]))
     return load_data(AssemblingMachine, parsecol)
+end
+
+function load_modules()::DataFrame
+    # Default column parsing lambdas
+    parsecol = parsecol_fct(Module)
+    # Callback to get Module attributes from item datafile
+    for c in [:consumption, :speed, :productivity, :pollution]
+        parsecol[c] = desc -> begin
+            if "module_effects" in keys(desc) && String(c) in keys(desc["module_effects"])
+                return 1. + desc["module_effects"][String(c)]["bonus"]
+            else
+                return 1.
+            end
+        end 
+    end
+    # Remove non-modules item loaded from item.json
+    return filter(row -> occursin("-module", row.name), load_data(Module, parsecol))
 end
 
 """
