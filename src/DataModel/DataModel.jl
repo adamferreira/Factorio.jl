@@ -77,7 +77,8 @@ end
 """
 struct AssemblingMachine <: AbstractDataModel
     name::String
-    # In Seconds
+    # Crafting bonus applied to the recipe's crafting speed
+    # The crafting time of a recipe tacking 5 second with a machine at 0.5 crafting speed is thus 5/0.5 = 10s
     crafting_speed::Float64
     # In Watt
     energy_usage::Float64
@@ -223,9 +224,9 @@ function load_modules()::DataFrame
     for c in [:consumption, :speed, :productivity, :pollution]
         parsecol[c] = desc -> begin
             if "module_effects" in keys(desc) && String(c) in keys(desc["module_effects"])
-                return 1. + desc["module_effects"][String(c)]["bonus"]
+                return desc["module_effects"][String(c)]["bonus"]
             else
-                return 1.
+                return 0.
             end
         end 
     end

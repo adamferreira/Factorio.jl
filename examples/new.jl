@@ -82,46 +82,74 @@ function extended_machines()::DataFrame
     # Get machine and module data from db
     machines = Factorio.data(Factorio.AssemblingMachine)
     modules = Factorio.data(Factorio.Module)
-    # Add module list columns to machines as it will be filled during the crossjoin
-    machines[!, "modules"] = [String[] for i = 1:size(machines)[1]]
-    # Add default productivity (1.0)
     machines[!, "productivity"] = ones(size(machines)[1])
-    # remove uid colmuns for append later
-    select!(machines, Not([:uid]))
 
     # Perform the cartesian product of a single machine (as DataFrame) with all modules combination
     # (depending on how many modules a machine can support) and their effect
     function cartesian_product(i)
+        # Compute all combination of modules
+        # Depending on how many modules machune `i` can hold
+        module_comb = copy(modules)
+        module_comb[!, "modules"] = [String[module_comb[i,:].name] for i = 1:size(module_comb)[1]]
+        # Remove unnecessary module columns
+        select!(module_comb, Not([:uid, :name]))
+
+        if machines[i,:].module_inventory_size >= 2
+            for nbm in 2:machines[i,:].module_inventory_size
+                append!(module_comb,
+                    select(
+                        crossjoin(module_comb, modules, makeunique = true),
+                        # Add current module (name) to the module list (combination)
+                        [:modules, :name] => ((a, b) -> vcat.(a, b)) => :modules,
+                        # Add modules bonuses together to make the combination effect
+                        [:speed, :speed_1] => ((a, b) -> a .+ b) => :speed,
+                        # Effectivity Bonus cannot exceed -80% in Factorio
+                        # See: https://wiki.factorio.com/Efficiency_module_3
+                        [:consumption, :consumption_1] => ((a, b) -> max.(-0.8, a .+ b)) => :consumption,
+                        [:productivity, :productivity_1] => ((a, b) -> a .+ b) => :productivity,
+                        [:pollution, :pollution_1] => ((a, b) -> a .+ b) => :pollution
+                    )
+                )
+            end
+        end
+
+        # Remove symetries in module combinations
+        unique!(df)
+
         # machines[[1], :] is the ith row AS a Dataframe (and not DataFrameRow)
         single_machine = copy(machines[[i], :])
-        for nbm in 1:machines[i,:].module_inventory_size
-            # This will add the module in the module list
-            single_machine = select(
-                # Dataframe :Cols = uid, name, crafting_speed, energy_usage, pollution, module_inventory_size, crafting_categories, uid_1, name_1, consumption, speed, productivity, pollution_1
-                crossjoin(single_machine, modules, makeunique = true),
-                # Columns
-                :name,
-                # Add current module (name_1) to the module list
-                [:modules, :name_1] => ((a, b) -> vcat.(a, b)) => :modules,
-                # crafting_speed = crafting_speed * module_speed_bonus
-                [:crafting_speed, :speed] => ((a, b) -> a .* b) => :crafting_speed,
-                # energy_usage = energy_usage * module_consumption_bonus
-                [:energy_usage, :consumption] => ((a, b) -> a .* b) => :energy_usage,
-                # pollution = pollution * module_pollution_bonus
-                [:pollution, :pollution_1] => ((a, b) -> a .* b) => :pollution,
-                # productivity = productivity * module_productivity_bonus
-                [:productivity, :productivity_1] => ((a, b) -> a .* b) => :productivity,
-                :module_inventory_size,
-                :crafting_categories
-            )
+
+        # No module can be inserted (assembling-machine-1)
+        if machines[i,:].module_inventory_size == 0
+            # Remove uid but add empty module list so that data is coherent with other machines
+            single_machine[!, "modules"] = [String[] for i = 1:size(single_machine)[1]]
+            select!(single_machine, Not([:uid]))
+            return single_machine
         end
-        return single_machine
+
+        return select(
+            # Dataframe :Cols = uid, name, crafting_speed, energy_usage, pollution, module_inventory_size, crafting_categories, uid_1, name_1, consumption, speed, productivity, pollution_1
+            crossjoin(single_machine, module_comb, makeunique = true),
+            # Columns
+            :name,
+            :modules,
+            # crafting_speed = crafting_speed / module_speed_bonus
+            [:crafting_speed, :speed] => ((a, b) -> a .* (1. .+ b)) => :crafting_speed,
+            # energy_usage = energy_usage * module_consumption_bonus
+            [:energy_usage, :consumption] => ((a, b) -> a .* (1. .+ b)) => :energy_usage,
+            # pollution = pollution * module_pollution_bonus
+            [:pollution, :pollution_1] => ((a, b) -> a .* (1. .+ b)) => :pollution,
+            # productivity = productivity * module_productivity_bonus
+            [:productivity, :productivity_1] => ((a, b) -> a .* (1. .+ b)) => :productivity,
+            :module_inventory_size,
+            :crafting_categories
+        )
     end
 
     # Perform the cartesian product of all combination of modules for each types of machines
     df = DataFrame()
     # Also add machines with no modules to the overall data
-    append!(df, machines)
+    #append!(df, machines)
     for i = 1:size(machines)[1]
         append!(df, cartesian_product(i))
     end
