@@ -19,6 +19,7 @@ end
 
 include("DataModel/recipes.jl")
 include("DataModel/DataModel.jl")
+include("io/load.jl")
 
 function factorio_init()
     # Step 1: Parse raw data from json files
