@@ -1,4 +1,4 @@
-const UniqueID = UInt16
+const UniqueID = UInt32
 
 """
     Struct that hold Recipe relation information (i,j):

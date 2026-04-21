@@ -1,0 +1,5395 @@
+{
+  "fluids": {
+    "ammonia": {
+      "default_temperature": 15.0,
+      "display_name": "Ammonia",
+      "emissions_multiplier": 1.0,
+      "fuel_value": 0.0,
+      "heat_capacity": 0.2,
+      "max_temperature": 100.0,
+      "name": "ammonia",
+      "type": "fluid"
+    },
+    "ammoniacal-solution": {
+      "default_temperature": 15.0,
+      "display_name": "Ammoniacal solution",
+      "emissions_multiplier": 1.0,
+      "fuel_value": 0.0,
+      "heat_capacity": 0.2,
+      "max_temperature": 100.0,
+      "name": "ammoniacal-solution",
+      "type": "fluid"
+    },
+    "crude-oil": {
+      "default_temperature": 15.0,
+      "display_name": "Crude oil",
+      "emissions_multiplier": 1.0,
+      "fuel_value": 0.0,
+      "heat_capacity": 0.2,
+      "max_temperature": 100.0,
+      "name": "crude-oil",
+      "type": "fluid"
+    },
+    "electrolyte": {
+      "default_temperature": 15.0,
+      "display_name": "Electrolyte",
+      "emissions_multiplier": 1.0,
+      "fuel_value": 0.0,
+      "heat_capacity": 0.2,
+      "max_temperature": 100.0,
+      "name": "electrolyte",
+      "type": "fluid"
+    },
+    "fluorine": {
+      "default_temperature": 15.0,
+      "display_name": "Fluorine",
+      "emissions_multiplier": 1.0,
+      "fuel_value": 0.0,
+      "heat_capacity": 0.2,
+      "max_temperature": 100.0,
+      "name": "fluorine",
+      "type": "fluid"
+    },
+    "fluoroketone-cold": {
+      "default_temperature": 15.0,
+      "display_name": "Fluoroketone (cold)",
+      "emissions_multiplier": 1.0,
+      "fuel_value": 0.0,
+      "heat_capacity": 0.2,
+      "max_temperature": 100.0,
+      "name": "fluoroketone-cold",
+      "type": "fluid"
+    },
+    "fluoroketone-hot": {
+      "default_temperature": 15.0,
+      "display_name": "Fluoroketone (hot)",
+      "emissions_multiplier": 1.0,
+      "fuel_value": 0.0,
+      "heat_capacity": 0.2,
+      "max_temperature": 100.0,
+      "name": "fluoroketone-hot",
+      "type": "fluid"
+    },
+    "fusion-plasma": {
+      "default_temperature": 15.0,
+      "display_name": "Plasma",
+      "emissions_multiplier": 1.0,
+      "fuel_value": 0.0,
+      "heat_capacity": 0.2,
+      "max_temperature": 100.0,
+      "name": "fusion-plasma",
+      "type": "fluid"
+    },
+    "heavy-oil": {
+      "default_temperature": 15.0,
+      "display_name": "Heavy oil",
+      "emissions_multiplier": 1.0,
+      "fuel_value": 0.0,
+      "heat_capacity": 0.2,
+      "max_temperature": 100.0,
+      "name": "heavy-oil",
+      "type": "fluid"
+    },
+    "holmium-solution": {
+      "default_temperature": 15.0,
+      "display_name": "Holmium solution",
+      "emissions_multiplier": 1.0,
+      "fuel_value": 0.0,
+      "heat_capacity": 0.2,
+      "max_temperature": 100.0,
+      "name": "holmium-solution",
+      "type": "fluid"
+    },
+    "lava": {
+      "default_temperature": 15.0,
+      "display_name": "Lava",
+      "emissions_multiplier": 1.0,
+      "fuel_value": 0.0,
+      "heat_capacity": 0.2,
+      "max_temperature": 100.0,
+      "name": "lava",
+      "type": "fluid"
+    },
+    "light-oil": {
+      "default_temperature": 15.0,
+      "display_name": "Light oil",
+      "emissions_multiplier": 1.0,
+      "fuel_value": 0.0,
+      "heat_capacity": 0.2,
+      "max_temperature": 100.0,
+      "name": "light-oil",
+      "type": "fluid"
+    },
+    "lithium-brine": {
+      "default_temperature": 15.0,
+      "display_name": "Lithium brine",
+      "emissions_multiplier": 1.0,
+      "fuel_value": 0.0,
+      "heat_capacity": 0.2,
+      "max_temperature": 100.0,
+      "name": "lithium-brine",
+      "type": "fluid"
+    },
+    "lubricant": {
+      "default_temperature": 15.0,
+      "display_name": "Lubricant",
+      "emissions_multiplier": 1.0,
+      "fuel_value": 0.0,
+      "heat_capacity": 0.2,
+      "max_temperature": 100.0,
+      "name": "lubricant",
+      "type": "fluid"
+    },
+    "molten-copper": {
+      "default_temperature": 15.0,
+      "display_name": "Molten copper",
+      "emissions_multiplier": 1.0,
+      "fuel_value": 0.0,
+      "heat_capacity": 0.2,
+      "max_temperature": 100.0,
+      "name": "molten-copper",
+      "type": "fluid"
+    },
+    "molten-iron": {
+      "default_temperature": 15.0,
+      "display_name": "Molten iron",
+      "emissions_multiplier": 1.0,
+      "fuel_value": 0.0,
+      "heat_capacity": 0.2,
+      "max_temperature": 100.0,
+      "name": "molten-iron",
+      "type": "fluid"
+    },
+    "petroleum-gas": {
+      "default_temperature": 15.0,
+      "display_name": "Petroleum gas",
+      "emissions_multiplier": 1.0,
+      "fuel_value": 0.0,
+      "heat_capacity": 0.2,
+      "max_temperature": 100.0,
+      "name": "petroleum-gas",
+      "type": "fluid"
+    },
+    "steam": {
+      "default_temperature": 15.0,
+      "display_name": "Steam",
+      "emissions_multiplier": 1.0,
+      "fuel_value": 0.0,
+      "heat_capacity": 0.2,
+      "max_temperature": 100.0,
+      "name": "steam",
+      "type": "fluid"
+    },
+    "sulfuric-acid": {
+      "default_temperature": 15.0,
+      "display_name": "Sulfuric acid",
+      "emissions_multiplier": 1.0,
+      "fuel_value": 0.0,
+      "heat_capacity": 0.2,
+      "max_temperature": 100.0,
+      "name": "sulfuric-acid",
+      "type": "fluid"
+    },
+    "thruster-fuel": {
+      "default_temperature": 15.0,
+      "display_name": "Thruster fuel",
+      "emissions_multiplier": 1.0,
+      "fuel_value": 0.0,
+      "heat_capacity": 0.2,
+      "max_temperature": 100.0,
+      "name": "thruster-fuel",
+      "type": "fluid"
+    },
+    "thruster-oxidizer": {
+      "default_temperature": 15.0,
+      "display_name": "Thruster oxidizer",
+      "emissions_multiplier": 1.0,
+      "fuel_value": 0.0,
+      "heat_capacity": 0.2,
+      "max_temperature": 100.0,
+      "name": "thruster-oxidizer",
+      "type": "fluid"
+    },
+    "water": {
+      "default_temperature": 15.0,
+      "display_name": "Water",
+      "emissions_multiplier": 1.0,
+      "fuel_value": 0.0,
+      "heat_capacity": 0.2,
+      "max_temperature": 100.0,
+      "name": "water",
+      "type": "fluid"
+    }
+  },
+  "items": {
+    "acid-neutralisation": {
+      "display_name": "Acid neutralisation",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "acid-neutralisation",
+      "stack_size": 50,
+      "type": "item"
+    },
+    "advanced-circuit": {
+      "display_name": "Advanced circuit",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "advanced-circuit",
+      "stack_size": 200,
+      "type": "item"
+    },
+    "agricultural-science-pack": {
+      "display_name": "Agricultural science pack",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "agricultural-science-pack",
+      "stack_size": 200,
+      "type": "item"
+    },
+    "automation-science-pack": {
+      "display_name": "Automation science pack",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "automation-science-pack",
+      "stack_size": 200,
+      "type": "item"
+    },
+    "barrel": {
+      "display_name": "Barrel",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "barrel",
+      "stack_size": 50,
+      "type": "item"
+    },
+    "battery": {
+      "display_name": "Battery",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "battery",
+      "stack_size": 200,
+      "type": "item"
+    },
+    "bioflux": {
+      "display_name": "Bioflux",
+      "fuel_category": null,
+      "fuel_value": 6.0,
+      "name": "bioflux",
+      "stack_size": 100,
+      "type": "item"
+    },
+    "biter-egg": {
+      "display_name": "Biter egg",
+      "fuel_category": null,
+      "fuel_value": 6.0,
+      "name": "biter-egg",
+      "stack_size": 100,
+      "type": "item"
+    },
+    "calcite": {
+      "display_name": "Calcite",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "calcite",
+      "stack_size": 50,
+      "type": "item"
+    },
+    "carbon": {
+      "display_name": "Carbon",
+      "fuel_category": null,
+      "fuel_value": 2.0,
+      "name": "carbon",
+      "stack_size": 50,
+      "type": "item"
+    },
+    "carbon-fiber": {
+      "display_name": "Carbon fiber",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "carbon-fiber",
+      "stack_size": 100,
+      "type": "item"
+    },
+    "chemical-science-pack": {
+      "display_name": "Chemical science pack",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "chemical-science-pack",
+      "stack_size": 200,
+      "type": "item"
+    },
+    "coal": {
+      "display_name": "Coal",
+      "fuel_category": null,
+      "fuel_value": 4.0,
+      "name": "coal",
+      "stack_size": 50,
+      "type": "item"
+    },
+    "coal-synthesis": {
+      "display_name": "Coal synthesis",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "coal-synthesis",
+      "stack_size": 50,
+      "type": "item"
+    },
+    "copper-bacteria": {
+      "display_name": "Copper bacteria",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "copper-bacteria",
+      "stack_size": 50,
+      "type": "item"
+    },
+    "copper-cable": {
+      "display_name": "Copper cable",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "copper-cable",
+      "stack_size": 200,
+      "type": "item"
+    },
+    "copper-ore": {
+      "display_name": "Copper ore",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "copper-ore",
+      "stack_size": 50,
+      "type": "item"
+    },
+    "copper-plate": {
+      "display_name": "Copper plate",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "copper-plate",
+      "stack_size": 100,
+      "type": "item"
+    },
+    "cryogenic-science-pack": {
+      "display_name": "Cryogenic science pack",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "cryogenic-science-pack",
+      "stack_size": 200,
+      "type": "item"
+    },
+    "depleted-uranium-fuel-cell": {
+      "display_name": "Depleted uranium fuel cell",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "depleted-uranium-fuel-cell",
+      "stack_size": 50,
+      "type": "item"
+    },
+    "electric-engine-unit": {
+      "display_name": "Electric engine unit",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "electric-engine-unit",
+      "stack_size": 50,
+      "type": "item"
+    },
+    "electromagnetic-science-pack": {
+      "display_name": "Electromagnetic science pack",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "electromagnetic-science-pack",
+      "stack_size": 200,
+      "type": "item"
+    },
+    "electronic-circuit": {
+      "display_name": "Electronic circuit",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "electronic-circuit",
+      "stack_size": 200,
+      "type": "item"
+    },
+    "engine-unit": {
+      "display_name": "Engine unit",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "engine-unit",
+      "stack_size": 50,
+      "type": "item"
+    },
+    "explosives": {
+      "display_name": "Explosives",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "explosives",
+      "stack_size": 50,
+      "type": "item"
+    },
+    "flying-robot-frame": {
+      "display_name": "Flying robot frame",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "flying-robot-frame",
+      "stack_size": 50,
+      "type": "item"
+    },
+    "fusion-power-cell": {
+      "display_name": "Fusion power cell",
+      "fuel_category": null,
+      "fuel_value": 40.0,
+      "name": "fusion-power-cell",
+      "stack_size": 50,
+      "type": "item"
+    },
+    "holmium-ore": {
+      "display_name": "Holmium ore",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "holmium-ore",
+      "stack_size": 50,
+      "type": "item"
+    },
+    "holmium-plate": {
+      "display_name": "Holmium plate",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "holmium-plate",
+      "stack_size": 100,
+      "type": "item"
+    },
+    "ice": {
+      "display_name": "Ice",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "ice",
+      "stack_size": 50,
+      "type": "item"
+    },
+    "ice-melting": {
+      "display_name": "Ice melting",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "ice-melting",
+      "stack_size": 50,
+      "type": "item"
+    },
+    "iron-bacteria": {
+      "display_name": "Iron bacteria",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "iron-bacteria",
+      "stack_size": 50,
+      "type": "item"
+    },
+    "iron-gear-wheel": {
+      "display_name": "Iron gear wheel",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "iron-gear-wheel",
+      "stack_size": 100,
+      "type": "item"
+    },
+    "iron-ore": {
+      "display_name": "Iron ore",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "iron-ore",
+      "stack_size": 50,
+      "type": "item"
+    },
+    "iron-plate": {
+      "display_name": "Iron plate",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "iron-plate",
+      "stack_size": 100,
+      "type": "item"
+    },
+    "iron-stick": {
+      "display_name": "Iron stick",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "iron-stick",
+      "stack_size": 100,
+      "type": "item"
+    },
+    "jelly": {
+      "display_name": "Jelly",
+      "fuel_category": null,
+      "fuel_value": 1.0,
+      "name": "jelly",
+      "stack_size": 100,
+      "type": "item"
+    },
+    "jellynut": {
+      "display_name": "Jellynut",
+      "fuel_category": null,
+      "fuel_value": 10.0,
+      "name": "jellynut",
+      "stack_size": 50,
+      "type": "item"
+    },
+    "jellynut-seed": {
+      "display_name": "Jellynut seed",
+      "fuel_category": null,
+      "fuel_value": 4.0,
+      "name": "jellynut-seed",
+      "stack_size": 10,
+      "type": "item"
+    },
+    "kovarex-enrichment-process": {
+      "display_name": "Kovarex enrichment process",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "kovarex-enrichment-process",
+      "stack_size": 50,
+      "type": "item"
+    },
+    "lithium": {
+      "display_name": "Lithium",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "lithium",
+      "stack_size": 50,
+      "type": "item"
+    },
+    "lithium-plate": {
+      "display_name": "Lithium plate",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "lithium-plate",
+      "stack_size": 100,
+      "type": "item"
+    },
+    "logistic-science-pack": {
+      "display_name": "Logistic science pack",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "logistic-science-pack",
+      "stack_size": 200,
+      "type": "item"
+    },
+    "low-density-structure": {
+      "display_name": "Low density structure",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "low-density-structure",
+      "stack_size": 50,
+      "type": "item"
+    },
+    "metallurgic-science-pack": {
+      "display_name": "Metallurgic science pack",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "metallurgic-science-pack",
+      "stack_size": 200,
+      "type": "item"
+    },
+    "military-science-pack": {
+      "display_name": "Military science pack",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "military-science-pack",
+      "stack_size": 200,
+      "type": "item"
+    },
+    "nuclear-fuel": {
+      "display_name": "Nuclear fuel",
+      "fuel_category": null,
+      "fuel_value": 1.21,
+      "name": "nuclear-fuel",
+      "stack_size": 1,
+      "type": "item"
+    },
+    "nuclear-fuel-reprocessing": {
+      "display_name": "Nuclear fuel reprocessing",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "nuclear-fuel-reprocessing",
+      "stack_size": 50,
+      "type": "item"
+    },
+    "nutrients": {
+      "display_name": "Nutrients",
+      "fuel_category": null,
+      "fuel_value": 2.0,
+      "name": "nutrients",
+      "stack_size": 100,
+      "type": "item"
+    },
+    "pentapod-egg": {
+      "display_name": "Pentapod egg",
+      "fuel_category": null,
+      "fuel_value": 5.0,
+      "name": "pentapod-egg",
+      "stack_size": 20,
+      "type": "item"
+    },
+    "plastic-bar": {
+      "display_name": "Plastic bar",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "plastic-bar",
+      "stack_size": 100,
+      "type": "item"
+    },
+    "processing-unit": {
+      "display_name": "Processing unit",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "processing-unit",
+      "stack_size": 100,
+      "type": "item"
+    },
+    "production-science-pack": {
+      "display_name": "Production science pack",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "production-science-pack",
+      "stack_size": 200,
+      "type": "item"
+    },
+    "promethium-science-pack": {
+      "display_name": "Promethium science pack",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "promethium-science-pack",
+      "stack_size": 200,
+      "type": "item"
+    },
+    "quantum-processor": {
+      "display_name": "Quantum processor",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "quantum-processor",
+      "stack_size": 100,
+      "type": "item"
+    },
+    "raw-fish": {
+      "display_name": "Raw fish",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "raw-fish",
+      "stack_size": 100,
+      "type": "item"
+    },
+    "rocket-fuel": {
+      "display_name": "Rocket fuel",
+      "fuel_category": null,
+      "fuel_value": 100.0,
+      "name": "rocket-fuel",
+      "stack_size": 20,
+      "type": "item"
+    },
+    "rocket-part": {
+      "display_name": "Rocket part",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "rocket-part",
+      "stack_size": 5,
+      "type": "item"
+    },
+    "science-pack": {
+      "display_name": "Science pack",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "science-pack",
+      "stack_size": 50,
+      "type": "item"
+    },
+    "scrap": {
+      "display_name": "Scrap",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "scrap",
+      "stack_size": 50,
+      "type": "item"
+    },
+    "solid-fuel": {
+      "display_name": "Solid fuel",
+      "fuel_category": null,
+      "fuel_value": 12.0,
+      "name": "solid-fuel",
+      "stack_size": 50,
+      "type": "item"
+    },
+    "space-science-pack": {
+      "display_name": "Space science pack",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "space-science-pack",
+      "stack_size": 2000,
+      "type": "item"
+    },
+    "spoilage": {
+      "display_name": "Spoilage",
+      "fuel_category": null,
+      "fuel_value": 250.0,
+      "name": "spoilage",
+      "stack_size": 200,
+      "type": "item"
+    },
+    "steam-condensation": {
+      "display_name": "Steam condensation",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "steam-condensation",
+      "stack_size": 50,
+      "type": "item"
+    },
+    "steel-plate": {
+      "display_name": "Steel plate",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "steel-plate",
+      "stack_size": 100,
+      "type": "item"
+    },
+    "stone": {
+      "display_name": "Stone",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "stone",
+      "stack_size": 50,
+      "type": "item"
+    },
+    "sulfur": {
+      "display_name": "Sulfur",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "sulfur",
+      "stack_size": 50,
+      "type": "item"
+    },
+    "supercapacitor": {
+      "display_name": "Supercapacitor",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "supercapacitor",
+      "stack_size": 100,
+      "type": "item"
+    },
+    "superconductor": {
+      "display_name": "Superconductor",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "superconductor",
+      "stack_size": 200,
+      "type": "item"
+    },
+    "tree-seed": {
+      "display_name": "Tree seed",
+      "fuel_category": null,
+      "fuel_value": 100.0,
+      "name": "tree-seed",
+      "stack_size": 10,
+      "type": "item"
+    },
+    "tungsten-carbide": {
+      "display_name": "Tungsten carbide",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "tungsten-carbide",
+      "stack_size": 50,
+      "type": "item"
+    },
+    "tungsten-ore": {
+      "display_name": "Tungsten ore",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "tungsten-ore",
+      "stack_size": 50,
+      "type": "item"
+    },
+    "tungsten-plate": {
+      "display_name": "Tungsten plate",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "tungsten-plate",
+      "stack_size": 50,
+      "type": "item"
+    },
+    "uranium-235": {
+      "display_name": "Uranium-235",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "uranium-235",
+      "stack_size": 100,
+      "type": "item"
+    },
+    "uranium-238": {
+      "display_name": "Uranium-238",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "uranium-238",
+      "stack_size": 100,
+      "type": "item"
+    },
+    "uranium-fuel-cell": {
+      "display_name": "Uranium fuel cell",
+      "fuel_category": null,
+      "fuel_value": 8.0,
+      "name": "uranium-fuel-cell",
+      "stack_size": 50,
+      "type": "item"
+    },
+    "uranium-ore": {
+      "display_name": "Uranium ore",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "uranium-ore",
+      "stack_size": 50,
+      "type": "item"
+    },
+    "uranium-processing": {
+      "display_name": "Uranium processing",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "uranium-processing",
+      "stack_size": 50,
+      "type": "item"
+    },
+    "utility-science-pack": {
+      "display_name": "Utility science pack",
+      "fuel_category": null,
+      "fuel_value": 0.0,
+      "name": "utility-science-pack",
+      "stack_size": 200,
+      "type": "item"
+    },
+    "wood": {
+      "display_name": "Wood",
+      "fuel_category": null,
+      "fuel_value": 2.0,
+      "name": "wood",
+      "stack_size": 100,
+      "type": "item"
+    },
+    "yumako": {
+      "display_name": "Yumako",
+      "fuel_category": null,
+      "fuel_value": 2.0,
+      "name": "yumako",
+      "stack_size": 50,
+      "type": "item"
+    },
+    "yumako-mash": {
+      "display_name": "Yumako mash",
+      "fuel_category": null,
+      "fuel_value": 1.0,
+      "name": "yumako-mash",
+      "stack_size": 100,
+      "type": "item"
+    },
+    "yumako-seed": {
+      "display_name": "Yumako seed",
+      "fuel_category": null,
+      "fuel_value": 4.0,
+      "name": "yumako-seed",
+      "stack_size": 10,
+      "type": "item"
+    }
+  },
+  "machines": {
+    "assembling-machine-1": {
+      "crafting_categories": [],
+      "crafting_speed": 0.5,
+      "display_name": "Assembling machine 1",
+      "energy_usage_kw": 75.0,
+      "module_slots": 0,
+      "name": "assembling-machine-1",
+      "pollution_per_min": 4.0,
+      "type": "assembling-machine"
+    },
+    "assembling-machine-2": {
+      "crafting_categories": [],
+      "crafting_speed": 0.75,
+      "display_name": "Assembling machine 2",
+      "energy_usage_kw": 150.0,
+      "module_slots": 2,
+      "name": "assembling-machine-2",
+      "pollution_per_min": 3.0,
+      "type": "assembling-machine"
+    },
+    "assembling-machine-3": {
+      "crafting_categories": [],
+      "crafting_speed": 1.25,
+      "display_name": "Assembling machine 3",
+      "energy_usage_kw": 375.0,
+      "module_slots": 4,
+      "name": "assembling-machine-3",
+      "pollution_per_min": 2.0,
+      "type": "assembling-machine"
+    },
+    "biochamber": {
+      "crafting_categories": [],
+      "crafting_speed": 2.0,
+      "display_name": "Biochamber",
+      "energy_usage_kw": 500.0,
+      "module_slots": 4,
+      "name": "biochamber",
+      "pollution_per_min": -1.0,
+      "type": "assembling-machine"
+    },
+    "centrifuge": {
+      "crafting_categories": [],
+      "crafting_speed": 1.0,
+      "display_name": "Centrifuge",
+      "energy_usage_kw": 350.0,
+      "module_slots": 2,
+      "name": "centrifuge",
+      "pollution_per_min": 4.0,
+      "type": "assembling-machine"
+    },
+    "chemical-plant": {
+      "crafting_categories": [],
+      "crafting_speed": 1.0,
+      "display_name": "Chemical plant",
+      "energy_usage_kw": 210.0,
+      "module_slots": 3,
+      "name": "chemical-plant",
+      "pollution_per_min": 4.0,
+      "type": "assembling-machine"
+    },
+    "cryogenic-plant": {
+      "crafting_categories": [],
+      "crafting_speed": 2.0,
+      "display_name": "Cryogenic plant",
+      "energy_usage_kw": 1500.0,
+      "module_slots": 8,
+      "name": "cryogenic-plant",
+      "pollution_per_min": 6.0,
+      "type": "assembling-machine"
+    },
+    "electric-furnace": {
+      "crafting_categories": [],
+      "crafting_speed": 2.0,
+      "display_name": "Electric furnace",
+      "energy_usage_kw": 180.0,
+      "module_slots": 2,
+      "name": "electric-furnace",
+      "pollution_per_min": 1.0,
+      "type": "assembling-machine"
+    },
+    "electromagnetic-plant": {
+      "crafting_categories": [],
+      "crafting_speed": 2.0,
+      "display_name": "Electromagnetic plant",
+      "energy_usage_kw": 2000.0,
+      "module_slots": 5,
+      "name": "electromagnetic-plant",
+      "pollution_per_min": 4.0,
+      "type": "assembling-machine"
+    },
+    "foundry": {
+      "crafting_categories": [],
+      "crafting_speed": 4.0,
+      "display_name": "Foundry",
+      "energy_usage_kw": 2500.0,
+      "module_slots": 4,
+      "name": "foundry",
+      "pollution_per_min": 6.0,
+      "type": "assembling-machine"
+    },
+    "oil-refinery": {
+      "crafting_categories": [],
+      "crafting_speed": 1.0,
+      "display_name": "Oil refinery",
+      "energy_usage_kw": 420.0,
+      "module_slots": 3,
+      "name": "oil-refinery",
+      "pollution_per_min": 6.0,
+      "type": "assembling-machine"
+    },
+    "rocket-silo": {
+      "crafting_categories": [],
+      "crafting_speed": 1.0,
+      "display_name": "Rocket silo",
+      "energy_usage_kw": 4000.0,
+      "module_slots": 4,
+      "name": "rocket-silo",
+      "pollution_per_min": 0.0,
+      "type": "assembling-machine"
+    },
+    "steel-furnace": {
+      "crafting_categories": [],
+      "crafting_speed": 2.0,
+      "display_name": "Steel furnace",
+      "energy_usage_kw": 90.0,
+      "module_slots": 0,
+      "name": "steel-furnace",
+      "pollution_per_min": 4.0,
+      "type": "assembling-machine"
+    },
+    "stone-furnace": {
+      "crafting_categories": [],
+      "crafting_speed": 1.0,
+      "display_name": "Stone furnace",
+      "energy_usage_kw": 90.0,
+      "module_slots": 0,
+      "name": "stone-furnace",
+      "pollution_per_min": 2.0,
+      "type": "assembling-machine"
+    }
+  },
+  "modules": {
+    "efficiency-module": {
+      "display_name": "Efficiency module",
+      "effects": {
+        "consumption": -0.3,
+        "pollution": 0.0,
+        "productivity": 0.0,
+        "quality": 0.0,
+        "speed": 0.0
+      },
+      "name": "efficiency-module",
+      "tier": 1
+    },
+    "efficiency-module-2": {
+      "display_name": "Efficiency module 2",
+      "effects": {
+        "consumption": -0.4,
+        "pollution": 0.0,
+        "productivity": 0.0,
+        "quality": 0.0,
+        "speed": 0.0
+      },
+      "name": "efficiency-module-2",
+      "tier": 2
+    },
+    "efficiency-module-3": {
+      "display_name": "Efficiency module 3",
+      "effects": {
+        "consumption": -0.5,
+        "pollution": 0.0,
+        "productivity": 0.0,
+        "quality": 0.0,
+        "speed": 0.0
+      },
+      "name": "efficiency-module-3",
+      "tier": 3
+    },
+    "productivity-module": {
+      "display_name": "Productivity module",
+      "effects": {
+        "consumption": 0.4,
+        "pollution": 0.05,
+        "productivity": 0.04,
+        "quality": 0.0,
+        "speed": 0.0
+      },
+      "name": "productivity-module",
+      "tier": 1
+    },
+    "productivity-module-2": {
+      "display_name": "Productivity module 2",
+      "effects": {
+        "consumption": 0.6,
+        "pollution": 0.07,
+        "productivity": 0.06,
+        "quality": 0.0,
+        "speed": 0.0
+      },
+      "name": "productivity-module-2",
+      "tier": 2
+    },
+    "productivity-module-3": {
+      "display_name": "Productivity module 3",
+      "effects": {
+        "consumption": 0.8,
+        "pollution": 0.1,
+        "productivity": 0.1,
+        "quality": 0.0,
+        "speed": 0.0
+      },
+      "name": "productivity-module-3",
+      "tier": 3
+    },
+    "quality-module": {
+      "display_name": "Quality module",
+      "effects": {
+        "consumption": 0.0,
+        "pollution": 0.0,
+        "productivity": 0.0,
+        "quality": 0.01,
+        "speed": -0.05
+      },
+      "name": "quality-module",
+      "tier": 1
+    },
+    "quality-module-2": {
+      "display_name": "Quality module 2",
+      "effects": {
+        "consumption": 0.0,
+        "pollution": 0.0,
+        "productivity": 0.0,
+        "quality": 0.02,
+        "speed": -0.05
+      },
+      "name": "quality-module-2",
+      "tier": 2
+    },
+    "quality-module-3": {
+      "display_name": "Quality module 3",
+      "effects": {
+        "consumption": 0.0,
+        "pollution": 0.0,
+        "productivity": 0.0,
+        "quality": 0.025,
+        "speed": -0.05
+      },
+      "name": "quality-module-3",
+      "tier": 3
+    },
+    "speed-module": {
+      "display_name": "Speed module",
+      "effects": {
+        "consumption": 0.5,
+        "pollution": 0.0,
+        "productivity": 0.0,
+        "quality": -0.01,
+        "speed": 0.2
+      },
+      "name": "speed-module",
+      "tier": 1
+    },
+    "speed-module-2": {
+      "display_name": "Speed module 2",
+      "effects": {
+        "consumption": 0.6,
+        "pollution": 0.0,
+        "productivity": 0.0,
+        "quality": -0.015,
+        "speed": 0.3
+      },
+      "name": "speed-module-2",
+      "tier": 2
+    },
+    "speed-module-3": {
+      "display_name": "Speed module 3",
+      "effects": {
+        "consumption": 0.7,
+        "pollution": 0.0,
+        "productivity": 0.0,
+        "quality": -0.025,
+        "speed": 0.5
+      },
+      "name": "speed-module-3",
+      "tier": 3
+    }
+  },
+  "recipes": [
+    {
+      "crafting_time": 5.0,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "calcite",
+          "type": "item"
+        },
+        {
+          "amount": 1.0,
+          "name": "sulfuric-acid",
+          "type": "fluid"
+        }
+      ],
+      "name": "steam",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "steam",
+          "probability": 1.0,
+          "type": "fluid"
+        }
+      ]
+    },
+    {
+      "crafting_time": 6.0,
+      "ingredients": [
+        {
+          "amount": 4.0,
+          "name": "copper-cable",
+          "type": "item"
+        },
+        {
+          "amount": 2.0,
+          "name": "electronic-circuit",
+          "type": "item"
+        },
+        {
+          "amount": 2.0,
+          "name": "plastic-bar",
+          "type": "item"
+        }
+      ],
+      "name": "advanced-circuit",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "advanced-circuit",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 6.0,
+      "ingredients": [
+        {
+          "amount": 4.0,
+          "name": "copper-cable",
+          "type": "item"
+        },
+        {
+          "amount": 2.0,
+          "name": "electronic-circuit",
+          "type": "item"
+        },
+        {
+          "amount": 2.0,
+          "name": "plastic-bar",
+          "type": "item"
+        }
+      ],
+      "name": "advanced-circuit-2",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "advanced-circuit",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 4.0,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "bioflux",
+          "type": "item"
+        },
+        {
+          "amount": 1.0,
+          "name": "pentapod-egg",
+          "type": "item"
+        }
+      ],
+      "name": "agricultural-science-pack",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "agricultural-science-pack",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 1.0,
+      "ingredients": [
+        {
+          "amount": 50.0,
+          "name": "ammoniacal-solution",
+          "type": "fluid"
+        }
+      ],
+      "name": "ammonia+ice",
+      "products": [
+        {
+          "amount": 50.0,
+          "name": "ammonia",
+          "probability": 1.0,
+          "type": "fluid"
+        },
+        {
+          "amount": 5.0,
+          "name": "ice",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 5.0,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "copper-plate",
+          "type": "item"
+        },
+        {
+          "amount": 1.0,
+          "name": "iron-gear-wheel",
+          "type": "item"
+        }
+      ],
+      "name": "automation-science-pack",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "automation-science-pack",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 0.2,
+      "ingredients": [],
+      "name": "crude-oil",
+      "products": [
+        {
+          "amount": 50.0,
+          "name": "crude-oil",
+          "probability": 1.0,
+          "type": "fluid"
+        }
+      ]
+    },
+    {
+      "crafting_time": 0.2,
+      "ingredients": [],
+      "name": "heavy-oil",
+      "products": [
+        {
+          "amount": 50.0,
+          "name": "heavy-oil",
+          "probability": 1.0,
+          "type": "fluid"
+        }
+      ]
+    },
+    {
+      "crafting_time": 0.2,
+      "ingredients": [],
+      "name": "light-oil",
+      "products": [
+        {
+          "amount": 50.0,
+          "name": "light-oil",
+          "probability": 1.0,
+          "type": "fluid"
+        }
+      ]
+    },
+    {
+      "crafting_time": 0.2,
+      "ingredients": [],
+      "name": "lubricant",
+      "products": [
+        {
+          "amount": 50.0,
+          "name": "lubricant",
+          "probability": 1.0,
+          "type": "fluid"
+        }
+      ]
+    },
+    {
+      "crafting_time": 0.2,
+      "ingredients": [],
+      "name": "petroleum-gas",
+      "products": [
+        {
+          "amount": 50.0,
+          "name": "petroleum-gas",
+          "probability": 1.0,
+          "type": "fluid"
+        }
+      ]
+    },
+    {
+      "crafting_time": 0.2,
+      "ingredients": [],
+      "name": "sulfuric-acid",
+      "products": [
+        {
+          "amount": 50.0,
+          "name": "sulfuric-acid",
+          "probability": 1.0,
+          "type": "fluid"
+        }
+      ]
+    },
+    {
+      "crafting_time": 0.2,
+      "ingredients": [],
+      "name": "water",
+      "products": [
+        {
+          "amount": 50.0,
+          "name": "water",
+          "probability": 1.0,
+          "type": "fluid"
+        }
+      ]
+    },
+    {
+      "crafting_time": 0.2,
+      "ingredients": [],
+      "name": "fluoroketone-(hot)",
+      "products": [
+        {
+          "amount": 50.0,
+          "name": "fluoroketone-(hot)",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 0.2,
+      "ingredients": [],
+      "name": "fluoroketone-(cold)",
+      "products": [
+        {
+          "amount": 50.0,
+          "name": "fluoroketone-(cold)",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 0.2,
+      "ingredients": [
+        {
+          "amount": 50.0,
+          "name": "crude-oil",
+          "type": "fluid"
+        }
+      ],
+      "name": "barrel",
+      "products": []
+    },
+    {
+      "crafting_time": 0.2,
+      "ingredients": [
+        {
+          "amount": 50.0,
+          "name": "heavy-oil",
+          "type": "fluid"
+        }
+      ],
+      "name": "barrel-11",
+      "products": []
+    },
+    {
+      "crafting_time": 0.2,
+      "ingredients": [
+        {
+          "amount": 50.0,
+          "name": "light-oil",
+          "type": "fluid"
+        }
+      ],
+      "name": "barrel-12",
+      "products": []
+    },
+    {
+      "crafting_time": 0.2,
+      "ingredients": [
+        {
+          "amount": 50.0,
+          "name": "lubricant",
+          "type": "fluid"
+        }
+      ],
+      "name": "barrel-13",
+      "products": []
+    },
+    {
+      "crafting_time": 0.2,
+      "ingredients": [
+        {
+          "amount": 50.0,
+          "name": "petroleum-gas",
+          "type": "fluid"
+        }
+      ],
+      "name": "barrel-14",
+      "products": []
+    },
+    {
+      "crafting_time": 0.2,
+      "ingredients": [
+        {
+          "amount": 50.0,
+          "name": "sulfuric-acid",
+          "type": "fluid"
+        }
+      ],
+      "name": "barrel-15",
+      "products": []
+    },
+    {
+      "crafting_time": 0.2,
+      "ingredients": [
+        {
+          "amount": 50.0,
+          "name": "water",
+          "type": "fluid"
+        }
+      ],
+      "name": "barrel-16",
+      "products": []
+    },
+    {
+      "crafting_time": 0.2,
+      "ingredients": [
+        {
+          "amount": 50.0,
+          "name": "fluoroketone-(hot)",
+          "type": "item"
+        }
+      ],
+      "name": "barrel-17",
+      "products": []
+    },
+    {
+      "crafting_time": 0.2,
+      "ingredients": [
+        {
+          "amount": 50.0,
+          "name": "fluoroketone-(cold)",
+          "type": "item"
+        }
+      ],
+      "name": "barrel-18",
+      "products": []
+    },
+    {
+      "crafting_time": 4.0,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "copper-plate",
+          "type": "item"
+        },
+        {
+          "amount": 1.0,
+          "name": "iron-plate",
+          "type": "item"
+        },
+        {
+          "amount": 20.0,
+          "name": "sulfuric-acid",
+          "type": "fluid"
+        }
+      ],
+      "name": "battery",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "battery",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 4.0,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "copper-plate",
+          "type": "item"
+        },
+        {
+          "amount": 1.0,
+          "name": "iron-plate",
+          "type": "item"
+        },
+        {
+          "amount": 20.0,
+          "name": "sulfuric-acid",
+          "type": "fluid"
+        }
+      ],
+      "name": "battery-2",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "battery",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 6.0,
+      "ingredients": [
+        {
+          "amount": 12.0,
+          "name": "jelly",
+          "type": "item"
+        },
+        {
+          "amount": 15.0,
+          "name": "yumako-mash",
+          "type": "item"
+        }
+      ],
+      "name": "bioflux",
+      "products": [
+        {
+          "amount": 4.0,
+          "name": "bioflux",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 5.0,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "oxide-asteroid-chunk",
+          "type": "item"
+        }
+      ],
+      "name": "ice+calcite+oxide-asteroid-chunk",
+      "products": [
+        {
+          "amount": 3.0,
+          "name": "ice",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 2.0,
+          "name": "calcite",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 0.05,
+          "name": "oxide-asteroid-chunk",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 1.0,
+      "ingredients": [
+        {
+          "amount": 2.0,
+          "name": "coal",
+          "type": "item"
+        },
+        {
+          "amount": 20.0,
+          "name": "sulfuric-acid",
+          "type": "fluid"
+        }
+      ],
+      "name": "carbon",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "carbon",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 12.0,
+      "ingredients": [
+        {
+          "amount": 6.0,
+          "name": "spoilage",
+          "type": "item"
+        }
+      ],
+      "name": "carbon-2",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "carbon",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 2.0,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "carbonic-asteroid-chunk",
+          "type": "item"
+        }
+      ],
+      "name": "carbon+carbonic-asteroid-chunk",
+      "products": [
+        {
+          "amount": 10.0,
+          "name": "carbon",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 0.2,
+          "name": "carbonic-asteroid-chunk",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 5.0,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "carbonic-asteroid-chunk",
+          "type": "item"
+        }
+      ],
+      "name": "carbon+sulfur+carbonic-asteroid-chunk",
+      "products": [
+        {
+          "amount": 5.0,
+          "name": "carbon",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 2.0,
+          "name": "sulfur",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 0.05,
+          "name": "carbonic-asteroid-chunk",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 5.0,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "carbon",
+          "type": "item"
+        },
+        {
+          "amount": 10.0,
+          "name": "yumako-mash",
+          "type": "item"
+        }
+      ],
+      "name": "carbon-fiber",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "carbon-fiber",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 24.0,
+      "ingredients": [
+        {
+          "amount": 3.0,
+          "name": "advanced-circuit",
+          "type": "item"
+        },
+        {
+          "amount": 2.0,
+          "name": "engine-unit",
+          "type": "item"
+        },
+        {
+          "amount": 1.0,
+          "name": "sulfur",
+          "type": "item"
+        }
+      ],
+      "name": "chemical-science-pack",
+      "products": [
+        {
+          "amount": 2.0,
+          "name": "chemical-science-pack",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 2.0,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "sulfur",
+          "type": "item"
+        },
+        {
+          "amount": 5.0,
+          "name": "carbon",
+          "type": "item"
+        },
+        {
+          "amount": 10.0,
+          "name": "water",
+          "type": "fluid"
+        }
+      ],
+      "name": "coal",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "coal",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 2.0,
+      "ingredients": [
+        {
+          "amount": 5.0,
+          "name": "carbon",
+          "type": "item"
+        },
+        {
+          "amount": 1.0,
+          "name": "sulfur",
+          "type": "item"
+        },
+        {
+          "amount": 10.0,
+          "name": "water",
+          "type": "fluid"
+        }
+      ],
+      "name": "coal-1",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "coal",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 1.0,
+      "ingredients": [
+        {
+          "amount": 3.0,
+          "name": "yumako-mash",
+          "type": "item"
+        }
+      ],
+      "name": "copper-bacteria+spoilage",
+      "products": [
+        {
+          "amount": 0.1,
+          "name": "copper-bacteria",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 1.0,
+          "name": "spoilage",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 4.0,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "bioflux",
+          "type": "item"
+        },
+        {
+          "amount": 1.0,
+          "name": "copper-bacteria",
+          "type": "item"
+        }
+      ],
+      "name": "copper-bacteria",
+      "products": [
+        {
+          "amount": 4.0,
+          "name": "copper-bacteria",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 0.5,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "copper-plate",
+          "type": "item"
+        }
+      ],
+      "name": "copper-cable",
+      "products": [
+        {
+          "amount": 2.0,
+          "name": "copper-cable",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 0.5,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "copper-plate",
+          "type": "item"
+        }
+      ],
+      "name": "copper-cable-2",
+      "products": [
+        {
+          "amount": 2.0,
+          "name": "copper-cable",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 1.0,
+      "ingredients": [
+        {
+          "amount": 5.0,
+          "name": "molten-copper",
+          "type": "fluid"
+        }
+      ],
+      "name": "copper-cable-3",
+      "products": [
+        {
+          "amount": 2.0,
+          "name": "copper-cable",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 3.2,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "copper-ore",
+          "type": "item"
+        }
+      ],
+      "name": "copper-plate",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "copper-plate",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 3.2,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "copper-ore",
+          "type": "item"
+        }
+      ],
+      "name": "copper-plate-2",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "copper-plate",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 3.2,
+      "ingredients": [
+        {
+          "amount": 20.0,
+          "name": "molten-copper",
+          "type": "fluid"
+        }
+      ],
+      "name": "copper-plate-3",
+      "products": [
+        {
+          "amount": 2.0,
+          "name": "copper-plate",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 20.0,
+      "ingredients": [
+        {
+          "amount": 6.0,
+          "name": "fluoroketone-(cold)",
+          "type": "item"
+        },
+        {
+          "amount": 3.0,
+          "name": "ice",
+          "type": "item"
+        },
+        {
+          "amount": 1.0,
+          "name": "lithium-plate",
+          "type": "item"
+        }
+      ],
+      "name": "cryogenic-science-pack+fluoroketone-(hot)",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "cryogenic-science-pack",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 3.0,
+          "name": "fluoroketone-(hot)",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 200.0,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "uranium-fuel-cell",
+          "type": "item"
+        }
+      ],
+      "name": "depleted-uranium-fuel-cell",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "depleted-uranium-fuel-cell",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 10.0,
+      "ingredients": [
+        {
+          "amount": 2.0,
+          "name": "electronic-circuit",
+          "type": "item"
+        },
+        {
+          "amount": 1.0,
+          "name": "engine-unit",
+          "type": "item"
+        },
+        {
+          "amount": 15.0,
+          "name": "lubricant",
+          "type": "fluid"
+        }
+      ],
+      "name": "electric-engine-unit",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "electric-engine-unit",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 10.0,
+      "ingredients": [
+        {
+          "amount": 2.0,
+          "name": "electronic-circuit",
+          "type": "item"
+        },
+        {
+          "amount": 1.0,
+          "name": "engine-unit",
+          "type": "item"
+        },
+        {
+          "amount": 15.0,
+          "name": "lubricant",
+          "type": "fluid"
+        }
+      ],
+      "name": "electric-engine-unit-2",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "electric-engine-unit",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 5.0,
+      "ingredients": [
+        {
+          "amount": 10.0,
+          "name": "heavy-oil",
+          "type": "fluid"
+        },
+        {
+          "amount": 10.0,
+          "name": "holmium-solution",
+          "type": "fluid"
+        },
+        {
+          "amount": 1.0,
+          "name": "stone",
+          "type": "item"
+        }
+      ],
+      "name": "electrolyte",
+      "products": [
+        {
+          "amount": 10.0,
+          "name": "electrolyte",
+          "probability": 1.0,
+          "type": "fluid"
+        }
+      ]
+    },
+    {
+      "crafting_time": 10.0,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "accumulator",
+          "type": "item"
+        },
+        {
+          "amount": 25.0,
+          "name": "electrolyte",
+          "type": "fluid"
+        },
+        {
+          "amount": 25.0,
+          "name": "holmium-solution",
+          "type": "fluid"
+        },
+        {
+          "amount": 1.0,
+          "name": "supercapacitor",
+          "type": "item"
+        }
+      ],
+      "name": "electromagnetic-science-pack",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "electromagnetic-science-pack",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 0.5,
+      "ingredients": [
+        {
+          "amount": 3.0,
+          "name": "copper-cable",
+          "type": "item"
+        },
+        {
+          "amount": 1.0,
+          "name": "iron-plate",
+          "type": "item"
+        }
+      ],
+      "name": "electronic-circuit",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "electronic-circuit",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 0.5,
+      "ingredients": [
+        {
+          "amount": 3.0,
+          "name": "copper-cable",
+          "type": "item"
+        },
+        {
+          "amount": 1.0,
+          "name": "iron-plate",
+          "type": "item"
+        }
+      ],
+      "name": "electronic-circuit-2",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "electronic-circuit",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 10.0,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "iron-gear-wheel",
+          "type": "item"
+        },
+        {
+          "amount": 2.0,
+          "name": "pipe",
+          "type": "item"
+        },
+        {
+          "amount": 1.0,
+          "name": "steel-plate",
+          "type": "item"
+        }
+      ],
+      "name": "engine-unit",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "engine-unit",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 4.0,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "coal",
+          "type": "item"
+        },
+        {
+          "amount": 1.0,
+          "name": "sulfur",
+          "type": "item"
+        },
+        {
+          "amount": 10.0,
+          "name": "water",
+          "type": "fluid"
+        }
+      ],
+      "name": "explosives",
+      "products": [
+        {
+          "amount": 2.0,
+          "name": "explosives",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 4.0,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "coal",
+          "type": "item"
+        },
+        {
+          "amount": 1.0,
+          "name": "sulfur",
+          "type": "item"
+        },
+        {
+          "amount": 10.0,
+          "name": "water",
+          "type": "fluid"
+        }
+      ],
+      "name": "explosives-2",
+      "products": [
+        {
+          "amount": 2.0,
+          "name": "explosives",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 5.0,
+      "ingredients": [
+        {
+          "amount": 10.0,
+          "name": "fluoroketone-(hot)",
+          "type": "item"
+        }
+      ],
+      "name": "fluoroketone-(cold)-1",
+      "products": [
+        {
+          "amount": 10.0,
+          "name": "fluoroketone-(cold)",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 10.0,
+      "ingredients": [
+        {
+          "amount": 50.0,
+          "name": "ammonia",
+          "type": "fluid"
+        },
+        {
+          "amount": 50.0,
+          "name": "fluorine",
+          "type": "fluid"
+        },
+        {
+          "amount": 1.0,
+          "name": "lithium",
+          "type": "item"
+        },
+        {
+          "amount": 1.0,
+          "name": "solid-fuel",
+          "type": "item"
+        }
+      ],
+      "name": "fluoroketone-(hot)-1",
+      "products": [
+        {
+          "amount": 50.0,
+          "name": "fluoroketone-(hot)",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 20.0,
+      "ingredients": [
+        {
+          "amount": 2.0,
+          "name": "battery",
+          "type": "item"
+        },
+        {
+          "amount": 1.0,
+          "name": "electric-engine-unit",
+          "type": "item"
+        },
+        {
+          "amount": 3.0,
+          "name": "electronic-circuit",
+          "type": "item"
+        },
+        {
+          "amount": 1.0,
+          "name": "steel-plate",
+          "type": "item"
+        }
+      ],
+      "name": "flying-robot-frame",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "flying-robot-frame",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 20.0,
+      "ingredients": [
+        {
+          "amount": 2.0,
+          "name": "battery",
+          "type": "item"
+        },
+        {
+          "amount": 1.0,
+          "name": "electric-engine-unit",
+          "type": "item"
+        },
+        {
+          "amount": 3.0,
+          "name": "electronic-circuit",
+          "type": "item"
+        },
+        {
+          "amount": 1.0,
+          "name": "steel-plate",
+          "type": "item"
+        }
+      ],
+      "name": "flying-robot-frame-2",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "flying-robot-frame",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 10.0,
+      "ingredients": [
+        {
+          "amount": 100.0,
+          "name": "ammonia",
+          "type": "fluid"
+        },
+        {
+          "amount": 1.0,
+          "name": "holmium-plate",
+          "type": "item"
+        },
+        {
+          "amount": 5.0,
+          "name": "lithium-plate",
+          "type": "item"
+        }
+      ],
+      "name": "fusion-power-cell",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "fusion-power-cell",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 0.2,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "scrap",
+          "type": "item"
+        }
+      ],
+      "name": "holmium-ore+advanced-circuit+battery+concrete+copper-cable+ice+iron-gear-wheel+low-density-structure+processing-unit+solid-fuel+steel-plate+stone",
+      "products": [
+        {
+          "amount": 0.01,
+          "name": "holmium-ore",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 0.03,
+          "name": "advanced-circuit",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 0.04,
+          "name": "battery",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 0.06,
+          "name": "concrete",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 0.03,
+          "name": "copper-cable",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 0.05,
+          "name": "ice",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 0.2,
+          "name": "iron-gear-wheel",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 0.01,
+          "name": "low-density-structure",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 0.02,
+          "name": "processing-unit",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 0.07,
+          "name": "solid-fuel",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 0.04,
+          "name": "steel-plate",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 0.04,
+          "name": "stone",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 1.0,
+      "ingredients": [
+        {
+          "amount": 20.0,
+          "name": "holmium-solution",
+          "type": "fluid"
+        }
+      ],
+      "name": "holmium-plate",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "holmium-plate",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 10.0,
+      "ingredients": [
+        {
+          "amount": 2.0,
+          "name": "holmium-ore",
+          "type": "item"
+        },
+        {
+          "amount": 1.0,
+          "name": "stone",
+          "type": "item"
+        },
+        {
+          "amount": 10.0,
+          "name": "water",
+          "type": "fluid"
+        }
+      ],
+      "name": "holmium-solution",
+      "products": [
+        {
+          "amount": 100.0,
+          "name": "holmium-solution",
+          "probability": 1.0,
+          "type": "fluid"
+        }
+      ]
+    },
+    {
+      "crafting_time": 2.0,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "oxide-asteroid-chunk",
+          "type": "item"
+        }
+      ],
+      "name": "ice+oxide-asteroid-chunk",
+      "products": [
+        {
+          "amount": 5.0,
+          "name": "ice",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 0.2,
+          "name": "oxide-asteroid-chunk",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 5.0,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "oxide-asteroid-chunk",
+          "type": "item"
+        }
+      ],
+      "name": "ice+calcite+oxide-asteroid-chunk-2",
+      "products": [
+        {
+          "amount": 3.0,
+          "name": "ice",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 2.0,
+          "name": "calcite",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 0.05,
+          "name": "oxide-asteroid-chunk",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 0.2,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "scrap",
+          "type": "item"
+        }
+      ],
+      "name": "advanced-circuit+battery+concrete+copper-cable+holmium-ore+ice+iron-gear-wheel+low-density-structure+processing-unit+solid-fuel+steel-plate+stone",
+      "products": [
+        {
+          "amount": 0.03,
+          "name": "advanced-circuit",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 0.04,
+          "name": "battery",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 0.06,
+          "name": "concrete",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 0.03,
+          "name": "copper-cable",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 0.01,
+          "name": "holmium-ore",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 0.05,
+          "name": "ice",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 0.2,
+          "name": "iron-gear-wheel",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 0.01,
+          "name": "low-density-structure",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 0.02,
+          "name": "processing-unit",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 0.07,
+          "name": "solid-fuel",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 0.04,
+          "name": "steel-plate",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 0.04,
+          "name": "stone",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 1.0,
+      "ingredients": [
+        {
+          "amount": 50.0,
+          "name": "ammoniacal-solution",
+          "type": "fluid"
+        }
+      ],
+      "name": "ice+ammonia",
+      "products": [
+        {
+          "amount": 5.0,
+          "name": "ice",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 50.0,
+          "name": "ammonia",
+          "probability": 1.0,
+          "type": "fluid"
+        }
+      ]
+    },
+    {
+      "crafting_time": 1.0,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "ice",
+          "type": "item"
+        }
+      ],
+      "name": "water-1",
+      "products": [
+        {
+          "amount": 20.0,
+          "name": "water",
+          "probability": 1.0,
+          "type": "fluid"
+        }
+      ]
+    },
+    {
+      "crafting_time": 1.0,
+      "ingredients": [
+        {
+          "amount": 6.0,
+          "name": "jelly",
+          "type": "item"
+        }
+      ],
+      "name": "iron-bacteria+spoilage",
+      "products": [
+        {
+          "amount": 0.1,
+          "name": "iron-bacteria",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 4.0,
+          "name": "spoilage",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 4.0,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "bioflux",
+          "type": "item"
+        },
+        {
+          "amount": 1.0,
+          "name": "iron-bacteria",
+          "type": "item"
+        }
+      ],
+      "name": "iron-bacteria",
+      "products": [
+        {
+          "amount": 4.0,
+          "name": "iron-bacteria",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 0.5,
+      "ingredients": [
+        {
+          "amount": 2.0,
+          "name": "iron-plate",
+          "type": "item"
+        }
+      ],
+      "name": "iron-gear-wheel",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "iron-gear-wheel",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 0.5,
+      "ingredients": [
+        {
+          "amount": 2.0,
+          "name": "iron-plate",
+          "type": "item"
+        }
+      ],
+      "name": "iron-gear-wheel-2",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "iron-gear-wheel",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 1.0,
+      "ingredients": [
+        {
+          "amount": 10.0,
+          "name": "molten-iron",
+          "type": "fluid"
+        }
+      ],
+      "name": "iron-gear-wheel-3",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "iron-gear-wheel",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 3.2,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "iron-ore",
+          "type": "item"
+        }
+      ],
+      "name": "iron-plate",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "iron-plate",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 3.2,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "iron-ore",
+          "type": "item"
+        }
+      ],
+      "name": "iron-plate-2",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "iron-plate",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 3.2,
+      "ingredients": [
+        {
+          "amount": 20.0,
+          "name": "molten-iron",
+          "type": "fluid"
+        }
+      ],
+      "name": "iron-plate-3",
+      "products": [
+        {
+          "amount": 2.0,
+          "name": "iron-plate",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 0.5,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "iron-plate",
+          "type": "item"
+        }
+      ],
+      "name": "iron-stick",
+      "products": [
+        {
+          "amount": 2.0,
+          "name": "iron-stick",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 0.5,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "iron-plate",
+          "type": "item"
+        }
+      ],
+      "name": "iron-stick-2",
+      "products": [
+        {
+          "amount": 2.0,
+          "name": "iron-stick",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 1.0,
+      "ingredients": [
+        {
+          "amount": 20.0,
+          "name": "molten-iron",
+          "type": "fluid"
+        }
+      ],
+      "name": "iron-stick-3",
+      "products": [
+        {
+          "amount": 4.0,
+          "name": "iron-stick",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 1.0,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "jellynut",
+          "type": "item"
+        }
+      ],
+      "name": "jelly+jellynut-seed",
+      "products": [
+        {
+          "amount": 4.0,
+          "name": "jelly",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 0.02,
+          "name": "jellynut-seed",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 1.0,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "jellynut",
+          "type": "item"
+        }
+      ],
+      "name": "jellynut-seed+jelly",
+      "products": [
+        {
+          "amount": 0.02,
+          "name": "jellynut-seed",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 4.0,
+          "name": "jelly",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 60.0,
+      "ingredients": [
+        {
+          "amount": 40.0,
+          "name": "uranium-235",
+          "type": "item"
+        },
+        {
+          "amount": 5.0,
+          "name": "uranium-238",
+          "type": "item"
+        }
+      ],
+      "name": "uranium-235+uranium-238",
+      "products": [
+        {
+          "amount": 41.0,
+          "name": "uranium-235",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 2.0,
+          "name": "uranium-238",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 5.0,
+      "ingredients": [
+        {
+          "amount": 100.0,
+          "name": "crude-oil",
+          "type": "fluid"
+        },
+        {
+          "amount": 50.0,
+          "name": "water",
+          "type": "fluid"
+        }
+      ],
+      "name": "light-oil+heavy-oil+petroleum-gas",
+      "products": [
+        {
+          "amount": 45.0,
+          "name": "light-oil",
+          "probability": 1.0,
+          "type": "fluid"
+        },
+        {
+          "amount": 25.0,
+          "name": "heavy-oil",
+          "probability": 1.0,
+          "type": "fluid"
+        },
+        {
+          "amount": 55.0,
+          "name": "petroleum-gas",
+          "probability": 1.0,
+          "type": "fluid"
+        }
+      ]
+    },
+    {
+      "crafting_time": 2.0,
+      "ingredients": [
+        {
+          "amount": 40.0,
+          "name": "heavy-oil",
+          "type": "fluid"
+        },
+        {
+          "amount": 30.0,
+          "name": "water",
+          "type": "fluid"
+        }
+      ],
+      "name": "light-oil-2",
+      "products": [
+        {
+          "amount": 30.0,
+          "name": "light-oil",
+          "probability": 1.0,
+          "type": "fluid"
+        }
+      ]
+    },
+    {
+      "crafting_time": 5.0,
+      "ingredients": [
+        {
+          "amount": 10.0,
+          "name": "coal",
+          "type": "item"
+        },
+        {
+          "amount": 25.0,
+          "name": "heavy-oil",
+          "type": "fluid"
+        },
+        {
+          "amount": 50.0,
+          "name": "steam",
+          "type": "fluid"
+        }
+      ],
+      "name": "light-oil+heavy-oil+petroleum-gas-3",
+      "products": [
+        {
+          "amount": 20.0,
+          "name": "light-oil",
+          "probability": 1.0,
+          "type": "fluid"
+        },
+        {
+          "amount": 90.0,
+          "name": "heavy-oil",
+          "probability": 1.0,
+          "type": "fluid"
+        },
+        {
+          "amount": 10.0,
+          "name": "petroleum-gas",
+          "probability": 1.0,
+          "type": "fluid"
+        }
+      ]
+    },
+    {
+      "crafting_time": 20.0,
+      "ingredients": [
+        {
+          "amount": 50.0,
+          "name": "ammonia",
+          "type": "fluid"
+        },
+        {
+          "amount": 1.0,
+          "name": "holmium-plate",
+          "type": "item"
+        },
+        {
+          "amount": 50.0,
+          "name": "lithium-brine",
+          "type": "fluid"
+        }
+      ],
+      "name": "lithium",
+      "products": [
+        {
+          "amount": 5.0,
+          "name": "lithium",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 6.4,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "lithium",
+          "type": "item"
+        }
+      ],
+      "name": "lithium-plate",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "lithium-plate",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 6.0,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "inserter",
+          "type": "item"
+        },
+        {
+          "amount": 1.0,
+          "name": "transport-belt",
+          "type": "item"
+        }
+      ],
+      "name": "logistic-science-pack",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "logistic-science-pack",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 15.0,
+      "ingredients": [
+        {
+          "amount": 20.0,
+          "name": "copper-plate",
+          "type": "item"
+        },
+        {
+          "amount": 5.0,
+          "name": "plastic-bar",
+          "type": "item"
+        },
+        {
+          "amount": 2.0,
+          "name": "steel-plate",
+          "type": "item"
+        }
+      ],
+      "name": "low-density-structure",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "low-density-structure",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 15.0,
+      "ingredients": [
+        {
+          "amount": 20.0,
+          "name": "copper-plate",
+          "type": "item"
+        },
+        {
+          "amount": 5.0,
+          "name": "plastic-bar",
+          "type": "item"
+        },
+        {
+          "amount": 2.0,
+          "name": "steel-plate",
+          "type": "item"
+        }
+      ],
+      "name": "low-density-structure-2",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "low-density-structure",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 15.0,
+      "ingredients": [
+        {
+          "amount": 5.0,
+          "name": "plastic-bar",
+          "type": "item"
+        },
+        {
+          "amount": 80.0,
+          "name": "molten-iron",
+          "type": "fluid"
+        },
+        {
+          "amount": 250.0,
+          "name": "molten-copper",
+          "type": "fluid"
+        }
+      ],
+      "name": "low-density-structure-3",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "low-density-structure",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 1.0,
+      "ingredients": [
+        {
+          "amount": 10.0,
+          "name": "heavy-oil",
+          "type": "fluid"
+        }
+      ],
+      "name": "lubricant-1",
+      "products": [
+        {
+          "amount": 10.0,
+          "name": "lubricant",
+          "probability": 1.0,
+          "type": "fluid"
+        }
+      ]
+    },
+    {
+      "crafting_time": 1.0,
+      "ingredients": [
+        {
+          "amount": 10.0,
+          "name": "heavy-oil",
+          "type": "fluid"
+        }
+      ],
+      "name": "lubricant-2",
+      "products": [
+        {
+          "amount": 10.0,
+          "name": "lubricant",
+          "probability": 1.0,
+          "type": "fluid"
+        }
+      ]
+    },
+    {
+      "crafting_time": 3.0,
+      "ingredients": [
+        {
+          "amount": 60.0,
+          "name": "jelly",
+          "type": "item"
+        }
+      ],
+      "name": "lubricant-3",
+      "products": [
+        {
+          "amount": 20.0,
+          "name": "lubricant",
+          "probability": 1.0,
+          "type": "fluid"
+        }
+      ]
+    },
+    {
+      "crafting_time": 10.0,
+      "ingredients": [
+        {
+          "amount": 200.0,
+          "name": "molten-copper",
+          "type": "fluid"
+        },
+        {
+          "amount": 3.0,
+          "name": "tungsten-carbide",
+          "type": "item"
+        },
+        {
+          "amount": 2.0,
+          "name": "tungsten-plate",
+          "type": "item"
+        }
+      ],
+      "name": "metallurgic-science-pack",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "metallurgic-science-pack",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 10.0,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "grenade",
+          "type": "item"
+        },
+        {
+          "amount": 1.0,
+          "name": "piercing-rounds-magazine",
+          "type": "item"
+        },
+        {
+          "amount": 2.0,
+          "name": "wall",
+          "type": "item"
+        }
+      ],
+      "name": "military-science-pack",
+      "products": [
+        {
+          "amount": 2.0,
+          "name": "military-science-pack",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 32.0,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "calcite",
+          "type": "item"
+        },
+        {
+          "amount": 50.0,
+          "name": "copper-ore",
+          "type": "item"
+        }
+      ],
+      "name": "molten-copper",
+      "products": [
+        {
+          "amount": 500.0,
+          "name": "molten-copper",
+          "probability": 1.0,
+          "type": "fluid"
+        }
+      ]
+    },
+    {
+      "crafting_time": 16.0,
+      "ingredients": [
+        {
+          "amount": 500.0,
+          "name": "lava",
+          "type": "fluid"
+        },
+        {
+          "amount": 1.0,
+          "name": "calcite",
+          "type": "item"
+        }
+      ],
+      "name": "molten-copper+stone",
+      "products": [
+        {
+          "amount": 250.0,
+          "name": "molten-copper",
+          "probability": 1.0,
+          "type": "fluid"
+        },
+        {
+          "amount": 15.0,
+          "name": "stone",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 32.0,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "calcite",
+          "type": "item"
+        },
+        {
+          "amount": 50.0,
+          "name": "iron-ore",
+          "type": "item"
+        }
+      ],
+      "name": "molten-iron",
+      "products": [
+        {
+          "amount": 500.0,
+          "name": "molten-iron",
+          "probability": 1.0,
+          "type": "fluid"
+        }
+      ]
+    },
+    {
+      "crafting_time": 16.0,
+      "ingredients": [
+        {
+          "amount": 500.0,
+          "name": "lava",
+          "type": "fluid"
+        },
+        {
+          "amount": 1.0,
+          "name": "calcite",
+          "type": "item"
+        }
+      ],
+      "name": "molten-iron+stone",
+      "products": [
+        {
+          "amount": 250.0,
+          "name": "molten-iron",
+          "probability": 1.0,
+          "type": "fluid"
+        },
+        {
+          "amount": 10.0,
+          "name": "stone",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 90.0,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "rocket-fuel",
+          "type": "item"
+        },
+        {
+          "amount": 1.0,
+          "name": "uranium-235",
+          "type": "item"
+        }
+      ],
+      "name": "nuclear-fuel",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "nuclear-fuel",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 60.0,
+      "ingredients": [
+        {
+          "amount": 5.0,
+          "name": "depleted-uranium-fuel-cell",
+          "type": "item"
+        }
+      ],
+      "name": "uranium-238",
+      "products": [
+        {
+          "amount": 3.0,
+          "name": "uranium-238",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 2.0,
+      "ingredients": [
+        {
+          "amount": 10.0,
+          "name": "spoilage",
+          "type": "item"
+        }
+      ],
+      "name": "nutrients",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "nutrients",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 4.0,
+      "ingredients": [
+        {
+          "amount": 4.0,
+          "name": "yumako-mash",
+          "type": "item"
+        }
+      ],
+      "name": "nutrients-2",
+      "products": [
+        {
+          "amount": 6.0,
+          "name": "nutrients",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 2.0,
+      "ingredients": [
+        {
+          "amount": 5.0,
+          "name": "bioflux",
+          "type": "item"
+        }
+      ],
+      "name": "nutrients-3",
+      "products": [
+        {
+          "amount": 40.0,
+          "name": "nutrients",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 2.0,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "raw-fish",
+          "type": "item"
+        }
+      ],
+      "name": "nutrients-4",
+      "products": [
+        {
+          "amount": 20.0,
+          "name": "nutrients",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 2.0,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "biter-egg",
+          "type": "item"
+        }
+      ],
+      "name": "nutrients-5",
+      "products": [
+        {
+          "amount": 20.0,
+          "name": "nutrients",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 15.0,
+      "ingredients": [
+        {
+          "amount": 30.0,
+          "name": "nutrients",
+          "type": "item"
+        },
+        {
+          "amount": 1.0,
+          "name": "pentapod-egg",
+          "type": "item"
+        },
+        {
+          "amount": 60.0,
+          "name": "water",
+          "type": "fluid"
+        }
+      ],
+      "name": "pentapod-egg",
+      "products": [
+        {
+          "amount": 2.0,
+          "name": "pentapod-egg",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 5.0,
+      "ingredients": [
+        {
+          "amount": 100.0,
+          "name": "crude-oil",
+          "type": "fluid"
+        }
+      ],
+      "name": "petroleum-gas-1",
+      "products": [
+        {
+          "amount": 45.0,
+          "name": "petroleum-gas",
+          "probability": 1.0,
+          "type": "fluid"
+        }
+      ]
+    },
+    {
+      "crafting_time": 5.0,
+      "ingredients": [
+        {
+          "amount": 100.0,
+          "name": "crude-oil",
+          "type": "fluid"
+        },
+        {
+          "amount": 50.0,
+          "name": "water",
+          "type": "fluid"
+        }
+      ],
+      "name": "petroleum-gas+heavy-oil+light-oil",
+      "products": [
+        {
+          "amount": 55.0,
+          "name": "petroleum-gas",
+          "probability": 1.0,
+          "type": "fluid"
+        },
+        {
+          "amount": 25.0,
+          "name": "heavy-oil",
+          "probability": 1.0,
+          "type": "fluid"
+        },
+        {
+          "amount": 45.0,
+          "name": "light-oil",
+          "probability": 1.0,
+          "type": "fluid"
+        }
+      ]
+    },
+    {
+      "crafting_time": 2.0,
+      "ingredients": [
+        {
+          "amount": 30.0,
+          "name": "light-oil",
+          "type": "fluid"
+        },
+        {
+          "amount": 30.0,
+          "name": "water",
+          "type": "fluid"
+        }
+      ],
+      "name": "petroleum-gas-3",
+      "products": [
+        {
+          "amount": 20.0,
+          "name": "petroleum-gas",
+          "probability": 1.0,
+          "type": "fluid"
+        }
+      ]
+    },
+    {
+      "crafting_time": 5.0,
+      "ingredients": [
+        {
+          "amount": 10.0,
+          "name": "coal",
+          "type": "item"
+        },
+        {
+          "amount": 25.0,
+          "name": "heavy-oil",
+          "type": "fluid"
+        },
+        {
+          "amount": 50.0,
+          "name": "steam",
+          "type": "fluid"
+        }
+      ],
+      "name": "petroleum-gas+heavy-oil+light-oil-4",
+      "products": [
+        {
+          "amount": 10.0,
+          "name": "petroleum-gas",
+          "probability": 1.0,
+          "type": "fluid"
+        },
+        {
+          "amount": 90.0,
+          "name": "heavy-oil",
+          "probability": 1.0,
+          "type": "fluid"
+        },
+        {
+          "amount": 20.0,
+          "name": "light-oil",
+          "probability": 1.0,
+          "type": "fluid"
+        }
+      ]
+    },
+    {
+      "crafting_time": 1.0,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "coal",
+          "type": "item"
+        },
+        {
+          "amount": 20.0,
+          "name": "petroleum-gas",
+          "type": "fluid"
+        }
+      ],
+      "name": "plastic-bar",
+      "products": [
+        {
+          "amount": 2.0,
+          "name": "plastic-bar",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 1.0,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "coal",
+          "type": "item"
+        },
+        {
+          "amount": 20.0,
+          "name": "petroleum-gas",
+          "type": "fluid"
+        }
+      ],
+      "name": "plastic-bar-2",
+      "products": [
+        {
+          "amount": 2.0,
+          "name": "plastic-bar",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 2.0,
+      "ingredients": [
+        {
+          "amount": 4.0,
+          "name": "yumako-mash",
+          "type": "item"
+        },
+        {
+          "amount": 1.0,
+          "name": "bioflux",
+          "type": "item"
+        }
+      ],
+      "name": "plastic-bar-3",
+      "products": [
+        {
+          "amount": 3.0,
+          "name": "plastic-bar",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 10.0,
+      "ingredients": [
+        {
+          "amount": 2.0,
+          "name": "advanced-circuit",
+          "type": "item"
+        },
+        {
+          "amount": 20.0,
+          "name": "electronic-circuit",
+          "type": "item"
+        },
+        {
+          "amount": 5.0,
+          "name": "sulfuric-acid",
+          "type": "fluid"
+        }
+      ],
+      "name": "processing-unit",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "processing-unit",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 10.0,
+      "ingredients": [
+        {
+          "amount": 2.0,
+          "name": "advanced-circuit",
+          "type": "item"
+        },
+        {
+          "amount": 20.0,
+          "name": "electronic-circuit",
+          "type": "item"
+        },
+        {
+          "amount": 5.0,
+          "name": "sulfuric-acid",
+          "type": "fluid"
+        }
+      ],
+      "name": "processing-unit-2",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "processing-unit",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 21.0,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "electric-furnace",
+          "type": "item"
+        },
+        {
+          "amount": 1.0,
+          "name": "productivity-module",
+          "type": "item"
+        },
+        {
+          "amount": 30.0,
+          "name": "rail",
+          "type": "item"
+        }
+      ],
+      "name": "production-science-pack",
+      "products": [
+        {
+          "amount": 3.0,
+          "name": "production-science-pack",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 5.0,
+      "ingredients": [
+        {
+          "amount": 10.0,
+          "name": "biter-egg",
+          "type": "item"
+        },
+        {
+          "amount": 25.0,
+          "name": "promethium-asteroid-chunk",
+          "type": "item"
+        },
+        {
+          "amount": 1.0,
+          "name": "quantum-processor",
+          "type": "item"
+        }
+      ],
+      "name": "promethium-science-pack",
+      "products": [
+        {
+          "amount": 10.0,
+          "name": "promethium-science-pack",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 30.0,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "carbon-fiber",
+          "type": "item"
+        },
+        {
+          "amount": 10.0,
+          "name": "fluoroketone-(cold)",
+          "type": "item"
+        },
+        {
+          "amount": 2.0,
+          "name": "lithium-plate",
+          "type": "item"
+        },
+        {
+          "amount": 1.0,
+          "name": "processing-unit",
+          "type": "item"
+        },
+        {
+          "amount": 1.0,
+          "name": "superconductor",
+          "type": "item"
+        },
+        {
+          "amount": 1.0,
+          "name": "tungsten-carbide",
+          "type": "item"
+        }
+      ],
+      "name": "fluoroketone-(hot)+quantum-processor",
+      "products": [
+        {
+          "amount": 5.0,
+          "name": "fluoroketone-(hot)",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 1.0,
+          "name": "quantum-processor",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 6.0,
+      "ingredients": [
+        {
+          "amount": 2.0,
+          "name": "raw-fish",
+          "type": "item"
+        },
+        {
+          "amount": 100.0,
+          "name": "nutrients",
+          "type": "item"
+        },
+        {
+          "amount": 100.0,
+          "name": "water",
+          "type": "fluid"
+        }
+      ],
+      "name": "raw-fish",
+      "products": [
+        {
+          "amount": 3.0,
+          "name": "raw-fish",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 6.0,
+      "ingredients": [
+        {
+          "amount": 2.0,
+          "name": "raw-fish",
+          "type": "item"
+        },
+        {
+          "amount": 100.0,
+          "name": "nutrients",
+          "type": "item"
+        },
+        {
+          "amount": 100.0,
+          "name": "water",
+          "type": "fluid"
+        }
+      ],
+      "name": "raw-fish-2",
+      "products": [
+        {
+          "amount": 3.0,
+          "name": "raw-fish",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 15.0,
+      "ingredients": [
+        {
+          "amount": 10.0,
+          "name": "light-oil",
+          "type": "fluid"
+        },
+        {
+          "amount": 10.0,
+          "name": "solid-fuel",
+          "type": "item"
+        }
+      ],
+      "name": "rocket-fuel",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "rocket-fuel",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 15.0,
+      "ingredients": [
+        {
+          "amount": 10.0,
+          "name": "light-oil",
+          "type": "fluid"
+        },
+        {
+          "amount": 10.0,
+          "name": "solid-fuel",
+          "type": "item"
+        }
+      ],
+      "name": "rocket-fuel-2",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "rocket-fuel",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 10.0,
+      "ingredients": [
+        {
+          "amount": 50.0,
+          "name": "water",
+          "type": "fluid"
+        },
+        {
+          "amount": 500.0,
+          "name": "ammonia",
+          "type": "fluid"
+        },
+        {
+          "amount": 10.0,
+          "name": "solid-fuel",
+          "type": "item"
+        }
+      ],
+      "name": "rocket-fuel-3",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "rocket-fuel",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 10.0,
+      "ingredients": [
+        {
+          "amount": 2.0,
+          "name": "bioflux",
+          "type": "item"
+        },
+        {
+          "amount": 30.0,
+          "name": "jelly",
+          "type": "item"
+        },
+        {
+          "amount": 30.0,
+          "name": "water",
+          "type": "fluid"
+        }
+      ],
+      "name": "rocket-fuel-4",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "rocket-fuel",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 3.0,
+      "ingredients": [
+        {
+          "amount": 10.0,
+          "name": "low-density-structure",
+          "type": "item"
+        },
+        {
+          "amount": 10.0,
+          "name": "processing-unit",
+          "type": "item"
+        },
+        {
+          "amount": 10.0,
+          "name": "rocket-fuel",
+          "type": "item"
+        }
+      ],
+      "name": "rocket-part",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "rocket-part",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 3.0,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "low-density-structure",
+          "type": "item"
+        },
+        {
+          "amount": 1.0,
+          "name": "processing-unit",
+          "type": "item"
+        },
+        {
+          "amount": 1.0,
+          "name": "rocket-fuel",
+          "type": "item"
+        }
+      ],
+      "name": "rocket-part-2",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "rocket-part",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 1.0,
+      "ingredients": [
+        {
+          "amount": 10.0,
+          "name": "light-oil",
+          "type": "fluid"
+        }
+      ],
+      "name": "solid-fuel",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "solid-fuel",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 1.0,
+      "ingredients": [
+        {
+          "amount": 20.0,
+          "name": "heavy-oil",
+          "type": "fluid"
+        }
+      ],
+      "name": "solid-fuel-2",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "solid-fuel",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 1.0,
+      "ingredients": [
+        {
+          "amount": 20.0,
+          "name": "petroleum-gas",
+          "type": "fluid"
+        }
+      ],
+      "name": "solid-fuel-3",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "solid-fuel",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 0.5,
+      "ingredients": [
+        {
+          "amount": 6.0,
+          "name": "crude-oil",
+          "type": "fluid"
+        },
+        {
+          "amount": 15.0,
+          "name": "ammonia",
+          "type": "fluid"
+        }
+      ],
+      "name": "solid-fuel-4",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "solid-fuel",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 15.0,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "carbon",
+          "type": "item"
+        },
+        {
+          "amount": 1.0,
+          "name": "ice",
+          "type": "item"
+        },
+        {
+          "amount": 2.0,
+          "name": "iron-plate",
+          "type": "item"
+        }
+      ],
+      "name": "space-science-pack",
+      "products": [
+        {
+          "amount": 5.0,
+          "name": "space-science-pack",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 1.0,
+      "ingredients": [
+        {
+          "amount": 6.0,
+          "name": "jelly",
+          "type": "item"
+        }
+      ],
+      "name": "iron-bacteria+spoilage-1",
+      "products": [
+        {
+          "amount": 10.0,
+          "name": "iron-bacteria",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 4.0,
+          "name": "spoilage",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 1.0,
+      "ingredients": [
+        {
+          "amount": 3.0,
+          "name": "yumako-mash",
+          "type": "item"
+        }
+      ],
+      "name": "copper-bacteria+spoilage-2",
+      "products": [
+        {
+          "amount": 10.0,
+          "name": "copper-bacteria",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 1.0,
+          "name": "spoilage",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 1.0,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "steam",
+          "type": "fluid"
+        }
+      ],
+      "name": "water-1",
+      "products": [
+        {
+          "amount": 90.0,
+          "name": "water",
+          "probability": 1.0,
+          "type": "fluid"
+        }
+      ]
+    },
+    {
+      "crafting_time": 16.0,
+      "ingredients": [
+        {
+          "amount": 5.0,
+          "name": "iron-plate",
+          "type": "item"
+        }
+      ],
+      "name": "steel-plate",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "steel-plate",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 16.0,
+      "ingredients": [
+        {
+          "amount": 5.0,
+          "name": "iron-plate",
+          "type": "item"
+        }
+      ],
+      "name": "steel-plate-2",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "steel-plate",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 3.2,
+      "ingredients": [
+        {
+          "amount": 30.0,
+          "name": "molten-iron",
+          "type": "fluid"
+        }
+      ],
+      "name": "steel-plate-3",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "steel-plate",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 16.0,
+      "ingredients": [
+        {
+          "amount": 500.0,
+          "name": "lava",
+          "type": "fluid"
+        },
+        {
+          "amount": 1.0,
+          "name": "calcite",
+          "type": "item"
+        }
+      ],
+      "name": "molten-iron+stone-1",
+      "products": [
+        {
+          "amount": 250.0,
+          "name": "molten-iron",
+          "probability": 1.0,
+          "type": "fluid"
+        },
+        {
+          "amount": 10.0,
+          "name": "stone",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 16.0,
+      "ingredients": [
+        {
+          "amount": 500.0,
+          "name": "lava",
+          "type": "fluid"
+        },
+        {
+          "amount": 1.0,
+          "name": "calcite",
+          "type": "item"
+        }
+      ],
+      "name": "molten-copper+stone-2",
+      "products": [
+        {
+          "amount": 250.0,
+          "name": "molten-copper",
+          "probability": 1.0,
+          "type": "fluid"
+        },
+        {
+          "amount": 15.0,
+          "name": "stone",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 1.0,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "scrap",
+          "type": "item"
+        }
+      ],
+      "name": "advanced-circuit+battery+concrete+copper-cable+holmium-ore+ice+iron-gear-wheel+low-density-structure+processing-unit+solid-fuel+steel-plate+stone-3",
+      "products": [
+        {
+          "amount": 0.03,
+          "name": "advanced-circuit",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 0.04,
+          "name": "battery",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 0.06,
+          "name": "concrete",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 0.03,
+          "name": "copper-cable",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 0.01,
+          "name": "holmium-ore",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 0.05,
+          "name": "ice",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 0.2,
+          "name": "iron-gear-wheel",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 0.01,
+          "name": "low-density-structure",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 0.02,
+          "name": "processing-unit",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 0.07,
+          "name": "solid-fuel",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 0.04,
+          "name": "steel-plate",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 0.04,
+          "name": "stone",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 1.0,
+      "ingredients": [
+        {
+          "amount": 30.0,
+          "name": "petroleum-gas",
+          "type": "fluid"
+        },
+        {
+          "amount": 30.0,
+          "name": "water",
+          "type": "fluid"
+        }
+      ],
+      "name": "sulfur",
+      "products": [
+        {
+          "amount": 2.0,
+          "name": "sulfur",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 1.0,
+      "ingredients": [
+        {
+          "amount": 30.0,
+          "name": "petroleum-gas",
+          "type": "fluid"
+        },
+        {
+          "amount": 30.0,
+          "name": "water",
+          "type": "fluid"
+        }
+      ],
+      "name": "sulfur-2",
+      "products": [
+        {
+          "amount": 2.0,
+          "name": "sulfur",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 2.0,
+      "ingredients": [
+        {
+          "amount": 5.0,
+          "name": "spoilage",
+          "type": "item"
+        },
+        {
+          "amount": 1.0,
+          "name": "bioflux",
+          "type": "item"
+        }
+      ],
+      "name": "sulfur-3",
+      "products": [
+        {
+          "amount": 2.0,
+          "name": "sulfur",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 5.0,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "carbonic-asteroid-chunk",
+          "type": "item"
+        }
+      ],
+      "name": "carbon+sulfur+carbonic-asteroid-chunk-4",
+      "products": [
+        {
+          "amount": 5.0,
+          "name": "carbon",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 2.0,
+          "name": "sulfur",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 0.05,
+          "name": "carbonic-asteroid-chunk",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 1.0,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "iron-plate",
+          "type": "item"
+        },
+        {
+          "amount": 5.0,
+          "name": "sulfur",
+          "type": "item"
+        },
+        {
+          "amount": 100.0,
+          "name": "water",
+          "type": "fluid"
+        }
+      ],
+      "name": "sulfuric-acid-1",
+      "products": [
+        {
+          "amount": 50.0,
+          "name": "sulfuric-acid",
+          "probability": 1.0,
+          "type": "fluid"
+        }
+      ]
+    },
+    {
+      "crafting_time": 1.0,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "iron-plate",
+          "type": "item"
+        },
+        {
+          "amount": 5.0,
+          "name": "sulfur",
+          "type": "item"
+        },
+        {
+          "amount": 100.0,
+          "name": "water",
+          "type": "fluid"
+        }
+      ],
+      "name": "sulfuric-acid-2",
+      "products": [
+        {
+          "amount": 50.0,
+          "name": "sulfuric-acid",
+          "probability": 1.0,
+          "type": "fluid"
+        }
+      ]
+    },
+    {
+      "crafting_time": 10.0,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "battery",
+          "type": "item"
+        },
+        {
+          "amount": 10.0,
+          "name": "electrolyte",
+          "type": "fluid"
+        },
+        {
+          "amount": 4.0,
+          "name": "electronic-circuit",
+          "type": "item"
+        },
+        {
+          "amount": 2.0,
+          "name": "holmium-plate",
+          "type": "item"
+        },
+        {
+          "amount": 2.0,
+          "name": "superconductor",
+          "type": "item"
+        }
+      ],
+      "name": "supercapacitor",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "supercapacitor",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 5.0,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "copper-plate",
+          "type": "item"
+        },
+        {
+          "amount": 1.0,
+          "name": "holmium-plate",
+          "type": "item"
+        },
+        {
+          "amount": 5.0,
+          "name": "light-oil",
+          "type": "fluid"
+        },
+        {
+          "amount": 1.0,
+          "name": "plastic-bar",
+          "type": "item"
+        }
+      ],
+      "name": "superconductor",
+      "products": [
+        {
+          "amount": 2.0,
+          "name": "superconductor",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 2.0,
+      "ingredients": [
+        {
+          "amount": 2.0,
+          "name": "carbon",
+          "type": "item"
+        },
+        {
+          "amount": 10.0,
+          "name": "water",
+          "type": "fluid"
+        }
+      ],
+      "name": "thruster-fuel",
+      "products": [
+        {
+          "amount": 75.0,
+          "name": "thruster-fuel",
+          "probability": 1.0,
+          "type": "fluid"
+        }
+      ]
+    },
+    {
+      "crafting_time": 10.0,
+      "ingredients": [
+        {
+          "amount": 2.0,
+          "name": "carbon",
+          "type": "item"
+        },
+        {
+          "amount": 1.0,
+          "name": "calcite",
+          "type": "item"
+        },
+        {
+          "amount": 100.0,
+          "name": "water",
+          "type": "fluid"
+        }
+      ],
+      "name": "thruster-fuel-2",
+      "products": [
+        {
+          "amount": 1500.0,
+          "name": "thruster-fuel",
+          "probability": 1.0,
+          "type": "fluid"
+        }
+      ]
+    },
+    {
+      "crafting_time": 2.0,
+      "ingredients": [
+        {
+          "amount": 2.0,
+          "name": "iron-ore",
+          "type": "item"
+        },
+        {
+          "amount": 10.0,
+          "name": "water",
+          "type": "fluid"
+        }
+      ],
+      "name": "thruster-oxidizer",
+      "products": [
+        {
+          "amount": 75.0,
+          "name": "thruster-oxidizer",
+          "probability": 1.0,
+          "type": "fluid"
+        }
+      ]
+    },
+    {
+      "crafting_time": 10.0,
+      "ingredients": [
+        {
+          "amount": 2.0,
+          "name": "iron-ore",
+          "type": "item"
+        },
+        {
+          "amount": 1.0,
+          "name": "calcite",
+          "type": "item"
+        },
+        {
+          "amount": 100.0,
+          "name": "water",
+          "type": "fluid"
+        }
+      ],
+      "name": "thruster-oxidizer-2",
+      "products": [
+        {
+          "amount": 1500.0,
+          "name": "thruster-oxidizer",
+          "probability": 1.0,
+          "type": "fluid"
+        }
+      ]
+    },
+    {
+      "crafting_time": 2.0,
+      "ingredients": [
+        {
+          "amount": 2.0,
+          "name": "wood",
+          "type": "item"
+        }
+      ],
+      "name": "tree-seed",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "tree-seed",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 1.0,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "carbon",
+          "type": "item"
+        },
+        {
+          "amount": 10.0,
+          "name": "sulfuric-acid",
+          "type": "fluid"
+        },
+        {
+          "amount": 2.0,
+          "name": "tungsten-ore",
+          "type": "item"
+        }
+      ],
+      "name": "tungsten-carbide",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "tungsten-carbide",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 10.0,
+      "ingredients": [
+        {
+          "amount": 10.0,
+          "name": "molten-iron",
+          "type": "fluid"
+        },
+        {
+          "amount": 4.0,
+          "name": "tungsten-ore",
+          "type": "item"
+        }
+      ],
+      "name": "tungsten-plate",
+      "products": [
+        {
+          "amount": 1.0,
+          "name": "tungsten-plate",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 10.0,
+      "ingredients": [
+        {
+          "amount": 10.0,
+          "name": "iron-plate",
+          "type": "item"
+        },
+        {
+          "amount": 1.0,
+          "name": "uranium-235",
+          "type": "item"
+        },
+        {
+          "amount": 19.0,
+          "name": "uranium-238",
+          "type": "item"
+        }
+      ],
+      "name": "uranium-fuel-cell",
+      "products": [
+        {
+          "amount": 10.0,
+          "name": "uranium-fuel-cell",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 12.0,
+      "ingredients": [
+        {
+          "amount": 10.0,
+          "name": "uranium-ore",
+          "type": "item"
+        }
+      ],
+      "name": "uranium-235+uranium-238-1",
+      "products": [
+        {
+          "amount": 0.007,
+          "name": "uranium-235",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 0.993,
+          "name": "uranium-238",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 12.0,
+      "ingredients": [
+        {
+          "amount": 10.0,
+          "name": "uranium-ore",
+          "type": "item"
+        }
+      ],
+      "name": "uranium-235+uranium-238-1",
+      "products": [
+        {
+          "amount": 0.007,
+          "name": "uranium-235",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 0.993,
+          "name": "uranium-238",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 12.0,
+      "ingredients": [
+        {
+          "amount": 10.0,
+          "name": "uranium-ore",
+          "type": "item"
+        }
+      ],
+      "name": "uranium-235+uranium-238-2",
+      "products": [
+        {
+          "amount": 0.007,
+          "name": "uranium-235",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 0.993,
+          "name": "uranium-238",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 12.0,
+      "ingredients": [
+        {
+          "amount": 10.0,
+          "name": "uranium-ore",
+          "type": "item"
+        }
+      ],
+      "name": "uranium-235+uranium-238-1",
+      "products": [
+        {
+          "amount": 0.007,
+          "name": "uranium-235",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 0.993,
+          "name": "uranium-238",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 21.0,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "flying-robot-frame",
+          "type": "item"
+        },
+        {
+          "amount": 3.0,
+          "name": "low-density-structure",
+          "type": "item"
+        },
+        {
+          "amount": 2.0,
+          "name": "processing-unit",
+          "type": "item"
+        }
+      ],
+      "name": "utility-science-pack",
+      "products": [
+        {
+          "amount": 3.0,
+          "name": "utility-science-pack",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 1.0,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "ice",
+          "type": "item"
+        }
+      ],
+      "name": "water-1",
+      "products": [
+        {
+          "amount": 20.0,
+          "name": "water",
+          "probability": 1.0,
+          "type": "fluid"
+        }
+      ]
+    },
+    {
+      "crafting_time": 1.0,
+      "ingredients": [
+        {
+          "amount": 1000.0,
+          "name": "steam",
+          "type": "fluid"
+        }
+      ],
+      "name": "water-2",
+      "products": [
+        {
+          "amount": 90.0,
+          "name": "water",
+          "probability": 1.0,
+          "type": "fluid"
+        }
+      ]
+    },
+    {
+      "crafting_time": 1.0,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "yumako",
+          "type": "item"
+        }
+      ],
+      "name": "yumako-mash+yumako-seed",
+      "products": [
+        {
+          "amount": 2.0,
+          "name": "yumako-mash",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 0.02,
+          "name": "yumako-seed",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    },
+    {
+      "crafting_time": 1.0,
+      "ingredients": [
+        {
+          "amount": 1.0,
+          "name": "yumako",
+          "type": "item"
+        }
+      ],
+      "name": "yumako-seed+yumako-mash",
+      "products": [
+        {
+          "amount": 0.02,
+          "name": "yumako-seed",
+          "probability": 1.0,
+          "type": "item"
+        },
+        {
+          "amount": 2.0,
+          "name": "yumako-mash",
+          "probability": 1.0,
+          "type": "item"
+        }
+      ]
+    }
+  ],
+  "scraped_at": "2026-04-21",
+  "version": "2.0"
+}

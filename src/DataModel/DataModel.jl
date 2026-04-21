@@ -19,7 +19,7 @@ DATA_DIR = joinpath(@__DIR__, "..", "..", "data")
     This function returns the new hash 10100000 | 00001100 = 10101100
 """
 function combine(a::T, b::T) where {T<:Unsigned}
-    return (a << (4*sizeof(T))) | (b & mask(UniqueID))
+    return (a << (4*sizeof(T))) | (b & mask(T))
 end
 
 """
@@ -127,7 +127,7 @@ end
     Thus given an uid, it is possible to deduce its datamodel and its specific values within the datamodel
 """
 
-datamodels() = Set([:Item, :Recipe, :Fluid, :AssemblingMachine, :Module])
+datamodels() = (:Item, :Recipe, :Fluid, :AssemblingMachine, :Module)
 
 for (id, m) in enumerate(datamodels())
     #@eval @inline model(x::$m) = UniqueID($id)
@@ -230,14 +230,13 @@ function recipe_distance(db=default_database())::Matrix{Float64}
     # First compute (minimal) distance between all nodes (items and recipes) of the recipe graph
     # We assume weight 1.0 on all edges as no other weight is relevant here
     N = Graphs.nv(db.recgraph)
-    # TODO: Optimize with sparse matrix ?
     distmx = ones(N, N) * Inf
-    # As the recipe grpah is directed, matrix `dist` will note be symetric
-    # Because dist(i,j) = d, dist(j,i) = Inf
-    # We thus use the undirected version of the inner graph of recipe graph
-    G = Graphs.SimpleGraph(db.recgraph.graph)
-    map(v -> distmx[v,:] = Graphs.dijkstra_shortest_paths(db.recgraph, v).dists, 1:N)
-    map(v -> distmx[:,v] = distmx[v,:], 1:N)
+    for v in 1:N
+        distmx[v,:] = Graphs.dijkstra_shortest_paths(db.recgraph, v).dists
+    end
+    for v in 1:N
+        distmx[:,v] = distmx[v,:]
+    end
     #distmx = [min(distmx[i,j], distmx[j,i]) for i=axes(distmx,1), j=axes(distmx,2)]
 
     @assert distmx == transpose(distmx)
@@ -275,7 +274,7 @@ end
 function similarity_graph(db=default_database(); dist::Float64=0.0)
     # Transform recipe_dist into a boolean Matrix according to `dist` tolerance
     # Also add - (i==j) to remove the identity matrix (M[i,i] = 0)
-    M = [(db.distmtx[i,j] == dist) - (i==j) for i=axes(db.distmtx,1), j=axes(db.distmtx,2)]
+    M = [(db.distmtx[i,j] <= dist) - (i==j) for i=axes(db.distmtx,1), j=axes(db.distmtx,2)]
     # Construct an undirected graph from this boolean matrix
     return Graphs.SimpleGraph(M)
 end
