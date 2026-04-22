@@ -51,9 +51,9 @@ struct Recipe <: AbstractDataModel
     # In seconds
     crafttime::Float64
     ingredients_names::Vector{String}
-    ingredients_amounts::Vector{Int64}
+    ingredients_amounts::Vector{Float64}
     products_names::Vector{String}
-    products_amounts::Vector{Int64}
+    products_amounts::Vector{Float64}
     products_probabilities::Vector{Float64}
 end
 @inline sourcefile(::Type{Recipe}) = "recipe.json"

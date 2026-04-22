@@ -55,13 +55,13 @@ A recipe graph have 3 different types of UniqueElement as nodes:
 - Items, produced by recipes, some used by recipes, may be leaves of the RecipeGraph
 """
 RecipeGraph(graph_data) = MetaGraphsNext.MetaGraph(
-    Graphs.SimpleDiGraph(), # indexes types for vertices is Int64 in SimpleDiGraph
-    Label = LabelType, # how vertices and edges are identified
-    VertexData = VectexType,  # struct that holds vertex metadata, here we work with UniqueElement's uids
-    EdgeData  = EdgeType, # struct that holds edge metadata
-    graph_data = graph_data, # struct that holds graph metadata, here we store a pointer to the default database
-    weight_function = edata -> 1.0, # function to attribute weights to edges
-    default_weight = 1.0
+    Graphs.SimpleDiGraph(); # indexes types for vertices is Int64 in SimpleDiGraph
+    label_type       = LabelType,    # how vertices and edges are identified
+    vertex_data_type = VectexType,   # struct that holds vertex metadata, here we work with UniqueElement's uids
+    edge_data_type   = EdgeType,     # struct that holds edge metadata
+    graph_data       = graph_data,   # struct that holds graph metadata, here we store a pointer to the default database
+    weight_function  = edata -> 1.0, # function to attribute weights to edges
+    default_weight   = 1.0
 )
 
 add_recipe_node!(g, n::VectexType) = MetaGraphsNext.add_vertex!(g, n.uid, n)
