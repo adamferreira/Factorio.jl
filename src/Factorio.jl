@@ -1,6 +1,7 @@
 module Factorio
 using JSON, DataFrames
 using Graphs, MetaGraphsNext, GraphPlot
+import Downloads
 
 DATA_DIR = joinpath(@__DIR__, "..", "data")
 
@@ -11,7 +12,7 @@ function Graphs.rem_vertices!(meta_graph::MetaGraph, codes)
     end
 end
 
-# Global Database
+# Global Database — populated in __init__ so it reads the current JSON on every load.
 DEFAULT_DB = nothing
 function default_database()
     return DEFAULT_DB
@@ -22,16 +23,17 @@ include("DataModel/DataModel.jl")
 include("io/load.jl")
 include("io/load2.jl")
 
-# Fill default Database
-DEFAULT_DB = factorio2_init()
+function __init__()
+    global DEFAULT_DB = factorio2_init()
+end
 
 export default_database
 
 # Export DataModels
 export  DefaultFactorioDataBase,
         UniqueID,
-        Item, Recipe, Fluid, AssemblingMachine
-        data, get
+        Item, Recipe, Fluid, AssemblingMachine, Module, Technology, Planet,
+        data, get,
         recipe_distance, similarity_graph
 
 # Datamodel miscellaneous (for tests)
@@ -44,7 +46,8 @@ export  uid,
 
 # Export Recipe graph logic
 export  RecipeGraph,
-    ingredients
+    ingredients,
+    download_icons
 
 
 # plot 

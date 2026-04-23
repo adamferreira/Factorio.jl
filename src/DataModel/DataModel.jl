@@ -44,7 +44,7 @@ end
     The `tier` of an element is defined as:
     - max(tier(i)+1) for i ∈ I, I being the set of ingredients of the Recipe
 """
-struct Recipe <: AbstractDataModel 
+struct Recipe <: AbstractDataModel
     name::String
     tier::Int64
     category::String
@@ -55,6 +55,7 @@ struct Recipe <: AbstractDataModel
     products_names::Vector{String}
     products_amounts::Vector{Float64}
     products_probabilities::Vector{Float64}
+    made_in::Vector{String}
 end
 @inline sourcefile(::Type{Recipe}) = "recipe.json"
 
@@ -87,6 +88,8 @@ struct AssemblingMachine <: AbstractDataModel
     module_inventory_size::Int64
     # Crafting Categories (Which kind of recipe this machine supports)
     crafting_categories::Vector{String}
+    # Planets where this machine can be built; empty = available everywhere
+    crafted_on::Vector{String}
 end
 @inline sourcefile(::Type{AssemblingMachine}) = "assembling-machine.json"
 
@@ -127,7 +130,45 @@ end
     Thus given an uid, it is possible to deduce its datamodel and its specific values within the datamodel
 """
 
-datamodels() = (:Item, :Recipe, :Fluid, :AssemblingMachine, :Module)
+"""
+    A Planet is a world with its own surface conditions, resources, and science pack.
+    `crafted_on` in AssemblingMachine links back to planet names.
+"""
+struct Planet <: AbstractDataModel
+    name::String
+    display_name::String
+    pollutant_type::String
+    # Minutes
+    day_night_cycle::Float64
+    magnetic_field::Float64
+    # Percent (100 = baseline)
+    solar_power_surface::Float64
+    solar_power_orbit::Float64
+    pressure::Float64
+    gravity::Float64
+    # Robot energy consumption multiplier (percent; Aquilo = 500)
+    robot_energy_usage::Float64
+end
+@inline sourcefile(::Type{Planet}) = "planets.json"
+
+"""
+    A Technology (research) unlocks recipes and items when completed.
+    `ingredients` are science packs; `prerequisites` are required tech names.
+    `effects` is a list of entity names (items/recipes) unlocked by this tech.
+"""
+struct Technology <: AbstractDataModel
+    name::String
+    tier::Int64
+    time_per_unit::Float64
+    research_units::Int64
+    ingredients_names::Vector{String}
+    ingredients_amounts::Vector{Float64}
+    prerequisites::Vector{String}
+    effects::Vector{String}
+end
+@inline sourcefile(::Type{Technology}) = "technologies.json"
+
+datamodels() = (:Item, :Recipe, :Fluid, :AssemblingMachine, :Module, :Technology, :Planet)
 
 for (id, m) in enumerate(datamodels())
     #@eval @inline model(x::$m) = UniqueID($id)
